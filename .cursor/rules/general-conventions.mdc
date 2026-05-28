@@ -1,0 +1,168 @@
+---
+description: General conventions for working with BaSYS metadata settings
+alwaysApply: true
+---
+
+# Project Overview
+
+This repository contains metadata settings for the **BaSYS** LowCode platform for building business applications on top of a metadata layer.
+
+Platform documentation: https://basysteam.github.io/BaSys.Docs/ru/ (Russian)
+
+# Workflow
+
+1. Settings are **exported** from the BaSYS system into this repository.
+2. The agent **edits** settings locally on user request.
+3. Changes are **imported** back into the system, fully or partially.
+4. The system periodically pushes updates to `manifest.json` and the data types under `system/`.
+
+# Do Not Edit
+
+The agent **must never modify** the following — they are owned by the system and regenerated automatically:
+
+- `manifest.json` at the repository root
+- anything under `system/` (including `system/dataTypes.json`, `system/kinds/`, `system/schemas/`)
+
+These files **may be read** to understand available data types and JSON schemas for settings, but never written. In particular:
+
+- `system/dataTypes.json` — catalog of all data types (`Uid`, `Title`, `TypeName`). Use it to look up a `DataTypeUid` when defining a column's `DataSettings`.
+- `system/schemas/` — JSON schemas to validate settings files against.
+- `system/kinds/` — definitions of metadata kinds (catalog, register, operation, etc.).
+
+**Exception — `system/dataTypes.json`:** when the agent creates a new metaobject of a kind with `IsReference = true`, it **must** append a corresponding entry to `system/dataTypes.json` (see step 11 in "Adding a New Metaobject"). Without this entry the new type cannot be referenced from other objects in the same editing session. After the changes are imported back, the system regenerates `system/dataTypes.json`, so the locally added entry will be replaced by the server's authoritative version. **Do not modify or delete existing entries** in `system/dataTypes.json` — only append new ones for reference-kind objects you have just created.
+
+# Settings File Types
+
+Settings are stored in three kinds of files:
+
+- `*.json` — declarative metaobject settings (catalogs, registers, operations, etc.). Must validate against the schemas in `system/schemas/`.
+- `*.bjs` — standalone server- or client-side scripts, as well as data source scripts for `data_view` objects (see the **`data-view-reports`** rule for the naming convention).
+- `*.vue` — standalone UI components.
+
+# Logic in JavaScript
+
+Logic in BaSYS is written in **JavaScript**. For domain tasks the platform provides the **BaSYS.FX** library, which covers:
+
+- working with tabular data,
+- executing database queries,
+- working with dates and other utilities.
+
+Library documentation: https://basysteam.github.io/BaSys.Docs/ru/calculations/
+
+Rules:
+
+- In `.bjs` and `.vue` files, **prefer `BaSYS.FX` functions** over plain JS for tabular data, queries and date manipulation when an equivalent exists.
+- Do not introduce third-party npm dependencies — the runtime is provided by the platform.
+- Verify any unfamiliar `BaSYS.FX` function against the documentation before use.
+
+# Naming
+
+In metadata, the technical identifier of an object or table column is the `Name` field; the human-readable label is the `Title` field. They are independent: `Title` may be Russian (Cyrillic) while `Name` should still be a meaningful English identifier.
+
+Rules for **new** objects, columns and variables:
+
+- `Name` must be in English, lowercase, `snake_case`, and meaningful (e.g. `delivery_address`, not `field1`).
+- `Title` may be in any language and is what users see in the UI.
+- Object `Name` length is limited to **30 characters**. Column and JS variable names have no length limit, but keep them reasonable.
+- JS variable, function and parameter names follow standard JS conventions: `camelCase` for variables/functions, `PascalCase` for classes/components, `UPPER_SNAKE_CASE` for constants.
+
+Rules for **existing** identifiers:
+
+- Cyrillic `Name` values, folder names and file names already present in the model must **not** be renamed — they are referenced by the system.
+- When extending an existing object with new fields, still apply the new-name rules above to the added fields.
+
+# Memo Field
+
+Most metaobjects, columns and nested items expose a `Memo` field for free-form notes.
+
+- Whenever you create a new object, column or nested entity, fill `Memo` with a short description of its purpose (in Russian, matching the project language).
+- When editing an existing entity, update `Memo` if the original description is empty or no longer accurate.
+- Keep it concise — one sentence is usually enough.
+
+# Column Kind: Stored vs Virtual
+
+Every column (on `Header.Columns` and on nested table columns) has a `Kind` field of type `DataObjectColumnKinds`:
+
+- `0` — `Stored`: the column is persisted in the database.
+- `1` — `Virtual`: the column is **not** persisted and exists only as a runtime-computed value.
+
+Rules for **new** columns:
+
+- **Default to stored.** Always set `Kind = 0` unless the user **explicitly** asks for a virtual (non-stored) column. If the requirement is ambiguous, ask the user instead of guessing.
+- The `Formula` field is **independent** of `Kind`. A stored column (`Kind = 0`) may also have a `Formula`: in that case the value is computed by the formula and then saved to the database. Presence of a `Formula` is **not** a reason to set `Kind = 1`.
+- Set `Kind = 1` only when the user clearly states the column must not be stored (e.g. "виртуальная колонка", "не сохраняется в БД", "только для отображения").
+
+# Adding a New Metaobject
+
+When the user asks to add a new object:
+
+1. **Determine the metadata kind.** Inspect `system/kinds/kind.*.json` to find which kind the object belongs to (e.g. `kind.catalog.json`, `kind.register.json`, `kind.operation.json`). If the kind is not obvious from the request, **ask the user explicitly** before creating anything.
+2. **Locate the kind folder** in the repository root (named after the kind's `Name`, e.g. `catalog/`, `register/`).
+3. **Create the object folder** inside the kind folder, named after the new object's `Name` (snake_case English, ≤30 chars). Use the **singular form** for both `Name` and `Title` (e.g. `product` / `Товар`, **not** `products` / `Товары`).
+4. **Create the settings file** inside that folder, named `{kind.Name}.{object.Name}.json` (example: `catalog/city/catalog.city.json`).
+5. **Choose the schema** based on the kind's `StoreData` flag:
+   - `StoreData = true` → file must conform to `system/schemas/metaObjectStorableSettings.schema.json` (set `$schema` accordingly with the correct relative path).
+   - `StoreData = false` → use the schema applicable to that kind, if present in `system/schemas/`.
+6. **Set `MetaObjectKindUid`** on the new object to the `Uid` of the chosen kind.
+7. **Copy standard columns.** If the kind has a `StandardColumns` collection, replicate each entry as a column on the new object's `Header.Columns` with:
+   - `StandardColumnUid` = `Uid` of the standard column,
+   - `IsStandard` = `true`,
+   - `Name`, `Title`, `DataSettings`, `RenderSettings` copied from the standard column,
+   - a freshly generated `Uid` for the column itself (do **not** reuse the standard column's `Uid`).
+8. **Pick `DataTypeUid` for custom columns** from `system/dataTypes.json` (match by `Title` or `TypeName`). Never invent a `DataTypeUid`.
+9. **Generate fresh `Uid` values** (UUID v4, lowercase, hyphenated) for the new object and for every new column or nested item. Each `Uid` in the file must be unique across the project.
+10. **Fill `Memo`** on the new object and on each new column with a short description of its purpose.
+11. **Register the type in `system/dataTypes.json`** — but **only if** the kind has `IsReference = true` (e.g. `catalog`, `enum`, `operation`). Skip this step for non-reference kinds. Append a new entry to the array with these fields:
+    - `uid` — same value as the new object's `Uid` (do **not** generate a separate UID).
+    - `kind` — the kind's `Name` (e.g. `"catalog"`, `"enum"`, `"operation"`).
+    - `name` — the new object's `Name`.
+    - `title` — `"{Kind.Title}.{Object.Title}"` (e.g. `"Справочник.Город"`, `"Перечисление.Тип дня"`).
+    - `isPrimitive` — `false`.
+    - `dbType` — copy from any existing entry in `dataTypes.json` that has the same `kind` value (all objects of one kind share the same `dbType`; e.g. catalogs use `11`, enums use `16`). If no entry of this kind exists yet, derive it by looking up the `DataTypeUid` of the kind's primary-key standard column (`PrimaryKey = true`, usually `id`) in `dataTypes.json` and copying its `dbType`.
+    - `objectKindUid` — the kind's `Uid` (same value as `MetaObjectKindUid` on the new object).
+    - `typeName` — `null`.
+
+    This entry will be overwritten by the server on the next sync, but it is required so that the new type can be selected as a `DataTypeUid` in other settings files during the current editing session.
+
+After creating the file, mentally validate it against the chosen schema before finishing.
+
+# Reports and Data Views
+
+For building reports, dashboards, charts, tables, KPIs, gauges and pivot tables, use the `data_view` (Панель данных) metaobject kind by default. Detailed conventions (file layout, data source scripts as separate `.bjs` files, `_filters` / `_data` variables, supported indicator types, 12-column layout grid, singular-report and single-indicator-title rules) live in the separate **`data-view-reports`** rule. Consult that rule whenever the user asks for any kind of report, dashboard or visualization, or when editing files under `data_view/`.
+
+# Excel Reports (Отчёт Excel)
+
+For reports that must be rendered into a pre-designed `.xlsx` layout — regulated forms, printable documents (счета, накладные, акты, договоры), or heavily-formatted summary reports with multi-level headers, merged cells and corporate styling — use the `excel_report` metaobject kind. An Excel report consists of three artefacts that live side by side in the metaobject folder: the JSON settings (`excel_report/{name}/excel_report.{name}.json`, validated against `system/schemas/excelReportSettings.schema.json`), one `.bjs` script per data source (named `excel_report.{name}.data_source.{sourceName}.bjs` and referenced from the JSON via the `Expression` field), and **the template as a separate binary file** `excel_report.{name}.template.xlsx` (the filename is mandatory — that's how the import pipeline picks the template up; the agent must never generate or modify `.xlsx` content itself, only instruct the user to prepare it in Excel and place it in the folder). Data sources are evaluated sequentially in declaration order; each script returns a scalar, object, typed collection or `DataTable`, and the result is exposed in the template under the source `Name` (markers `{{source}}`, `{{source.property}}`, or `{{item.Property}}` / `{{item["ColumnName"]}}` inside a same-named Excel named range). Filters mirror the `data_view` filter schema and are passed to query builders via `_filters` + `.withFilters(_filters)`. Kind `excel_report` has `StoreData = false` and `IsReference = false` — no entry in `system/dataTypes.json` is required, no `Header` / `DetailTables` / `Commands` / `Forms` are configured, and `HasTemplate` is set by the server when the template file is imported. Prefer `data_view` whenever the task does not actually require the pre-designed Excel layout — building `.xlsx` is significantly heavier and the in-app preview is limited (single sheet, no charts/pivots/conditional formatting, `<<sum>>`-style template totals are not shown). Detailed conventions (file layout, marker syntax, named-range hygiene, totals strategy, filter fields, building checklist) live in the separate **`excel-reports`** rule. Consult that rule whenever the user asks to create, modify or debug an Excel report (отчёт Excel, печатная форма, регламентированная отчётность по макету), or when editing files under `excel_report/`. Real examples live under `excel_report/`.
+
+# Print Forms (Печатные формы)
+
+A **print form** is a per-instance printable document — счёт, накладная, акт, договор, карточка контрагента и т. п. — rendered for **a single record** of a metaobject (by its primary key) by filling a pre-designed `.xlsx` template with the object's data and optional custom data sources. Unlike an Excel report, a print form is **not** a separate metadata kind: it belongs to a specific metaobject, lives **inside the metaobject's own folder** alongside the metaobject JSON / commands / records sources, and is invoked from the **Print** button on the object's form (no in-app preview — the file is downloaded straight away; no configurable filters). One metaobject may have any number of print forms; each consists of three artefacts that share the same `formName` part of the filename: the JSON settings (`{kind.Name}.{object.Name}.print_form.{formName}.json`, validated against `system/schemas/printFormSettings.schema.json`, with `MetaObjectUid` pointing to the owner metaobject), the template as a separate binary file `{kind.Name}.{object.Name}.print_form.{formName}.template.xlsx` (the agent must never generate or modify `.xlsx` content itself), and one `.bjs` per custom data source `{kind.Name}.{object.Name}.print_form.{formName}.data_source.{dsName}.bjs` referenced from the JSON via the `Expression` field. Print forms are available **only** on metaobjects whose kind has `UsePrintForms = true` (default for `operation`; off for catalogs, registers, etc. — check `system/kinds/kind.{kindName}.json` before creating one). Setting `AutoRetrieveData = true` (the default) makes the server auto-load the object's header and detail tables into the template context under `header` and `<detailTableName>` (markers `{{header.column}}` and `{{item["column"]}}` inside a same-named named range), so for typical documents no data sources are needed at all; declare custom `DataSources` only to pull related data, compute totals or override auto-loaded values. Inside data source scripts, `_parameters` carries `kind_name`, `object_name`, `object_uid` and the PK value under its system name (use these to filter to the current record), `_data` holds earlier sources plus the auto-loaded `header` / detail tables, and `_filters` is always empty (print forms have no filters). Detailed conventions (file layout, settings fields, auto-retrieve markers, custom data sources, template marker reference, building checklist) live in the separate **`print-forms`** rule. Consult that rule whenever the user asks to create, modify or debug a print form (печатная форма, печать документа, печатная карточка), or when editing files matching `*.print_form.*`. Real examples live under `operation/тарифы_дорожные/`.
+
+# Constructor Forms (Формы-конструкторы)
+
+A **constructor form** is a metaobject form authored visually in the BaSYS form designer and stored as a JSON tree of `FormElement` nodes — used for typical list and edit forms whose layout fits the supported wrapper hierarchy and a closed registry of components. It lives **inside the owner metaobject's folder** as a single `.json` file named `{kind.Name}.{object.Name}.form.{form.Name}.json` (with `$schema` pointing to `system/schemas/constructorFormSettings.schema.json`), optionally accompanied by a companion init script `{kind.Name}.{object.Name}.form.{form.Name}.on_initialized.bjs` whose filename is referenced from the JSON via the `OnInitializedScript` field (the import pipeline inlines the file content automatically — do not write JavaScript directly into the JSON field). Constructor forms are available on metaobjects whose kind has `UseForms = true` (on by default for `catalog`, `register`, `operation`, `customreport`, `customview`, `data_view`; off for `enum`, `records`, `workflow`, `excel_report`, `menu` — check `system/kinds/kind.{kindName}.json` before creating one). The top-level JSON carries `Uid`, `MetaObjectUid` (must match the owner metaobject's `Uid`), `FormKind = 1` (Constructor), snake_case English `Name` (unique within the metaobject), `Title`, `Memo`, `Version` (`1` for new forms; the server increments it on save), optional `ChildComponents` for embedded programmable components and the `Root` element — always a single `bs-form`. Every node is a `FormElement` with PascalCase fields `Id` (`{componentName}-{6chars}`, unique within the form), `DataUid` (UID of the bound metadata column / detail table — required on `bs-form-field`, `bs-details-table-column`, `bs-table-view-column`, on `pv-tab-panel` and on inputs directly bound to a column), `ComponentName`, `CssClass`, `Style`, `Properties` (ordered `[{Name, Value}, …]` list of props / bindings / events / `slot` markers) and `Items` (children). The set of allowed `ComponentName` values is **closed** — it is the `ConstructorComponents` registry: wrappers `bs-form` → `bs-row` → `bs-col` (the PrimeFlex 12-column grid scaffolding, `bs-collapsible-group` may host `bs-row`s inside a `bs-col`), BaSYS components (`bs-view-title`, `bs-text`, `bs-label`, `bs-form-field`, `bs-input-pattern`, `bs-collapsible-group`, `bs-object-reference-select`, `bs-details-table` / `bs-details-table-column`, `bs-table-view` / `bs-table-view-column`) and PrimeVue 3 components (`pv-badge`, `pv-button`, `pv-button-group`, `pv-split-button` / `pv-split-button-item`, `pv-divider`, `pv-toolbar`, `pv-tab-view` / `pv-tab-panel`, `pv-calendar`, `pv-checkbox`, `pv-input-switch`, `pv-input-text`, `pv-input-textarea`, `pv-input-number`). Bindings inside `Properties` use a Vue-flavoured syntax: a plain `propName` is passed as-is, `vModel` is a two-way binding to a path in `formState` (`$h.<имя>` → `data.header.<имя>` for the header, `$t.<имя>` → `data.tables.<имя>` for a detail table, `$r.<имя>` → `data.currentRow.<имя>` for the current row), `:propName` / `v-bind:propName` is a one-way JS expression (with helpers `isWaiting`, `isModified` and `formatter.*` such as `formatter.formatDateTime(...)` plus template literals via backticks), `v-bind` / `:` merges a whole object into props, `v-if` (`vIf`) is a conditional render expression, `@EventName` is an event whose `Value` is the **name of a command** (`standard.save`, `standard.save_close`, `standard.return`, `standard.add`, `standard.edit`, `standard.delete`, `standard.copy`, `standard.refresh:<table>`, `standard.clear_filters:<table>`, `standard.export_excel`, `standard.print`, `standard.open_records`, `standard.open_files`, `standard.create_from`, `standard.create_records`, `standard.delete_records`, `standard.recalculate`, `standard.open_log`, `standard.row_select`, `standard.row_dbl_click`, `standard.table_add:<table>`, … — plus any custom command from the metaobject's `Commands` collection; see [commands rule](mdc:commands.mdc)) and `slot` places the element into a named slot of the parent (`start` / `end` of `pv-toolbar`). Inside `pv-split-button-item` an event is wired through the **`command`** property, not `@Click`. Constructor forms (`*.form.*.json`, `FormKind = 1`) and programmable forms (`*.form.*.vue`, `FormKind = 0`) are different artefacts — never silently convert one into the other; the file extension, the schema and the editor in the BaSYS UI are all different. A constructor form is **not** a reference type — do **not** add anything to `system/dataTypes.json`. Detailed conventions (top-level fields, full FormElement shape, wrapper hierarchy rules, the full `$h.` / `$t.` / `$r.` / `vModel` / `:` / `v-bind` / `v-if` / `@Event` / `slot` reference, the standard-commands list, the `OnInitializedScript` companion convention, default input by data type, a compact reference for every component of the registry with its most common props and events, JSON fragments for the typical scenarios — title row, button group, split button "Действия", `bs-form-field` + `bs-object-reference-select`, `pv-calendar`, `bs-collapsible-group`, `pv-tab-view` + `bs-details-table`, `pv-toolbar` with a row counter — and a building / editing checklist) live in the separate **`constructor-forms`** rule. Consult that rule whenever the user asks to create, modify or debug a constructor form (форма-конструктор, форма списка / редактирования из визуального редактора), to add a button / field / table / tab / collapsible group / toolbar / details table into such a form, or when editing files matching `*.form.*.json`. Real examples live under `operation/`, `customview/` and `register/`.
+
+# Programmable Forms (Программируемые формы)
+
+A **programmable form** is a metaobject form authored as a Vue 3 single-file component (Options API only) and compiled on the client at runtime — used when the visual form constructor is not flexible enough (custom dashboards, multi-step wizards, dialogs with complex validation, custom list / item views, the main screens of `customreport` / `customview`). It lives **inside the owner metaobject's folder** as a single `.vue` file named `{kind.Name}.{object.Name}.form.{form.Name}.vue` and consists of four blocks in a fixed order: `<script>` with exactly one top-level `export default { … }` returning the Options API object; `<template>` with the Vue template; an optional `<style scoped>` (or `<style>` for global) — omit the block entirely when empty; and the **mandatory** `<basys-form-meta>` JSON block at the end of the file, without which the import pipeline rejects the form. The meta block carries `FormKind = "programmable"`, the form's own `Uid`, `MetaObjectUid` (must match the owner metaobject's `Uid`), snake_case English `Name` (also the alias used by `openDialog`'s `formName` and the child-component key — unique within the metaobject), `Title`, `Memo` (Russian description), `Version` (`1` for new forms; the server increments it on save), `IsStylesGlobal` (default `false` — styles are scoped via the `.bs-dynamic-component-{Name}` class prefix; the `scoped` attribute on `<style>` must agree), and `ChildComponents` (array of `{MetaObjectKindUid, MetaObjectUid, ComponentUid, Alias}` for other programmable forms used inside this one). Programmable forms are available only on metaobjects whose kind has `UseForms = true` (on by default for `catalog`, `register`, `operation`, `customreport`, `customview`, `data_view`; off for `enum`, `records`, `workflow`, `excel_report`, `menu` — check `system/kinds/kind.{kindName}.json` before creating one). The runtime injects standard props (`title`, `uid`, `metaObjectUid`, `formKind`) — declare the ones you use in `props: [...]`; when the form is opened via `openDialog({ parameters: { … } })`, every key of `parameters` also arrives as a prop. Script-context helpers usable without import (`from`, `runWorkflow`, `openDialog`, `isEmpty`/`isNotEmpty`, `iif`, `ifs`, `createTable`, `parseNumber`, `dateTimeNow`, `dateDifference`) and `inject`-provided services (`axios`, `DataTable`, `TableViewColumnViewModel`, `FilterItem`, `FilterSettingsItem`, `userSettings`) are available; `<script setup>`, `defineComponent`, `import` statements, TypeScript and npm dependencies are **not** — only a plain Options API object. PrimeVue 3 components (`Badge`, `Button`, `Calendar`, `Card`, `Chart`, `Column`, `DataTable`, `Dialog`, `Divider`, `Dropdown`, `InputNumber`, `InputSwitch`, `InputText`, `OrganizationChart`, `SelectButton`, `Sidebar`, `TabPanel`, `TabView`, `Tag`, `Textarea`, `Toolbar`, `TriStateCheckbox`) and BaSYS components (`BsViewTitle`, `BsTableViewComponent`, `BsTextComponent`, `BsObjectReferenceSelect`, `BsObjectReferenceMultiSelect`, `BsPeriodSelector`, `BsFilterRow`) are pre-registered and usable without import. To make a programmable form the default list / item view of its metaobject, point `ListFormUid` / `ItemFormUid` in `{kind.Name}/{object.Name}/{kind.Name}.{object.Name}.json` to the form's `Uid`; otherwise the form is just available from the **Forms** menu and from `openDialog`. Programmable forms are **not** a reference type — do **not** add anything to `system/dataTypes.json`. Programmable forms (`*.form.*.vue`, `FormKind = "programmable"` / `0`) and constructor forms (`*.form.*.json`, `FormKind = "constructor"` / `1`) are different artefacts — never silently convert one into the other. Detailed conventions (full SFC layout, meta-block field order and rules, script-context API, dialog props, scoped-styles caveats, child components, binding to metaobject, building checklist) live in the separate **`programmable-forms`** rule. Consult that rule whenever the user asks to create, modify or debug a programmable form (программируемая форма, программируемый компонент, пользовательская / кастомная Vue-форма, формы на скриптах), to add a child component or a custom dialog form, or when editing files matching `*.form.*.vue`. Real examples live under `operation/task/`, `customreport/` and `customview/`.
+
+# Commands
+
+Commands (buttons, menu items, fill / pick-up actions) on metaobject forms are declared in the `Commands` collection of the metaobject's JSON, and the body of every command is stored as a separate `.bjs` script file referenced by filename via the `Expression` field. **Default to programmable commands (`Kind = 0`)** — even for fill and pick-up scenarios — over the simplified `Fill` / `PickUp` kinds. Detailed conventions (file naming `{kind}.{name}.command.{cmdName}.bjs`, `Commands` entry shape, `TableUid` for header- vs detail-bound commands, execution context with `$h` / `$t` / `$r` and form-control functions like `openPickUp`, `runWorkflow`, `save`, `setIsWaiting`) live in the separate **`commands`** rule. Consult that rule whenever the user asks to add a button, action, fill or pick-up to a metaobject form, or when editing `*.command.*.bjs` files. Many real examples live under `operation/`.
+
+# Records Creation (Проведение по регистрам)
+
+For metaobject kinds with `CanCreateRecords = true` (typically `operation`), records posting into registers is configured by two collections in the metaobject's JSON: `RecordsSettings` (rules per destination register, with `SourceUid`, `Direction`, `Condition` and per-column `Expression`s) and `RecordsSources` (**источники записей** — custom JavaScript sources that return a `DataTable`). The body of every records source / источника записей is stored as a **separate `.bjs` script file** in the same folder as the metaobject JSON, referenced by filename through the `Expression` field of the `RecordsSources` entry — exactly like commands and data-view data sources. Detailed conventions (the three source kinds — header / detail table / records source; engine-managed service columns; `Direction = Plus | Minus`; `$h` / `$t` / `$r` inside expressions and scripts; file naming `{kind}.{name}.records_source.{sourceName}.bjs`; the `create_records` flag) live in the separate **`records-creation`** rule. Consult that rule whenever the user asks to set up or edit "Записи" / проведение / registry posting on an operation, to create or add a "источник записей" / records source, or when editing `*.records_source.*.bjs` files. Many real examples live under `operation/`.
+
+# Workflows (Процессы)
+
+Workflows (`workflow` kind) are server-side pipelines of sequential steps that automate data processing, integrations and notifications. A workflow is a flat `Steps` array — no Header, DetailTables, Commands or RecordsSettings. Each step has a `KindName` identifying its type: `java_script` (BaSYS.FX script in a separate `.bjs` file), `if` (conditional branching), `iterator` / `iterator_stop` (loop over a DataTable), `data_object_loader` (create / update data objects), `read_file` + `excel_mapping` (Excel import), `http_connector` (HTTP request), `smtp_send` (email), `message` (log), `sleep` (pause). Steps are chained via `PreviousStepUid` and exchange data through a shared `_data` dictionary keyed by step `Name`. JavaScript step bodies are stored as separate `.bjs` files named `workflow.{name}.step.{stepName}.bjs`. Kind `workflow` has `IsReference = false` — no entry in `system/dataTypes.json` is required. Detailed conventions (step kinds and their fields, file naming, step chaining, common patterns) live in the separate **`workflows`** rule. Consult that rule whenever the user asks to create, modify or debug a workflow (процесс), or when editing files under `workflow/` or `*.step.*.bjs` files. Many real examples live under `workflow/`.
+
+# Menus (Меню)
+
+Menus (`menu` kind) describe the navigation tree rendered in the application's side panel by the PrimeVue MegaMenu component (vertical orientation). A `menu` metaobject stores no user data and has no Header / DetailTables / Commands / Forms — only a hierarchical `Items` array. The hierarchy has four levels: root groups (`MenuSettingsGroupItem`, with `Kind = 1` Link / `2` Separator / `3` Group) → columns (`MenuSettingsColumn`) → sub-items / column headings (`MenuSettingsSubItem`) → final links and separators (`MenuSettingsLinkItem`, with `Kind = 1` Link / `2` Separator). A root group can be filled either **manually** (curated subtree) or **automatically** (`AutoFill = true` + `MetaObjectKindUid` — the server lists all active objects of the chosen kind and lays them out into columns of `ItemsPerColumn` items). Several active `menu` metaobjects coexist: the server merges visible groups from all of them, filtered by the current user's access rights. Settings files live at `menu/{name}/menu.{name}.json` and validate against `system/schemas/menuSettings.schema.json`. Kind `menu` has `StoreData = false` and `IsReference = false` — no entry in `system/dataTypes.json` is required, and there are no companion `.bjs` / `.vue` files. Detailed conventions (field reference for each hierarchy level, manual vs auto-fill mode, URL conventions like `/app#/data-objects/{kindName}/{objectName}`, PrimeIcons usage, `MetaObjectKindUidParsed`) live in the separate **`menu`** rule. Consult that rule whenever the user asks to create, modify or debug a menu (меню, навигация, боковое меню, sidebar), to add a link / group / column / separator, to set up auto-fill of a group, or when editing files under `menu/`. Many real examples live under `menu/`.
+
+# Communication and Comments
+
+- Communicate with the user in the language they use in chat (typically Russian).
+- Code comments must follow the language already used in the file (typically Russian).

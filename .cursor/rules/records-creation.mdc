@@ -1,0 +1,207 @@
+---
+description: Conventions for configuring the records-creation (проведение по регистрам) mechanism on metaobjects in BaSYS — the `RecordsSettings` block on the source metaobject, the three source kinds (header, detail table, records source) and the records sources themselves stored as separate `.bjs` script files referenced by filename. Consult whenever the user asks to add or change "Записи" / проведение / registry posting on an operation, to create / add / edit a records source ("источник записей", "создать источник записей", "добавить источник записей", "create records source", "add records source"), or when editing files matching `{kind}.{name}.records_source.{sourceName}.bjs`.
+globs: **/*.records_source.*.bjs
+alwaysApply: false
+---
+
+# Records Creation (Проведение по регистрам)
+
+A metaobject of a kind whose `CanCreateRecords = true` flag is set (typically `operation`) can post records into one or more dedicated registers (kind `records`). Each time the source object is saved, previous records produced by it are deleted and a fresh set is generated according to a list of rules defined on the **Записи** tab — i.e. in the `RecordsSettings` collection of the metaobject's JSON.
+
+Documentation: https://basysteam.github.io/BaSys.Docs/ru/metadata/recordsCreation.html
+
+## Prerequisites
+
+- The metadata kind must have `CanCreateRecords = true` (check `system/kinds/kind.<name>.json`). For `operation` this flag is already set.
+- The source object's `Header.Columns` must include the standard column `create_records` (`StandardColumnUid` = `fee422db-18dc-442a-a8dd-01df76c20a98`). When this flag is `false`, old records are deleted and no new ones are created — equivalent to "отмена проведения".
+- The destination register must be a `records`-kind `DataObject` whose header carries the standard service columns (`MetaObjectKind`, `MetaObject`, `Object`, `Row`, `Period`). The mapping between these columns and the records-creation engine is defined on the kind itself (`RecordsSettings` block in `kind.operation.json`: `StorageKindColumnUid`, `StorageMetaObjectColumnUid`, `StorageObjectColumnUid`, `StorageRowColumnUid`, `StoragePeriodColumnUid`). The agent does not configure these — they live on the kind, not on the object.
+- The columns `MetaObjectKind`, `MetaObject`, `Object` and `Row` are filled by the engine automatically — **do not** list them in `Columns` of a records-settings row. The `Period` column **must** be filled by an expression (typically `$h.date`).
+
+## JSON Layout on the Source Metaobject
+
+Two top-level collections drive the mechanism:
+
+- `RecordsSources` — the list of **records sources** (custom JavaScript-backed sources, kind 3 — see "Source Kinds" below). Each entry references a separate `.bjs` script via its `Expression` field (filename only, no path).
+- `RecordsSettings` — the list of **rules**. Each rule targets one destination register (`DestinationMetaObjectUid`) and contains one or more `Rows`. Each row points (via `SourceUid`) to either the header, a detail table, or a records source, and lists the destination register columns with their fill expressions.
+
+Both collections must be present in operation JSONs even when empty (`[]`).
+
+### `RecordsSources` entry
+
+```json
+{
+  "Uid": "<uuid>",
+  "Title": "Группировка по проекту",
+  "Expression": "operation.<name>.records_source.<sourceName>.bjs"
+}
+```
+
+- `Uid` — freshly generated UUID v4. Referenced from `RecordsSettings.Rows[i].SourceUid`.
+- `Title` — human-readable label shown in the designer.
+- `Expression` — **only the filename** of the companion `.bjs` script (no path). The script body itself lives in that file (see "Records Sources as Separate `.bjs` Files" below).
+
+The `RecordsSourceItem` schema does **not** have a `Name` field — the records source is identified by `Uid` and labelled by `Title`. For new records sources, pick a `Title` that doubles as a clean filename slug (snake_case English, ASCII-only, e.g. `group_by_project`, `tn_to_kg`). Existing records sources with Cyrillic / spaced titles must not be renamed.
+
+### `RecordsSettings` entry
+
+```json
+{
+  "DestinationMetaObjectUid": "<uid of the destination register>",
+  "Rows": [
+    {
+      "Uid": "<uuid>",
+      "SourceUid": "<uid of the source>",
+      "Direction": 0,
+      "Condition": "",
+      "Columns": [
+        { "DestinationColumnUid": "<uid of register column>", "Expression": "$h.date" },
+        { "DestinationColumnUid": "<uid of register column>", "Expression": "$r.quantity" }
+      ]
+    }
+  ]
+}
+```
+
+- `DestinationMetaObjectUid` — `Uid` of the destination register (look it up in the corresponding `records/<name>/records.<name>.json`). Multiple rules may target the same register; multiple rules may target different registers.
+- `SourceUid` — `Uid` of the chosen source on the current metaobject (see "Source Kinds" below).
+- `Direction` — `RegisterRecordDirections` enum:
+  - `0` — `Plus` (Приход);
+  - `1` — `Minus` (Расход). When `Minus`, the engine automatically multiplies all decimal-typed fields of the produced record by `-1`. Do **not** repeat that sign-inversion inside the column expressions.
+- `Condition` — optional JavaScript boolean expression. If it returns `false`, the record for that source row is skipped. Empty string means "always create".
+- `Columns` — pairs `DestinationColumnUid` ↔ `Expression`. Provide entries only for the register columns the rule fills (including `Period`). Do **not** list the auto-filled service columns (`MetaObjectKind`, `MetaObject`, `Object`, `Row`).
+
+Each row must have a freshly generated `Uid`.
+
+## Source Kinds
+
+`SourceUid` on a `RecordsSettings.Rows` entry identifies one of three sources defined on the **same** source metaobject:
+
+### 1. Header (`header`)
+
+`SourceUid` = `Header.Uid` of the source metaobject. One record is produced per source object. Inside expressions only `$h.<columnName>` is available; using `$r.<columnName>` will fail because there is no current row.
+
+### 2. Detail table
+
+`SourceUid` = `DetailTables[i].Uid` of one of the source metaobject's detail tables. One record is produced per row of that detail table. Inside expressions both `$h.<columnName>` (header field) and `$r.<columnName>` (current detail-table row field) are available.
+
+### 3. Records source
+
+`SourceUid` = `RecordsSources[i].Uid`. One record is produced per row of the `DataTable` returned by the records-source script (see next section). Inside expressions both `$h.<columnName>` and `$r.<columnName>` (current row of the **returned table**) are available.
+
+Use a records source when the records cannot be derived directly from the header or any single detail table — e.g. you need to group / unpivot / merge / synthesize the data first.
+
+## Records Sources as Separate `.bjs` Files
+
+Each `RecordsSources` entry has its body stored in a **separate `.bjs` file** in the same folder as the metaobject's JSON. The JSON only references it through the `Expression` field.
+
+File naming template: `{kind.Name}.{object.Name}.records_source.{sourceName}.bjs`
+
+Example — for the operation `отгрузка` with a records source titled `tn_to_kg`:
+- JSON (`Expression` field): `"operation.отгрузка.records_source.tn_to_kg.bjs"`
+- Script file: `operation/отгрузка/operation.отгрузка.records_source.tn_to_kg.bjs`
+
+The filename must match the value of `Expression` exactly. When adding or modifying a records source, the agent must update **both** sides: the `RecordsSources` entry in the JSON **and** the corresponding `.bjs` file. Many real examples live under `operation/`.
+
+### Script Contract
+
+The records-source script runs **on the server** (ClearScript engine) and **must `return`** a `DataTable`. The engine then iterates that table and creates one register record per row according to the row's columns and the rule's `Direction` / `Condition` / `Columns`.
+
+Implicit names available in the script:
+
+| Name | Description                                                                                  |
+| :--- | :------------------------------------------------------------------------------------------- |
+| `$h` | Header of the current source object — access fields via `$h.<columnName>`.                   |
+| `$t` | Detail tables of the source object as `DataTable`s — access via `$t.<tableName>`.            |
+
+> Detail tables are exposed via `$t.`, **not** via `$h.`. The `$h.` prefix is reserved for header fields.
+
+The returned `DataTable` supports the BaSYS chainable helpers: `.select(columns)`, `.addColumn(columnDef)`, `.process(fn)`, `.groupBy(keys, aggregates)` and others — see https://basysteam.github.io/BaSys.Docs/ru/calculations/dataTable.html.
+
+Restrictions (current version):
+
+- Arbitrary database queries inside a records source are **not** supported. Build the result from `$h` and `$t` only. If precomputed data is required, prepare it server-side via triggers / workflows and store it in a detail table beforehand.
+- The script runs on the server, so browser-only APIs (e.g. `alert`) have no effect.
+- If the script returns anything other than a `DataTable`, the engine logs an error and skips this rule without aborting the others.
+
+### Script Examples
+
+Group a detail table by key columns, summing measure columns:
+
+```javascript
+var source = $t.таблица
+    .groupBy(['проект', 'марки'], ['общий_вес', 'сумма']);
+
+return source;
+```
+
+Add a derived column and invert the sign before posting (e.g. for an outflow document):
+
+```javascript
+var source = $t.таблица
+    .addColumn({ name: 'кг', dataType: 'number' })
+    .process(r => {
+        r.колво_шт = r.колво_шт * -1;
+        r.кг = r.общий_вес * -1000;
+    });
+
+return source;
+```
+
+Hand-built fallback for an empty input:
+
+```javascript
+var t = $t.table_1;
+if (t.rows.length > 0) {
+    return t.groupBy(['шифр_км'], ['колво_тн', 'сумма_руб']);
+}
+return createTable([{ name: 'product' }]);
+```
+
+## Expressions in Records-Settings Rows
+
+Each `Columns[i].Expression` fills one destination register column. The engine recognizes three forms:
+
+- **Header field** — `$h.<columnName>`. Value is taken from the source object's header field as-is.
+- **Row field** — `$r.<columnName>`. Value is taken from the current row of the selected source (detail table or records-source result). **Not allowed** when the source is the header.
+- **Formula** — any other JavaScript expression. Evaluated by Jint; `$h.<columnName>` and `$r.<columnName>` are still allowed inside. The result is automatically converted to the destination column's data type.
+
+Examples:
+
+- `$h.date` — date from header (typical `Period` value);
+- `$r.quantity` — quantity from current row;
+- `$r.quantity * $r.price` — computed sum;
+- `$h.warehouse` — header field reused for every row of the document;
+- `"2"` — hard-coded string constant.
+
+The `Condition` field follows the same rules and must return a boolean (`$r.вес_всех_кг > 0`, `$h.статус > 2 && $h.цех > 0`, `false` to temporarily disable a row, etc.). Empty string means "always create".
+
+## Adding a New Records-Settings Rule
+
+1. **Pick the destination register** and read its JSON to obtain `DestinationMetaObjectUid` and the destination-column `Uid`s. The destination must be a `records`-kind object with the standard service columns.
+2. **Pick the source** for each `Rows` entry:
+   - Header → `SourceUid = Header.Uid`. Use only `$h.*`.
+   - Detail table → `SourceUid = DetailTables[i].Uid`. Use `$h.*` and `$r.*`.
+   - Records source → `SourceUid = RecordsSources[i].Uid`. Use `$h.*` and `$r.*` (row of the script's result).
+3. **Choose `Direction`** — `0` for inflow / Приход, `1` for outflow / Расход. When `1`, do **not** invert the sign of decimal expressions yourself — the engine does it.
+4. **Write the `Columns` list**, one entry per destination register column you fill. Always include `Period` (typically `$h.date`). Skip the engine-managed service columns.
+5. **Optionally set `Condition`** to filter source rows.
+6. **Generate fresh `Uid`** values for the new `RecordsSettings.Rows` entry / entries.
+
+If the same source object posts to several registers, add several `RecordsSettings` entries — one per `DestinationMetaObjectUid`.
+
+## Adding a New Records Source
+
+1. **Generate a fresh `Uid`** for the new `RecordsSources` entry.
+2. **Pick a `Title`** — for new sources use a clean snake_case English slug (e.g. `group_by_project`), since the same string becomes part of the filename.
+3. **Build the filename** `{kind.Name}.{object.Name}.records_source.{Title}.bjs` and create that file in the same folder as the metaobject JSON.
+4. **Add the `RecordsSources` entry** with `Uid`, `Title`, `Expression = "<filename>"`.
+5. **Write the body** of the `.bjs` file using `$h`, `$t` and the BaSYS `DataTable` helpers; the script must `return` a `DataTable`.
+6. **Wire the source into a rule** — add (or edit) an entry in `RecordsSettings` whose `Rows[i].SourceUid` equals the new source's `Uid`, fill `Direction`, optional `Condition` and the `Columns` list.
+
+## General Hygiene
+
+- The filename of the `.bjs` records-source file must match the value of `Expression` in the JSON exactly.
+- Existing records-source titles / filenames (often Cyrillic, with spaces or punctuation) must **not** be renamed — they are referenced by `Uid` from `RecordsSettings`, but renaming would still break the file ↔ JSON link until the next export.
+- Comments inside `.bjs` files follow the language already used in surrounding files (typically Russian).
+- Prefer the BaSYS `DataTable` helpers (`groupBy`, `process`, `addColumn`, `select`, …) over plain JS loops.
+- Do not introduce third-party npm dependencies — the runtime is provided by the platform.

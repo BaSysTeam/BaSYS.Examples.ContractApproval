@@ -1,0 +1,183 @@
+---
+description: Conventions for creating and editing Excel report (Отчёт Excel) metaobjects in BaSYS — reports rendered by filling a pre-designed .xlsx template with values from data sources. Consult whenever the user asks to create, modify or debug an Excel report (отчёт Excel, печатная форма, регламентированная отчётность по макету), to add data sources / filters to an Excel report, or when editing files under `excel_report/`.
+globs: excel_report/**/*
+alwaysApply: false
+---
+
+# Excel Reports (Отчёт Excel)
+
+An **Excel report** in BaSYS is a metaobject of kind `excel_report` that builds a report by filling a pre-designed `.xlsx` template with values produced by JavaScript data sources. The template carries the static layout (headers, merged cells, formatting, borders, fonts) and special markers (`{{...}}`, named ranges) that the server-side template engine (`ClosedXML.Report`) replaces with data at build time.
+
+Documentation: https://basysteam.github.io/BaSys.Docs/ru/reporting/excelReport.html
+
+## When to Use
+
+Prefer Excel reports over [Data Views](mdc:data-view-reports.mdc) **only** when the user's request requires one of:
+
+- **regulated reporting** — fixed government / industry forms where every cell is a separate calculation and the layout is strictly defined;
+- **printable document forms** — invoices, waybills, acts, contracts, applications that must match an established sample exactly;
+- **heavily-formatted summary reports** — multi-level headers, merged cells, custom page breaks, corporate branding that cannot be reproduced by a data-view indicator.
+
+For typical tables, dashboards, charts, KPIs, pivots — use a `data_view` instead: building an `.xlsx` is significantly heavier (template parsing, formula evaluation, serialization), preview support is limited (single sheet, no charts/pivots/conditional formatting), and totals inserted by `<<sum>>`-style markup are not shown in the in-app preview.
+
+## File Layout
+
+- Kind `excel_report` has `StoreData = false` and `IsReference = false` → do **not** add an entry to `system/dataTypes.json`.
+- Settings file location: `excel_report/{name}/excel_report.{name}.json` — must validate against `system/schemas/excelReportSettings.schema.json` (set `$schema` to the correct relative path).
+- Top-level structure follows the standard metaobject conventions (`Uid`, `Name`, `Title`, `Memo`, `IsActive`, `Version`) plus two collections: `DataSources`, `Filters`.
+- **Template** is stored as a **separate binary `.xlsx` file** in the same folder, named **strictly** `excel_report.{name}.template.xlsx` (this exact filename is what the import pipeline looks for). The template is **not** referenced from the JSON — the binding is by filename convention. Do **not** invent a custom name and do **not** embed the template content into the JSON.
+- Data source scripts are stored as **separate `.bjs` files** in the same folder, named by the template `excel_report.{name}.data_source.{dataSourceName}.bjs` (e.g. `excel_report/sales_report/excel_report.sales_report.data_source.rows.bjs`).
+- No `Header`, `DetailTables`, `Commands`, `Forms` or `RecordsSettings` — Excel reports store no user data and have no edit form.
+
+### Working With the Template `.xlsx` File
+
+`.xlsx` is a binary (zipped) format. The agent **must not** attempt to generate, modify or rewrite the template file programmatically — any such write will corrupt the workbook.
+
+Rules for the agent:
+
+- **Creating a new Excel report:** create only the `.json` settings file and the `.bjs` data source scripts. Tell the user that they need to prepare the `excel_report.{name}.template.xlsx` file themselves in Microsoft Excel (or a compatible editor) and place it in the metaobject's folder, and remind them of the marker syntax / named-range rules below. Do not create a placeholder `.xlsx`.
+- **Editing an existing Excel report:** treat the existing `excel_report.{name}.template.xlsx` as opaque. You may rename data sources, filters and markers in the JSON / `.bjs` files only if you also instruct the user to update the matching markers / named ranges inside the template — keep the JSON-side names and the template-side markers in sync. Never edit the `.xlsx` file directly.
+- The same rule applies to `.xlsb`, `.xls` and any other binary Excel formats — they are out of scope, the template **must** be `.xlsx`.
+
+## Data Sources
+
+Each entry of `DataSources` declares a named expression whose result is exposed to the template (and to subsequent data sources) under that name.
+
+| Field        | Purpose                                                                                                |
+| :----------- | :----------------------------------------------------------------------------------------------------- |
+| `Uid`        | Freshly generated UUID v4 for the data source.                                                         |
+| `Name`       | Identifier (snake_case English). Becomes the key on `_data` and the marker name in the template.       |
+| `Expression` | Filename of the companion `.bjs` script (e.g. `excel_report.sales_report.data_source.rows.bjs`).       |
+| `Memo`       | Short description of what the source returns.                                                          |
+
+Key rules:
+
+- Sources are evaluated **strictly in declaration order**. Later sources may use earlier results via `_data.<earlierName>`. Order matters — put base queries first, derived aggregations afterwards.
+- The `Expression` field must contain the **filename** of the `.bjs` script (not the script body). Create both the `DataSources` entry **and** the corresponding `.bjs` file. File naming: `excel_report.{objectName}.data_source.{dataSourceName}.bjs`.
+- The script **must `return`** its result.
+- Three implicit variables are available inside a data source script:
+  - `_filters` — array of active filter values. Pass into the query builder via `.withFilters(_filters)`.
+  - `_data` — dictionary of results of **earlier** data sources, addressable by their `Name` (e.g. `_data.rows`).
+  - `_parameters` — dictionary of call parameters (rarely used).
+- Prefer the BaSYS query builder (`from('kind.name').…query()`) over plain JS for DB access. See https://basysteam.github.io/BaSys.Docs/ru/calculations/queryBuilder.html.
+- Use `.getDisplays()` when querying reference fields so that human-readable display values are available as `<column>_display` for use in template markers.
+- Limit data volume with `.top(N)`, filters, aggregations — `.xlsx` generation is expensive.
+
+### Supported Return Types
+
+| Return type                       | Access in template                                | Notes                                                                                                                                                |
+| :-------------------------------- | :------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scalar (string, number, date, bool) | `{{sourceName}}`                                |                                                                                                                                                      |
+| Object / dictionary / `Expando`   | `{{sourceName.property}}`                         | Server converts the dictionary into a typed CLR object on the fly (cached by signature). Dotted access works after conversion.                       |
+| Collection of typed objects       | `{{item.Property}}` inside a named range          | The template must contain a **named range** whose name matches the data source `Name`. The engine repeats the range area per element.                |
+| `DataTable`                       | `{{item["ColumnName"]}}` or `{{item[index]}}`     | Passed as `DataRowCollection`. Also requires a named range named after the source.                                                                   |
+
+### Computing Totals
+
+Totals should usually be computed **in a separate data source** that consumes the main source via `_data`, and then pulled into the template as plain markers. The `ClosedXML.Report` aggregate markup (`<<sum>>`, `<<count>>`, …) does produce Excel formulas, but their values are computed only when the file is opened in Excel — the in-app preview shows them as empty. Computing totals in a dedicated data source keeps them visible in the preview and reduces template engine work.
+
+### Example
+
+`excel_report/sales_report/excel_report.sales_report.json` (excerpt):
+
+```json
+"DataSources": [
+  {
+    "Uid": "3f5eb097-ca63-2414-4a5f-5ee0dc4e342e",
+    "Name": "rows",
+    "Expression": "excel_report.sales_report.data_source.rows.bjs",
+    "Memo": "Строки отчёта — выгрузка движений по регистру с фильтрами формы."
+  },
+  {
+    "Uid": "6179d17a-74ca-6a78-60c7-8d37eeb5a49f",
+    "Name": "totals",
+    "Expression": "excel_report.sales_report.data_source.totals.bjs",
+    "Memo": "Итоговые суммы, рассчитанные поверх _data.rows."
+  }
+]
+```
+
+`excel_report.sales_report.data_source.rows.bjs`:
+
+```javascript
+var tableResult = await from('records.sales')
+  .select(['period', 'contract as contract', 'amount as amount'])
+  .getDisplays()
+  .orderBy('period desc')
+  .withFilters(_filters)
+  .top(100)
+  .query();
+
+return tableResult;
+```
+
+`excel_report.sales_report.data_source.totals.bjs`:
+
+```javascript
+var amountTotal = _data.rows.sum('amount');
+var result = {
+  amount: amountTotal,
+};
+
+return result;
+```
+
+In the template, `rows` is a named range with cells like `{{item["contract_display"]}}` / `{{item["amount"]}}`, and totals are placed in regular cells as `{{totals.amount}}`.
+
+## Filters
+
+`Filters` configure the standard BaSYS filter bar / sidebar, integrated with the query builder. Each entry has the following fields:
+
+| Field                       | Purpose                                                                                                                                  |
+| :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| `Uid`                       | Freshly generated UUID v4.                                                                                                               |
+| `Name`                      | Identifier used as the parameter name in queries (snake_case English; Cyrillic allowed only for filters that match a real Cyrillic column on the underlying source). |
+| `Title`                     | Human-readable label shown in the UI.                                                                                                    |
+| `DataPath`                  | Optional column path inside the source (usually `""`).                                                                                   |
+| `DataTypeUid`               | UID from `system/dataTypes.json` describing the value type.                                                                              |
+| `NumberDigits`              | Number of fractional digits for numeric filters (else `0`).                                                                              |
+| `DefaultComparisonKind`     | Default operator: `0` Equal, `1` NotEqual, `2` Greater, `3` GreaterOrEqual, `4` Less, `5` LessOrEqual, `6` Between.                      |
+| `RenderPlace`               | `0` Sidebar, `1` Header (above the command bar).                                                                                         |
+| `ControlKindUid`            | UID of the input control (period picker, reference picker, date, number, etc.) — copy from a working filter of the same data type.      |
+| `JoinOperator`              | `0` And, `1` Or — how the filter combines with neighbours.                                                                               |
+| `Required`                  | If `true`, the report will not build until the user fills this filter.                                                                   |
+| `AvailableComparisonKinds`  | Optional whitelist of operators offered in the UI (empty array = all kinds available).                                                   |
+
+Active filter values are passed into every data source through the implicit `_filters` array and are applied to the query builder via `.withFilters(_filters)`. The query builder will look up each filter by its `Name` and apply the right column / operator pair, so the filter `Name` must match the column key produced by `select` (or by `getDisplays`).
+
+For a deeper description of filter setup and the available control kinds see the BaSYS docs on configurable filters.
+
+## Template Markers — Quick Reference
+
+The agent does not write `.xlsx` files but must instruct the user on the marker syntax when designing or updating the template:
+
+- **Scalar value:** `{{sourceName}}` (e.g. `{{period}}`).
+- **Property of an object source:** `{{sourceName.property}}` (e.g. `{{totals.amount}}`).
+- **Collection / DataTable:** place a **named range** in the workbook whose name equals the data source `Name`; inside the range use `{{item.Property}}` (typed collections) or `{{item["ColumnName"]}}` / `{{item[index]}}` (`DataTable`).
+- **Keep named ranges tight.** Include only the cells that actually contain markers or styling — `ClosedXML.Report` processes every cell of the range when expanding the collection. Selecting whole rows "for spare" dramatically slows building.
+- **Compute totals in data sources**, not via `<<sum>>` markup, when the totals need to appear in the in-app preview.
+- See https://closedxml.io/ClosedXML.Report/docs/en/Markup.html for the full ClosedXML.Report markup language (nested ranges, grouping, sorting, conditional blocks, …).
+
+## Building the Report — Quick Checklist
+
+When the user asks to add a new Excel report:
+
+1. Confirm `excel_report` is the right kind (vs `data_view`). If the requirement is a plain table / chart / dashboard, propose `data_view` first.
+2. Create folder `excel_report/{name}/`.
+3. Create `excel_report/{name}/excel_report.{name}.json` conforming to `excelReportSettings.schema.json`, with a fresh `Uid`, the chosen `Name` / `Title` / `Memo`, `IsActive = true`, `Version = 1`, and the `DataSources` / `Filters` collections filled in.
+4. Create one `.bjs` file per data source, returning the value of the right shape (scalar / object / collection / `DataTable`).
+5. Tell the user to prepare `excel_report.{name}.template.xlsx` themselves and to place it next to the JSON — describe which marker names and named ranges the template must contain (derived from `DataSources` names and the columns each source returns).
+6. After the user uploads the template via import, the system will set `HasTemplate = true` automatically — the agent should not author that flag.
+
+## General Hygiene
+
+- Generate a fresh `Uid` (UUID v4, lowercase, hyphenated) for the metaobject and for every data source / filter.
+- `Name` values must be in English, lowercase, `snake_case` and meaningful for new objects, columns and filters (existing Cyrillic names in the project must not be renamed).
+- Fill `Memo` on the metaobject and on each data source / filter with a short Russian description of its purpose.
+- Set `IsActive = true` unless the user explicitly asks to hide the report.
+- Do not add an entry to `system/dataTypes.json` — kind `excel_report` is not a reference.
+
+## Communication and Comments
+
+- Communicate with the user in the language they use in chat (typically Russian).
+- Code comments in `.bjs` data source scripts must follow the language already used in the file (typically Russian).

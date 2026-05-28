@@ -1,0 +1,91 @@
+---
+description: Conventions for building reports, dashboards, charts, tables, KPIs, gauges and pivot tables in BaSYS using the data_view (Панель данных) metaobject kind. Consult whenever the user asks for any kind of report, dashboard or visualization, or when editing files under data_view/.
+globs: data_view/**/*,**/*.bjs
+alwaysApply: false
+---
+
+# Reports and Data Views
+
+The primary metadata kind for building reports and dashboards in BaSYS is `data_view` (Панель данных). When the user asks for any kind of report, dashboard, chart, table, KPI, gauge or pivot table, **default to creating a `data_view` metaobject** unless they explicitly ask for a different kind (e.g. `customreport`, `excel_report`).
+
+Documentation: https://basysteam.github.io/BaSys.Docs/ru/reporting/dataView.html
+
+## File Layout
+
+- Kind `data_view` has `StoreData = false`, so the settings file must validate against `system/schemas/dataViewSettings.schema.json` (set `$schema` to the correct relative path).
+- Settings file location: `data_view/{name}/data_view.{name}.json`.
+- Data source scripts are stored as **separate `.bjs` files** in the same folder as the settings JSON, named by the template: `data_view.{name}.data_source.{dataSourceName}.bjs` (example: `data_view/nomenclature_balance/data_view.nomenclature_balance.data_source.rows.bjs`).
+- Top-level structure follows the standard metaobject conventions (`Uid`, `Name`, `Title`, `Memo`, `IsActive`, `Version`) plus three collections: `DataSources`, `Filters`, `Indicators`.
+- Kind `data_view` has `IsReference = false` — do **not** add an entry to `system/dataTypes.json` for it.
+
+## Building a Report
+
+A `data_view` is built in three logical steps:
+
+1. **Decide on indicators** — type, count and layout — based on the user's request (see "Indicators" below). If anything is unclear, **ask the user** instead of guessing.
+2. **Define data sources** — one or more `DataSources` entries that produce the data each indicator needs.
+3. **Wire each indicator** to a data source via `DataSourceUid` and configure its type-specific settings.
+
+## Data Sources
+
+Each entry of `DataSources` in the JSON settings file has an `Expression` field that contains the **filename** of the corresponding `.bjs` script (not the script body itself). The script is stored as a separate file in the same folder.
+
+File naming template: `data_view.{objectName}.data_source.{dataSourceName}.bjs`
+
+Example — for a data view `nomenclature_balance` with a data source named `rows`:
+- JSON (`Expression` field): `"data_view.nomenclature_balance.data_source.rows.bjs"`
+- Script file: `data_view/nomenclature_balance/data_view.nomenclature_balance.data_source.rows.bjs`
+
+The script **must `return`** a value:
+
+- a `DataTable` (or array of rows) for tabular indicators (`pv_data_table`, `bs_pivot`) and charts (`pv_bar_chart`, `pv_line_chart`, `pv_pie_chart`, `pv_donut_chart`);
+- a scalar (number/string) or an object for `bs_value_indicator` and `bs_gauge_indicator`.
+
+When creating a new data source, the agent must create **both** the `DataSources` entry in the JSON (with `Expression` set to the filename) **and** the `.bjs` file with the script body.
+
+Rules:
+
+- Prefer the BaSYS query builder (`from('kind.name').…query()`) over plain JS for DB access. See https://basysteam.github.io/BaSys.Docs/ru/calculations/queryBuilder.html.
+- Two implicit variables are always available inside a data source script:
+  - `_filters` — current values of the panel filters (if any are configured in `Filters`). Pass them into queries via `.parameter()`.
+  - `_data` — results of **other** data sources of the same panel, addressable by data source `Name` (e.g. `_data.contracts`). One data source may build on top of another's result; the platform resolves the execution order automatically based on usage.
+- Give every data source a meaningful `Name` (snake_case English) — it becomes the key on `_data`, the last segment of the `.bjs` filename, and is referenced by indicators.
+- Fill `Memo` with a short description of what the source returns.
+- For tabular sources backing table/pivot/chart indicators, use `.getDisplays()` when querying reference fields so display values are available as `<column>_display`. Remember to include both `<column>` and `<column>_display` in `groupBy` when aggregating.
+
+## Indicators
+
+Each entry of `Indicators` is one visual component. Identify the type by the pair `KindUid` / `KindName`:
+
+| Type (RU)              | KindName             | KindUid                                |
+| ---------------------- | -------------------- | -------------------------------------- |
+| Индикатор значения     | `bs_value_indicator` | `a876f44f-ebad-4e0c-8c75-a3b6df047367` |
+| Индикатор-шкала (Gauge)| `bs_gauge_indicator` | `3920c90c-91f2-4598-a5d8-f4931974e578` |
+| Гистограмма            | `pv_bar_chart`       | `19ab8886-cd18-4c06-aff0-5b010d4b891a` |
+| Линейный график        | `pv_line_chart`      | `d5f9a3c4-7e6b-4cad-bf8a-3b4c5d6e7f8a` |
+| Круговая диаграмма     | `pv_pie_chart`       | `b3d7e1a2-5c4f-4a8b-9d6e-1f2a3b4c5d6e` |
+| Кольцевая диаграмма    | `pv_donut_chart`     | `c4e8f2b3-6d5a-4b9c-ae7f-2a3b4c5d6e7f` |
+| Таблица                | `pv_data_table`      | `bd4b0526-449e-4351-85d1-b18a6aafa1b8` |
+| Сводная таблица        | `bs_pivot`           | `65dd8c74-5337-4e35-bfab-24100f94b2b5` |
+
+Common indicator fields: `Uid`, `Name`, `Title`, `Memo`, `Order`, `Height`, `IsActive`, `DataSourceUid`, `RenderSettings`. Type-specific fields (axes, datasets, columns, levels, pivot rows/columns/values, …) follow the corresponding `*IndicatorDto` definitions in `system/schemas/dataViewSettings.schema.json`.
+
+### Layout (`RenderSettings`)
+
+Components are placed on a 12-column grid:
+
+- Prefer predefined hints when possible: `WidthHint` — `3` (Small), `6` (Half), `8` (Wide), `12` (Full); `OffsetHint` — `0` (None), `3` (Small), `6` (Half), `8` (Wide). With a hint set, leave the corresponding numeric `Width` / `Offset` at `0`.
+- For an arbitrary value, set the hint to `-1` (Custom) and put the explicit number into `Width` or `Offset`.
+- Indicators wrap to the next row automatically when the cumulative `Offset + Width` would exceed 12.
+
+### Choosing Type, Count and Layout
+
+- Type, count and arrangement of indicators come from the user's prompt. **If they are not obvious, ask the user before creating the file.**
+- **Singular report rule:** when the user mentions a report in the singular (e.g. "сводная таблица", "табличный отчёт", "круговая диаграмма"), the panel must contain exactly one indicator of the matching type, sized `WidthHint = 12` (Full).
+- **Single-indicator title rule:** when a panel contains only one indicator, leave its `Title` empty (`""`) — the panel's own `Title` already serves as the report header. For panels with several indicators, give each indicator a clear `Title`.
+
+### General Indicator Hygiene
+
+- Every new indicator must have a freshly generated `Uid`, a meaningful `Name` (snake_case English) and a filled `Memo`.
+- Set `IsActive = true` unless the user asks to hide it.
+- For `pv_data_table`, `bs_pivot` and chart indicators that show reference fields, the backing data source must use `.getDisplays()` and the indicator should reference the `*_display` columns wherever a human-readable label is needed.
