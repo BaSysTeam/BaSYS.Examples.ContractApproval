@@ -1,0 +1,33 @@
+{
+  "Uid": "715abcb0-da8a-4442-b9c6-2b6b1c51a5fb",
+  "Title": "Панель данных",
+  "Name": "data_view",
+  "Prefix": "dav",
+  "StoreData": false,
+  "IsReference": false,
+  "AllowAttachedFiles": false,
+  "IsFilesColumnUid": null,
+  "IsDeletedColumnUid": null,
+  "CanCreateRecords": false,
+  "UseDetailsTables": false,
+  "UseForms": true,
+  "UsePrintForms": false,
+  "IsStandard": true,
+  "Memo": "",
+  "IconClass": "pi pi-chart-bar",
+  "OrderByExpression": "",
+  "DisplayExpression": "",
+  "RecordsSettings": {
+    "SourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
+    "StoragePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageKindColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageRowColumnUid": "00000000-0000-0000-0000-000000000000"
+  },
+  "StandardColumns": [],
+  "AvailableRights": [
+    "245f3c21-a190-498b-a515-caa9bfa5ca8e"
+  ]
+}

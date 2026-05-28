@@ -1,0 +1,92 @@
+[
+  {
+    "Uid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+    "Kind": "",
+    "Name": "",
+    "Title": "Строка",
+    "IsPrimitive": true,
+    "DbType": 16,
+    "ObjectKindUid": null,
+    "TypeName": "System.String"
+  },
+  {
+    "Uid": "b327f82a-ea96-416f-9836-785db28eccac",
+    "Kind": "",
+    "Name": "",
+    "Title": "Целое число (int)",
+    "IsPrimitive": true,
+    "DbType": 11,
+    "ObjectKindUid": null,
+    "TypeName": "System.Int32"
+  },
+  {
+    "Uid": "daa57cb0-32eb-4709-b61f-4ea023ae31c3",
+    "Kind": "",
+    "Name": "",
+    "Title": "Целое число (long)",
+    "IsPrimitive": true,
+    "DbType": 12,
+    "ObjectKindUid": null,
+    "TypeName": "System.Int64"
+  },
+  {
+    "Uid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+    "Kind": "",
+    "Name": "",
+    "Title": "Булево",
+    "IsPrimitive": true,
+    "DbType": 3,
+    "ObjectKindUid": null,
+    "TypeName": "System.Boolean"
+  },
+  {
+    "Uid": "a05516ac-baae-4f66-9b67-6703998a6a1b",
+    "Kind": "",
+    "Name": "",
+    "Title": "Десятичное число",
+    "IsPrimitive": true,
+    "DbType": 7,
+    "ObjectKindUid": null,
+    "TypeName": "System.Decimal"
+  },
+  {
+    "Uid": "9001eafb-efb1-442f-b288-723bb8002b12",
+    "Kind": "",
+    "Name": "",
+    "Title": "Дата&Время",
+    "IsPrimitive": true,
+    "DbType": 6,
+    "ObjectKindUid": null,
+    "TypeName": "System.DateTime"
+  },
+  {
+    "Uid": "6fa9c45b-f514-4fea-a480-8e940636a1df",
+    "Kind": "",
+    "Name": "",
+    "Title": "Guid",
+    "IsPrimitive": true,
+    "DbType": 9,
+    "ObjectKindUid": null,
+    "TypeName": "System.Guid"
+  },
+  {
+    "Uid": "689d1aac-66d8-478f-852e-0e3881b427bf",
+    "Kind": "",
+    "Name": "",
+    "Title": "Вид метаданных",
+    "IsPrimitive": false,
+    "DbType": 9,
+    "ObjectKindUid": null,
+    "TypeName": "System.Guid"
+  },
+  {
+    "Uid": "a4d064c6-465f-42a5-bbc0-48f743148c36",
+    "Kind": "",
+    "Name": "",
+    "Title": "Объект метаданных",
+    "IsPrimitive": false,
+    "DbType": 9,
+    "ObjectKindUid": null,
+    "TypeName": "System.Guid"
+  }
+]

@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MenuSettings",
+  "type": "object",
+  "properties": {
+    "Uid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "Name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Title": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Memo": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "IsActive": {
+      "type": "boolean"
+    },
+    "Version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "Items": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/MenuSettingsGroupItem"
+      }
+    }
+  },
+  "definitions": {
+    "MenuSettingsGroupItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Kind": {
+          "$ref": "#/definitions/MenuSettingsGroupKinds"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "IconClass": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Url": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "IsVisible": {
+          "type": "boolean"
+        },
+        "AutoFill": {
+          "type": "boolean"
+        },
+        "ItemsPerColumn": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "MetaObjectKindUid": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Items": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MenuSettingsColumn"
+          }
+        },
+        "MetaObjectKindUidParsed": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "MenuSettingsGroupKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Link",
+        "Separator",
+        "Group"
+      ],
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "MenuSettingsColumn": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Items": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MenuSettingsSubItem"
+          }
+        }
+      }
+    },
+    "MenuSettingsSubItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "IsVisible": {
+          "type": "boolean"
+        },
+        "Items": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MenuSettingsLinkItem"
+          }
+        }
+      }
+    },
+    "MenuSettingsLinkItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Kind": {
+          "$ref": "#/definitions/MenuSettingsLinkKinds"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "IconClass": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Url": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "IsVisible": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MenuSettingsLinkKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Link",
+        "Separator"
+      ],
+      "enum": [
+        1,
+        2
+      ]
+    }
+  }
+}

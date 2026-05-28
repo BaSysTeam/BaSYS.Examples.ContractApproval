@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "ExcelReportSettings",
+  "type": "object",
+  "properties": {
+    "Uid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "Name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Title": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Memo": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "IsActive": {
+      "type": "boolean"
+    },
+    "Version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "HasTemplate": {
+      "type": "boolean"
+    },
+    "DataSources": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/DataSourceItem"
+      }
+    },
+    "Filters": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/FilterSettingsItem"
+      }
+    }
+  },
+  "definitions": {
+    "DataSourceItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Expression": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "JavaScript expression for this data source. In export packages the value is a relative file reference (e.g. 'excel_report.my_report.data_source.main.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
+          "x-example": "excel_report.sales_report.data_source.main.bjs"
+        },
+        "Memo": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "FilterSettingsItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DataPath": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DataTypeUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "NumberDigits": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DefaultComparisonKind": {
+          "$ref": "#/definitions/ComparisonKind"
+        },
+        "RenderPlace": {
+          "$ref": "#/definitions/FilterRenderPlace"
+        },
+        "ControlKindUid": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "guid"
+        },
+        "JoinOperator": {
+          "$ref": "#/definitions/LogicalOperator"
+        },
+        "Required": {
+          "type": "boolean"
+        },
+        "AvailableComparisonKinds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ComparisonKind"
+          }
+        }
+      }
+    },
+    "ComparisonKind": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Equal",
+        "NotEqual",
+        "Greater",
+        "GreaterOrEqual",
+        "Less",
+        "LessOrEqual",
+        "Between"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "FilterRenderPlace": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Sidebar",
+        "Header"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "LogicalOperator": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "And",
+        "Or"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    }
+  }
+}

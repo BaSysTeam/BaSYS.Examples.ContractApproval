@@ -1,0 +1,183 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MetaObjectConstructorFormSettings",
+  "type": "object",
+  "properties": {
+    "Uid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "MetaObjectUid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "FormKind": {
+      "$ref": "#/definitions/FormKinds"
+    },
+    "Title": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Memo": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "ChildComponents": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/ChildComponentRow"
+      }
+    },
+    "Display": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Root": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/FormElement"
+        }
+      ]
+    },
+    "OnInitializedScript": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "JavaScript expression invoked when the constructor form is initialized. In export packages the value is a relative file reference (e.g. 'operation.invoice.form.mainForm.on_initialized.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
+      "x-example": "operation.invoice.form.mainForm.on_initialized.bjs"
+    }
+  },
+  "definitions": {
+    "FormKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Programmable",
+        "Constructor",
+        "Auto"
+      ],
+      "enum": [
+        0,
+        1,
+        -1
+      ]
+    },
+    "ChildComponentRow": {
+      "type": "object",
+      "properties": {
+        "MetaObjectKindUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "MetaObjectUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "ComponentUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Alias": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "FormElement": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DataUid": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "guid"
+        },
+        "ComponentName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "CssClass": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Style": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Properties": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/FormElementProperty"
+          }
+        },
+        "Items": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/FormElement"
+          }
+        }
+      }
+    },
+    "FormElementProperty": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Value": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

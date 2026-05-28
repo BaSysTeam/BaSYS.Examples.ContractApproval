@@ -1,0 +1,33 @@
+{
+  "Uid": "4fb2cc15-2579-4d01-aedb-f097430756f7",
+  "Title": "Меню",
+  "Name": "menu",
+  "Prefix": "mnu",
+  "StoreData": false,
+  "IsReference": false,
+  "AllowAttachedFiles": false,
+  "IsFilesColumnUid": null,
+  "IsDeletedColumnUid": null,
+  "CanCreateRecords": false,
+  "UseDetailsTables": false,
+  "UseForms": false,
+  "UsePrintForms": false,
+  "IsStandard": true,
+  "Memo": "",
+  "IconClass": "pi pi-list",
+  "OrderByExpression": "",
+  "DisplayExpression": "",
+  "RecordsSettings": {
+    "SourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
+    "StoragePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageKindColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageRowColumnUid": "00000000-0000-0000-0000-000000000000"
+  },
+  "StandardColumns": [],
+  "AvailableRights": [
+    "245f3c21-a190-498b-a515-caa9bfa5ca8e"
+  ]
+}

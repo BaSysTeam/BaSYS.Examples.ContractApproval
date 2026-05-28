@@ -1,0 +1,892 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "WorkflowSettingsDto",
+  "type": "object",
+  "properties": {
+    "Uid": {
+      "type": "string"
+    },
+    "Name": {
+      "type": "string"
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Memo": {
+      "type": "string"
+    },
+    "IsActive": {
+      "type": "boolean"
+    },
+    "Version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "Steps": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/SleepStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/MessageStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/HttpConnectorStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/JavaScriptStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/IfStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/DataObjectLoaderStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/IteratorStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/IteratorStopStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/ReadFileStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/ExcelMappingStepSettingsDto"
+          },
+          {
+            "$ref": "#/definitions/SmtpSendStepSettingsDto"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "SleepStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "2a5aca6d-2c41-4bd2-9e03-b35df7dab23e"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "sleep"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Delay": {
+          "type": "string"
+        }
+      }
+    },
+    "MessageStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "e192c288-154e-4778-b92c-64da27279796"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "message"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Message": {
+          "type": "string"
+        }
+      }
+    },
+    "HttpConnectorStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "bb368829-007d-4b8e-87ce-1dadee75c7c3"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "http_connector"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Url": {
+          "type": "string"
+        },
+        "BodyKind": {
+          "$ref": "#/definitions/HttpBodyKinds"
+        },
+        "BodyEncoding": {
+          "$ref": "#/definitions/HttpBodyEncoding"
+        },
+        "Body": {
+          "type": "string"
+        },
+        "Method": {
+          "$ref": "#/definitions/HttpMethods"
+        },
+        "Timeout": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "LogResponse": {
+          "type": "boolean"
+        },
+        "AutoParse": {
+          "type": "boolean"
+        },
+        "BypassSslCertificate": {
+          "type": "boolean"
+        },
+        "ReturnResponseInfo": {
+          "type": "boolean"
+        },
+        "AllowSetCookieFromHeaders": {
+          "type": "boolean"
+        },
+        "Headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NameValueDescriptionRow"
+          }
+        },
+        "Parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NameValueDescriptionRow"
+          }
+        },
+        "FormData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NameValueDescriptionRow"
+          }
+        }
+      }
+    },
+    "HttpBodyKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Undefined",
+        "JSON",
+        "FormData",
+        "XWWWFormUrlEncoded",
+        "XML"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "HttpBodyEncoding": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "UTF8",
+        "None"
+      ],
+      "enum": [
+        0,
+        -1
+      ]
+    },
+    "HttpMethods": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "NameValueDescriptionRow": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Value": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "JavaScriptStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "dff616ce-0f40-4e44-a82b-14aa5ee2e4d6"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "java_script"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Expression": {
+          "type": "string",
+          "description": "JavaScript expression for this step. In export packages the value is a relative file reference (e.g. 'workflow.my_process.step.calculate.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
+          "x-example": "workflow.my_process.step.calculate.bjs"
+        }
+      }
+    },
+    "IfStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "9a3a0dc1-b4ed-4679-9f72-0667b7dcfa53"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "if"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Condition": {
+          "type": "string"
+        },
+        "TrueStepUid": {
+          "type": "string"
+        },
+        "FalseStepUid": {
+          "type": "string"
+        }
+      }
+    },
+    "DataObjectLoaderStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "a7edd0be-6f12-4fac-b88a-4f83acc7dacb"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "data_object_loader"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "MetaObjectKindUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "MetaObjectUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "SaveRegime": {
+          "$ref": "#/definitions/SaveRegimes"
+        },
+        "SearchBy": {
+          "type": "string"
+        },
+        "SourcePath": {
+          "type": "string"
+        },
+        "Condition": {
+          "type": "string"
+        },
+        "CreateRecords": {
+          "type": "boolean"
+        },
+        "HeaderMapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FieldMappingRow"
+          }
+        },
+        "TableMapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DetailsTableLoadSettings"
+          }
+        }
+      }
+    },
+    "SaveRegimes": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "CreateUpdate",
+        "Create",
+        "Update"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "FieldMappingRow": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "SourceFieldName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DestinationFieldName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DefaultValue": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "SearchBy": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DataTypeUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "CreateIfNotExist": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DetailsTableLoadSettings": {
+      "type": "object",
+      "properties": {
+        "TableUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "SourcePath": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Mapping": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/FieldMappingRow"
+          }
+        }
+      }
+    },
+    "IteratorStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "07e698af-d11b-454b-a7f4-577a0439e92c"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "iterator"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "SourcePath": {
+          "type": "string"
+        },
+        "ItemName": {
+          "type": "string"
+        }
+      }
+    },
+    "IteratorStopStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "ac090927-e291-4421-b9aa-351b8fa51770"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "iterator_stop"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ReadFileStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "800c9045-1c1c-46d0-a15f-968a43220d1a"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "read_file"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Regime": {
+          "$ref": "#/definitions/WorkflowReadFileRegimes"
+        },
+        "OutputFormat": {
+          "$ref": "#/definitions/ReadFileOutputFormats"
+        },
+        "AttachedFileUidExpression": {
+          "type": "string"
+        }
+      }
+    },
+    "WorkflowReadFileRegimes": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Interactive",
+        "AttachedFile"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "ReadFileOutputFormats": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Binary",
+        "Text"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "ExcelMappingStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "762db492-58b2-4e7e-86ca-0b80b0e3aaae"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "excel_mapping"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "SourcePath": {
+          "type": "string"
+        },
+        "SheetName": {
+          "type": "string"
+        },
+        "StartRow": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "EndRow": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Mapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExcelMappingRow"
+          }
+        }
+      }
+    },
+    "ExcelMappingRow": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "SourceFieldName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DestinationFieldName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DataTypeUid": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "SmtpSendStepSettingsDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "PreviousStepUid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "df48f1ed-2bcf-4b1d-b45c-1305b55ce1f6"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "smtp_send"
+          ]
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Host": {
+          "type": "string"
+        },
+        "User": {
+          "type": "string"
+        },
+        "Password": {
+          "type": "string"
+        },
+        "Port": {
+          "type": "string"
+        },
+        "TimeoutSeconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "EnableSsl": {
+          "type": "boolean"
+        },
+        "From": {
+          "type": "string"
+        },
+        "To": {
+          "type": "string"
+        },
+        "CC": {
+          "type": "string"
+        },
+        "BCC": {
+          "type": "string"
+        },
+        "Subject": {
+          "type": "string"
+        },
+        "Body": {
+          "type": "string"
+        },
+        "IsBodyHtml": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

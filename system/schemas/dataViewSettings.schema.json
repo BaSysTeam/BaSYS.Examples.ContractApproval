@@ -1,0 +1,1222 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "DataViewSettingsDto",
+  "type": "object",
+  "properties": {
+    "Uid": {
+      "type": "string"
+    },
+    "Name": {
+      "type": "string"
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Memo": {
+      "type": "string"
+    },
+    "IsActive": {
+      "type": "boolean"
+    },
+    "Version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "DataSources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DataSourceItem"
+      }
+    },
+    "Filters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FilterSettingsItem"
+      }
+    },
+    "Indicators": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/BsValueIndicatorDto"
+          },
+          {
+            "$ref": "#/definitions/PvBarChartIndicatorDto"
+          },
+          {
+            "$ref": "#/definitions/PvLineChartIndicatorDto"
+          },
+          {
+            "$ref": "#/definitions/PvPieChartIndicatorDto"
+          },
+          {
+            "$ref": "#/definitions/PvDonutChartIndicatorDto"
+          },
+          {
+            "$ref": "#/definitions/PvDataTableIndicatorDto"
+          },
+          {
+            "$ref": "#/definitions/BsGaugeIndicatorDto"
+          },
+          {
+            "$ref": "#/definitions/BsPivotTableIndicatorDto"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "DataSourceItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Expression": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "JavaScript expression for this data source. In export packages the value is a relative file reference (e.g. 'data_view.my_report.data_source.main.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
+          "x-example": "data_view.sales_report.data_source.main.bjs"
+        },
+        "Memo": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "FilterSettingsItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DataPath": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "DataTypeUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "NumberDigits": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "DefaultComparisonKind": {
+          "$ref": "#/definitions/ComparisonKind"
+        },
+        "RenderPlace": {
+          "$ref": "#/definitions/FilterRenderPlace"
+        },
+        "ControlKindUid": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "guid"
+        },
+        "JoinOperator": {
+          "$ref": "#/definitions/LogicalOperator"
+        },
+        "Required": {
+          "type": "boolean"
+        },
+        "AvailableComparisonKinds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ComparisonKind"
+          }
+        }
+      }
+    },
+    "ComparisonKind": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Equal",
+        "NotEqual",
+        "Greater",
+        "GreaterOrEqual",
+        "Less",
+        "LessOrEqual",
+        "Between"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "FilterRenderPlace": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Sidebar",
+        "Header"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "LogicalOperator": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "And",
+        "Or"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "BsValueIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "a876f44f-ebad-4e0c-8c75-a3b6df047367"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "bs_value_indicator"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "DataPath": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Format": {
+          "type": "string"
+        },
+        "ColorHint": {
+          "$ref": "#/definitions/ColorHints"
+        },
+        "ColorHex": {
+          "type": "string"
+        }
+      }
+    },
+    "IndicatorRenderSettings": {
+      "type": "object",
+      "properties": {
+        "OffsetHint": {
+          "$ref": "#/definitions/IndicatorOffsetHints"
+        },
+        "WidthHint": {
+          "$ref": "#/definitions/IndicatorWidthHints"
+        },
+        "Offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Width": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "IndicatorOffsetHints": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Small",
+        "Half",
+        "Wide",
+        "Custom"
+      ],
+      "enum": [
+        0,
+        3,
+        6,
+        8,
+        -1
+      ]
+    },
+    "IndicatorWidthHints": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Small",
+        "Half",
+        "Wide",
+        "Full",
+        "Custom"
+      ],
+      "enum": [
+        3,
+        6,
+        8,
+        12,
+        -1
+      ]
+    },
+    "ColorHints": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Primary",
+        "Secondary",
+        "Success",
+        "Info",
+        "Warning",
+        "Danger",
+        "Contrast",
+        "Custom"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        -1
+      ]
+    },
+    "PvBarChartIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "19ab8886-cd18-4c06-aff0-5b010d4b891a"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "pv_bar_chart"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "LegendPosition": {
+          "$ref": "#/definitions/ChartLegendPosition"
+        },
+        "Orientation": {
+          "$ref": "#/definitions/ChartOrientation"
+        },
+        "Stacked": {
+          "type": "boolean"
+        },
+        "XAxis": {
+          "$ref": "#/definitions/ChartAxis"
+        },
+        "YAxis": {
+          "$ref": "#/definitions/ChartAxis"
+        },
+        "LabelsColumnName": {
+          "type": "string"
+        },
+        "DataSets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndicatorDataSet"
+          }
+        },
+        "BackgroundColors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ColorItem"
+          }
+        }
+      }
+    },
+    "ChartLegendPosition": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Top",
+        "Left",
+        "Bottom",
+        "Right"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "ChartOrientation": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Vertical",
+        "Horizontal"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "ChartAxis": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ScaleType": {
+          "$ref": "#/definitions/ChartAxisScaleType"
+        },
+        "TimeUnit": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "ChartAxisScaleType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Category",
+        "Linear",
+        "Logarithmic",
+        "Time"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "IndicatorDataSet": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ColumnName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ColorHex": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "ColorItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "ColorHex": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "PvLineChartIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "d5f9a3c4-7e6b-4cad-bf8a-3b4c5d6e7f8a"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "pv_line_chart"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "LegendPosition": {
+          "$ref": "#/definitions/ChartLegendPosition"
+        },
+        "Tension": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Fill": {
+          "type": "boolean"
+        },
+        "FillOpacity": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "PointRadius": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "XAxis": {
+          "$ref": "#/definitions/ChartAxis"
+        },
+        "YAxis": {
+          "$ref": "#/definitions/ChartAxis"
+        },
+        "LabelsColumnName": {
+          "type": "string"
+        },
+        "DataSets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndicatorDataSet"
+          }
+        },
+        "BackgroundColors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ColorItem"
+          }
+        }
+      }
+    },
+    "PvPieChartIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "b3d7e1a2-5c4f-4a8b-9d6e-1f2a3b4c5d6e"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "pv_pie_chart"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "LegendPosition": {
+          "$ref": "#/definitions/ChartLegendPosition"
+        },
+        "Cutout": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "LabelsColumnName": {
+          "type": "string"
+        },
+        "DataSets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndicatorDataSet"
+          }
+        },
+        "BackgroundColors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ColorItem"
+          }
+        }
+      }
+    },
+    "PvDonutChartIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "LegendPosition": {
+          "$ref": "#/definitions/ChartLegendPosition"
+        },
+        "Cutout": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "LabelsColumnName": {
+          "type": "string"
+        },
+        "DataSets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndicatorDataSet"
+          }
+        },
+        "BackgroundColors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ColorItem"
+          }
+        },
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "c4e8f2b3-6d5a-4b9c-ae7f-2a3b4c5d6e7f"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "pv_donut_chart"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PvDataTableIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "bd4b0526-449e-4351-85d1-b18a6aafa1b8"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "pv_data_table"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "Size": {
+          "$ref": "#/definitions/TableViewSize"
+        },
+        "UseVirtualization": {
+          "type": "boolean"
+        },
+        "Columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataTableIndicatorColumn"
+          }
+        }
+      }
+    },
+    "TableViewSize": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Normal",
+        "Compact",
+        "Small"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "DataTableIndicatorColumn": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ColumnKind": {
+          "$ref": "#/definitions/DataTableIndicatorColumnKind"
+        },
+        "Width": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "HorizontalAlignment": {
+          "$ref": "#/definitions/HorizontalAlignment"
+        },
+        "Format": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "IconClass": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Frozen": {
+          "type": "boolean"
+        },
+        "ShowTotals": {
+          "type": "boolean"
+        },
+        "AggregateFunction": {
+          "$ref": "#/definitions/AggregateFunction"
+        }
+      }
+    },
+    "DataTableIndicatorColumnKind": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "String",
+        "Number",
+        "Date",
+        "Boolean",
+        "Icon"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "HorizontalAlignment": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Left",
+        "Center",
+        "Right"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "AggregateFunction": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Sum",
+        "Count",
+        "Min",
+        "Max",
+        "Average"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "BsGaugeIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "3920c90c-91f2-4598-a5d8-f4931974e578"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "bs_gauge_indicator"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "DataPath": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Format": {
+          "type": "string"
+        },
+        "MinValue": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Levels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndicatorLevel"
+          }
+        }
+      }
+    },
+    "IndicatorLevel": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "LevelValue": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "ColorHex": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "BsPivotTableIndicatorDto": {
+      "type": "object",
+      "required": [
+        "Uid",
+        "KindUid",
+        "KindName"
+      ],
+      "properties": {
+        "Uid": {
+          "type": "string"
+        },
+        "KindUid": {
+          "type": "string",
+          "enum": [
+            "65dd8c74-5337-4e35-bfab-24100f94b2b5"
+          ]
+        },
+        "KindName": {
+          "type": "string",
+          "enum": [
+            "bs_pivot"
+          ]
+        },
+        "DataSourceUid": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Memo": {
+          "type": "string"
+        },
+        "Order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "Height": {
+          "type": "string"
+        },
+        "RenderSettings": {
+          "$ref": "#/definitions/IndicatorRenderSettings"
+        },
+        "IsActive": {
+          "type": "boolean"
+        },
+        "ShowRowTotals": {
+          "type": "boolean"
+        },
+        "ShowColumnTotals": {
+          "type": "boolean"
+        },
+        "FrozenColumnsColumn": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "GroupDefaultExpanding": {
+          "$ref": "#/definitions/GroupDefaultExpandingVariant"
+        },
+        "AvailableFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PivotTableField"
+          }
+        },
+        "Rows": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "guid"
+          }
+        },
+        "Columns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "guid"
+          }
+        },
+        "Values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PivotValue"
+          }
+        }
+      }
+    },
+    "GroupDefaultExpandingVariant": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "AllClosed",
+        "AllOpen",
+        "FirstLevelOpen"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "PivotTableField": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Kind": {
+          "$ref": "#/definitions/PivotFieldKind"
+        },
+        "Width": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "HorizontalAlignment": {
+          "$ref": "#/definitions/HorizontalAlignment"
+        },
+        "Format": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "PivotFieldKind": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "String",
+        "Number",
+        "Date",
+        "Boolean"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "PivotValue": {
+      "type": "object",
+      "properties": {
+        "FieldUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "AggregateFunction": {
+          "$ref": "#/definitions/AggregateFunction"
+        }
+      }
+    }
+  }
+}

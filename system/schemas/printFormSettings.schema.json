@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "PrintFormSettings",
+  "type": "object",
+  "properties": {
+    "Uid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "MetaObjectUid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "TemplateKind": {
+      "$ref": "#/definitions/PrintTemplateKinds"
+    },
+    "Name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Title": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Memo": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "TextTemplate": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "IsActive": {
+      "type": "boolean"
+    },
+    "AutoRetrieveData": {
+      "type": "boolean"
+    },
+    "Version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "HasTemplateFile": {
+      "type": "boolean"
+    },
+    "DataSources": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/DataSourceItem"
+      }
+    }
+  },
+  "definitions": {
+    "PrintTemplateKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Excel"
+      ],
+      "enum": [
+        0
+      ]
+    },
+    "DataSourceItem": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Expression": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "JavaScript expression for this data source. In export packages the value is a relative file reference (e.g. '<kindName>.<objectName>.print_form.<formName>.data_source.<dsName>.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
+          "x-example": "operation.invoice.print_form.invoice_form.data_source.main.bjs"
+        },
+        "Memo": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

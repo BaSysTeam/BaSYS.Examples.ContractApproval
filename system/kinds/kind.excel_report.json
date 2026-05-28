@@ -1,0 +1,33 @@
+{
+  "Uid": "61db4320-2255-4b62-8d1e-30b72168ded0",
+  "Title": "Отчет Excel",
+  "Name": "excel_report",
+  "Prefix": "exr",
+  "StoreData": false,
+  "IsReference": false,
+  "AllowAttachedFiles": false,
+  "IsFilesColumnUid": null,
+  "IsDeletedColumnUid": null,
+  "CanCreateRecords": false,
+  "UseDetailsTables": false,
+  "UseForms": false,
+  "UsePrintForms": false,
+  "IsStandard": true,
+  "Memo": "",
+  "IconClass": "pi pi-file-excel",
+  "OrderByExpression": "",
+  "DisplayExpression": "",
+  "RecordsSettings": {
+    "SourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
+    "StoragePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageKindColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "StorageRowColumnUid": "00000000-0000-0000-0000-000000000000"
+  },
+  "StandardColumns": [],
+  "AvailableRights": [
+    "245f3c21-a190-498b-a515-caa9bfa5ca8e"
+  ]
+}
