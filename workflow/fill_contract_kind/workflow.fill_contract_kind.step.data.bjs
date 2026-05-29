@@ -1,0 +1,15 @@
+// Формирование начального набора видов договоров для перечисления contract_kind.
+const data = createTable([
+    { name: 'name', dataType: 'string' },
+    { name: 'code', dataType: 'string' },
+    { name: 'title', dataType: 'string' }
+])
+    .addRow({ name: 'work_contract',    code: '01', title: 'Договор подряда' })
+    .addRow({ name: 'subcontract',      code: '02', title: 'Договор субподряда' })
+    .addRow({ name: 'lease_contract',   code: '03', title: 'Договор аренды' })
+    .addRow({ name: 'supply_contract',  code: '04', title: 'Договор поставки' })
+    .addRow({ name: 'service_contract', code: '05', title: 'Договор об оказании услуг' })
+    .addRow({ name: 'leasing',          code: '06', title: 'Лизинг' })
+    .addRow({ name: 'sale_contract',    code: '07', title: 'Договор купли-продажи' });
+
+return data;

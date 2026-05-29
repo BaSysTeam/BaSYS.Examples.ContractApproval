@@ -1,0 +1,13 @@
+// Формирование начального набора статусов договоров для перечисления contract_status.
+const data = createTable([
+    { name: 'name', dataType: 'string' },
+    { name: 'code', dataType: 'string' },
+    { name: 'title', dataType: 'string' }
+])
+    .addRow({ name: 'draft',       code: '01', title: 'Черновик' })
+    .addRow({ name: 'in_approval', code: '02', title: 'На согласовании' })
+    .addRow({ name: 'approved',    code: '03', title: 'Согласован' })
+    .addRow({ name: 'created',     code: '04', title: 'Создан' })
+    .addRow({ name: 'cancelled',   code: '05', title: 'Отменено' });
+
+return data;

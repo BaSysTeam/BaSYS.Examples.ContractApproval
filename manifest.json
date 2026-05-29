@@ -1,6 +1,6 @@
 {
   "FormatVersion": "1.10",
-  "ExportedAtUtc": "2026-05-29T10:22:20.7482865Z",
+  "ExportedAtUtc": "2026-05-29T11:03:51.1503294Z",
   "HashAlgorithm": "SHA-256",
   "Producer": {
     "Application": "BaSys.Constructor",
@@ -14,7 +14,7 @@
     "DataTypes": 11,
     "MetaObjects": 2,
     "DataViews": 0,
-    "Workflows": 0,
+    "Workflows": 2,
     "Menus": 0,
     "ExcelReports": 0,
     "ExcelReportTemplates": 0,
@@ -25,9 +25,9 @@
     "DataSourceScripts": 0,
     "RecordsSourceScripts": 0,
     "CommandScripts": 0,
-    "WorkflowStepScripts": 0,
+    "WorkflowStepScripts": 2,
     "ConstructorFormScripts": 0,
-    "Files": 19
+    "Files": 23
   },
   "Files": [
     {
@@ -238,6 +238,50 @@
       "Version": 2,
       "SizeBytes": 4622,
       "Sha256": "b4c91573342aad81b87a3e0f8fb15d375a02896bda4b924be099018cb7b8d294"
+    },
+    {
+      "Path": "workflow/fill_contract_kind/workflow.fill_contract_kind.step.data.bjs",
+      "Category": "workflowStepScript",
+      "Uid": "e5a7f1c3-2b8d-4e5f-9a1c-7d3e8b2f9a4c",
+      "KindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "KindName": "workflow",
+      "Name": "data",
+      "Version": 2,
+      "SizeBytes": 1001,
+      "Sha256": "ee8fadc67857937461c336877d80045bb251de4e6d698c45817dcd97c668fe76"
+    },
+    {
+      "Path": "workflow/fill_contract_kind/workflow.fill_contract_kind.json",
+      "Category": "workflow",
+      "Uid": "e5a7f1c3-2b8d-4e5f-9a1c-7d3e8b2f9a4c",
+      "KindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "KindName": "workflow",
+      "Name": "fill_contract_kind",
+      "Version": 2,
+      "SizeBytes": 2705,
+      "Sha256": "e1209659eed337007e7f6aaddd5950c33343a298f0e75452785a3f7b195e6b99"
+    },
+    {
+      "Path": "workflow/fill_contract_status/workflow.fill_contract_status.step.data.bjs",
+      "Category": "workflowStepScript",
+      "Uid": "c6b8d2e4-3a9f-4d6e-8b2c-7f4e1d3a8c5b",
+      "KindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "KindName": "workflow",
+      "Name": "data",
+      "Version": 2,
+      "SizeBytes": 724,
+      "Sha256": "af2783a94296ac5ca381e129c6c7f805e2dc315582ed54324326da3d0e2c8b2e"
+    },
+    {
+      "Path": "workflow/fill_contract_status/workflow.fill_contract_status.json",
+      "Category": "workflow",
+      "Uid": "c6b8d2e4-3a9f-4d6e-8b2c-7f4e1d3a8c5b",
+      "KindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "KindName": "workflow",
+      "Name": "fill_contract_status",
+      "Version": 2,
+      "SizeBytes": 2725,
+      "Sha256": "364d16329b30478b58aa58c5fed38f683093bdc75e843f04db32bbb11d2099ac"
     }
   ]
 }
