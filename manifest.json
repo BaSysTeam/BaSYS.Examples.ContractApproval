@@ -1,6 +1,6 @@
 {
   "FormatVersion": "1.10",
-  "ExportedAtUtc": "2026-05-29T09:10:18.5880239Z",
+  "ExportedAtUtc": "2026-05-29T10:22:20.7482865Z",
   "HashAlgorithm": "SHA-256",
   "Producer": {
     "Application": "BaSys.Constructor",
@@ -11,8 +11,8 @@
   },
   "Counts": {
     "Kinds": 9,
-    "DataTypes": 10,
-    "MetaObjects": 1,
+    "DataTypes": 11,
+    "MetaObjects": 2,
     "DataViews": 0,
     "Workflows": 0,
     "Menus": 0,
@@ -27,7 +27,7 @@
     "CommandScripts": 0,
     "WorkflowStepScripts": 0,
     "ConstructorFormScripts": 0,
-    "Files": 18
+    "Files": 19
   },
   "Files": [
     {
@@ -214,8 +214,19 @@
       "KindName": null,
       "Name": null,
       "Version": null,
-      "SizeBytes": 2495,
-      "Sha256": "f026881c6f9ba2931b29ca2fb0090b1e789378400f5495d65ecfb3a0186b86ae"
+      "SizeBytes": 2805,
+      "Sha256": "80698e2b49bad7baa53dbf382b8566f40d1d0b489019b385babe9fca36b16fc6"
+    },
+    {
+      "Path": "enum/contract_kind/enum.contract_kind.json",
+      "Category": "metaObject",
+      "Uid": "f1a2b3c4-d5e6-4789-9abc-def012345678",
+      "KindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+      "KindName": "enum",
+      "Name": "contract_kind",
+      "Version": 1,
+      "SizeBytes": 4578,
+      "Sha256": "3ccffde98260cf631aa7490ccb266005c2c4e3724478f015209da13aa89bf420"
     },
     {
       "Path": "enum/contract_status/enum.contract_status.json",

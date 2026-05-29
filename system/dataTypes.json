@@ -90,6 +90,16 @@
     "typeName": "System.Guid"
   },
   {
+    "uid": "f1a2b3c4-d5e6-4789-9abc-def012345678",
+    "kind": "enum",
+    "name": "contract_kind",
+    "title": "Перечисление.Вид договора",
+    "isPrimitive": false,
+    "dbType": 16,
+    "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
+  },
+  {
     "uid": "a3f1b8e2-7c4d-4a5b-9e6f-1d2c3b4a5e6f",
     "kind": "enum",
     "name": "contract_status",
