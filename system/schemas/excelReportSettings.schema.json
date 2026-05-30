@@ -3,39 +3,39 @@
   "title": "ExcelReportSettings",
   "type": "object",
   "properties": {
-    "Uid": {
+    "uid": {
       "type": "string",
       "format": "guid"
     },
-    "Name": {
+    "name": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Title": {
+    "title": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Memo": {
+    "memo": {
       "type": [
         "null",
         "string"
       ]
     },
-    "IsActive": {
+    "isActive": {
       "type": "boolean"
     },
-    "Version": {
+    "version": {
       "type": "integer",
       "format": "int64"
     },
-    "HasTemplate": {
+    "hasTemplate": {
       "type": "boolean"
     },
-    "DataSources": {
+    "dataSources": {
       "type": [
         "array",
         "null"
@@ -44,7 +44,7 @@
         "$ref": "#/definitions/DataSourceItem"
       }
     },
-    "Filters": {
+    "filters": {
       "type": [
         "array",
         "null"
@@ -58,17 +58,17 @@
     "DataSourceItem": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Expression": {
+        "expression": {
           "type": [
             "null",
             "string"
@@ -76,7 +76,7 @@
           "description": "JavaScript expression for this data source. In export packages the value is a relative file reference (e.g. 'excel_report.my_report.data_source.main.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
           "x-example": "excel_report.sales_report.data_source.main.bjs"
         },
-        "Memo": {
+        "memo": {
           "type": [
             "null",
             "string"
@@ -87,56 +87,56 @@
     "FilterSettingsItem": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DataPath": {
+        "dataPath": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DataTypeUid": {
+        "dataTypeUid": {
           "type": "string",
           "format": "guid"
         },
-        "NumberDigits": {
+        "numberDigits": {
           "type": "integer",
           "format": "int32"
         },
-        "DefaultComparisonKind": {
+        "defaultComparisonKind": {
           "$ref": "#/definitions/ComparisonKind"
         },
-        "RenderPlace": {
+        "renderPlace": {
           "$ref": "#/definitions/FilterRenderPlace"
         },
-        "ControlKindUid": {
+        "controlKindUid": {
           "type": [
             "null",
             "string"
           ],
           "format": "guid"
         },
-        "JoinOperator": {
+        "joinOperator": {
           "$ref": "#/definitions/LogicalOperator"
         },
-        "Required": {
+        "required": {
           "type": "boolean"
         },
-        "AvailableComparisonKinds": {
+        "availableComparisonKinds": {
           "type": [
             "array",
             "null"

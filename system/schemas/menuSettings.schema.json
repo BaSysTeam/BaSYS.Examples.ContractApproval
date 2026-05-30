@@ -3,36 +3,36 @@
   "title": "MenuSettings",
   "type": "object",
   "properties": {
-    "Uid": {
+    "uid": {
       "type": "string",
       "format": "guid"
     },
-    "Name": {
+    "name": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Title": {
+    "title": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Memo": {
+    "memo": {
       "type": [
         "null",
         "string"
       ]
     },
-    "IsActive": {
+    "isActive": {
       "type": "boolean"
     },
-    "Version": {
+    "version": {
       "type": "integer",
       "format": "int64"
     },
-    "Items": {
+    "items": {
       "type": [
         "array",
         "null"
@@ -46,48 +46,48 @@
     "MenuSettingsGroupItem": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Kind": {
+        "kind": {
           "$ref": "#/definitions/MenuSettingsGroupKinds"
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "IconClass": {
+        "iconClass": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Url": {
+        "url": {
           "type": [
             "null",
             "string"
           ]
         },
-        "IsVisible": {
+        "isVisible": {
           "type": "boolean"
         },
-        "AutoFill": {
+        "autoFill": {
           "type": "boolean"
         },
-        "ItemsPerColumn": {
+        "itemsPerColumn": {
           "type": "integer",
           "format": "int32"
         },
-        "MetaObjectKindUid": {
+        "metaObjectKindUid": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Items": {
+        "items": {
           "type": [
             "array",
             "null"
@@ -96,7 +96,7 @@
             "$ref": "#/definitions/MenuSettingsColumn"
           }
         },
-        "MetaObjectKindUidParsed": {
+        "metaObjectKindUidParsed": {
           "type": "string",
           "format": "guid"
         }
@@ -119,11 +119,11 @@
     "MenuSettingsColumn": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Items": {
+        "items": {
           "type": [
             "array",
             "null"
@@ -137,20 +137,20 @@
     "MenuSettingsSubItem": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "IsVisible": {
+        "isVisible": {
           "type": "boolean"
         },
-        "Items": {
+        "items": {
           "type": [
             "array",
             "null"
@@ -164,32 +164,32 @@
     "MenuSettingsLinkItem": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Kind": {
+        "kind": {
           "$ref": "#/definitions/MenuSettingsLinkKinds"
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "IconClass": {
+        "iconClass": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Url": {
+        "url": {
           "type": [
             "null",
             "string"
           ]
         },
-        "IsVisible": {
+        "isVisible": {
           "type": "boolean"
         }
       }

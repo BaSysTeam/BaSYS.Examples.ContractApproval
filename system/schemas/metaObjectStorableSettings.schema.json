@@ -3,72 +3,72 @@
   "title": "MetaObjectStorableSettings",
   "type": "object",
   "properties": {
-    "Uid": {
+    "uid": {
       "type": "string",
       "format": "guid"
     },
-    "MetaObjectKindUid": {
+    "metaObjectKindUid": {
       "type": "string",
       "format": "guid"
     },
-    "Title": {
+    "title": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Name": {
+    "name": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Memo": {
+    "memo": {
       "type": [
         "null",
         "string"
       ]
     },
-    "EditMethod": {
+    "editMethod": {
       "$ref": "#/definitions/EditMethods"
     },
-    "OrderByExpression": {
+    "orderByExpression": {
       "type": [
         "null",
         "string"
       ]
     },
-    "DisplayExpression": {
+    "displayExpression": {
       "type": [
         "null",
         "string"
       ]
     },
-    "ListFormUid": {
+    "listFormUid": {
       "type": [
         "null",
         "string"
       ],
       "format": "guid"
     },
-    "ItemFormUid": {
+    "itemFormUid": {
       "type": [
         "null",
         "string"
       ],
       "format": "guid"
     },
-    "ShowMainImage": {
+    "showMainImage": {
       "type": "boolean"
     },
-    "Version": {
+    "version": {
       "type": "integer",
       "format": "int64"
     },
-    "IsActive": {
+    "isActive": {
       "type": "boolean"
     },
-    "Header": {
+    "header": {
       "oneOf": [
         {
           "type": "null"
@@ -78,7 +78,7 @@
         }
       ]
     },
-    "DetailTables": {
+    "detailTables": {
       "type": [
         "array",
         "null"
@@ -87,7 +87,7 @@
         "$ref": "#/definitions/MetaObjectTable"
       }
     },
-    "Commands": {
+    "commands": {
       "type": [
         "array",
         "null"
@@ -96,7 +96,7 @@
         "$ref": "#/definitions/MetaObjectCommand"
       }
     },
-    "RecordsSources": {
+    "recordsSources": {
       "type": [
         "array",
         "null"
@@ -105,7 +105,7 @@
         "$ref": "#/definitions/RecordsSourceItem"
       }
     },
-    "RecordsSettings": {
+    "recordsSettings": {
       "type": [
         "array",
         "null"
@@ -131,32 +131,32 @@
     "MetaObjectTable": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Memo": {
+        "memo": {
           "type": [
             "null",
             "string"
           ]
         },
-        "AutoClearMethod": {
+        "autoClearMethod": {
           "$ref": "#/definitions/AutoClearMethods"
         },
-        "Columns": {
+        "columns": {
           "type": [
             "array",
             "null"
@@ -165,7 +165,7 @@
             "$ref": "#/definitions/MetaObjectTableColumn"
           }
         },
-        "Indexes": {
+        "indexes": {
           "type": [
             "array",
             "null"
@@ -174,7 +174,7 @@
             "$ref": "#/definitions/MetaObjectTableIndex"
           }
         },
-        "ColumnsWithFormulas": {
+        "columnsWithFormulas": {
           "type": [
             "array",
             "null"
@@ -183,7 +183,7 @@
             "$ref": "#/definitions/MetaObjectTableColumn"
           }
         },
-        "PrimaryKey": {
+        "primaryKey": {
           "oneOf": [
             {
               "type": "null"
@@ -214,51 +214,51 @@
     "MetaObjectTableColumn": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Kind": {
+        "kind": {
           "$ref": "#/definitions/DataObjectColumnKinds"
         },
-        "StandardColumnUid": {
+        "standardColumnUid": {
           "type": [
             "null",
             "string"
           ],
           "format": "guid"
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Formula": {
+        "formula": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ItemsSource": {
+        "itemsSource": {
           "type": [
             "null",
             "string"
           ]
         },
-        "AutoClearMethod": {
+        "autoClearMethod": {
           "$ref": "#/definitions/AutoClearMethods"
         },
-        "IsStandard": {
+        "isStandard": {
           "type": "boolean"
         },
-        "DataSettings": {
+        "dataSettings": {
           "oneOf": [
             {
               "type": "null"
@@ -268,7 +268,7 @@
             }
           ]
         },
-        "RenderSettings": {
+        "renderSettings": {
           "oneOf": [
             {
               "type": "null"
@@ -278,7 +278,7 @@
             }
           ]
         },
-        "Dependencies": {
+        "dependencies": {
           "type": [
             "array",
             "null"
@@ -304,28 +304,28 @@
     "MetaObjectTableColumnDataSettings": {
       "type": "object",
       "properties": {
-        "DataTypeUid": {
+        "dataTypeUid": {
           "type": "string",
           "format": "guid"
         },
-        "StringLength": {
+        "stringLength": {
           "type": "integer",
           "format": "int32"
         },
-        "NumberDigits": {
+        "numberDigits": {
           "type": "integer",
           "format": "int32"
         },
-        "PrimaryKey": {
+        "primaryKey": {
           "type": "boolean"
         },
-        "Required": {
+        "required": {
           "type": "boolean"
         },
-        "Unique": {
+        "unique": {
           "type": "boolean"
         },
-        "DefaultValue": {
+        "defaultValue": {
           "type": [
             "null",
             "string"
@@ -336,19 +336,19 @@
     "MetaObjectTableColumnRenderSettings": {
       "type": "object",
       "properties": {
-        "ControlKindUid": {
+        "controlKindUid": {
           "type": [
             "null",
             "string"
           ]
         },
-        "ShowInItem": {
+        "showInItem": {
           "type": "boolean"
         },
-        "ShowInList": {
+        "showInList": {
           "type": "boolean"
         },
-        "ListColumnWidth": {
+        "listColumnWidth": {
           "type": [
             "null",
             "string"
@@ -359,14 +359,14 @@
     "DependencyInfo": {
       "type": "object",
       "properties": {
-        "Kind": {
+        "kind": {
           "$ref": "#/definitions/DependencyKinds"
         },
-        "FieldUid": {
+        "fieldUid": {
           "type": "string",
           "format": "guid"
         },
-        "TableUid": {
+        "tableUid": {
           "type": "string",
           "format": "guid"
         }
@@ -389,11 +389,11 @@
     "MetaObjectTableIndex": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Columns": {
+        "columns": {
           "type": [
             "array",
             "null"
@@ -407,11 +407,11 @@
     "MetaObjectTableIndexColumn": {
       "type": "object",
       "properties": {
-        "ColumnUid": {
+        "columnUid": {
           "type": "string",
           "format": "guid"
         },
-        "Direction": {
+        "direction": {
           "$ref": "#/definitions/IndexDirections"
         }
       }
@@ -431,30 +431,30 @@
     "MetaObjectCommand": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "TableUid": {
+        "tableUid": {
           "type": "string",
           "format": "guid"
         },
-        "Kind": {
+        "kind": {
           "$ref": "#/definitions/MetaObjectCommandKinds"
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Expression": {
+        "expression": {
           "type": [
             "null",
             "string"
@@ -462,16 +462,16 @@
           "description": "JavaScript expression for this command. In export packages the value is a relative file reference (e.g. 'Catalog.Customer.command.fill_defaults.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
           "x-example": "Catalog.Customer.command.fill_defaults.bjs"
         },
-        "Memo": {
+        "memo": {
           "type": [
             "null",
             "string"
           ]
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Parameters": {
+        "parameters": {
           "type": [
             "array",
             "null"
@@ -499,19 +499,19 @@
     "MetaObjectCommandParameter": {
       "type": "object",
       "properties": {
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Value": {
+        "value": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DbType": {
+        "dbType": {
           "$ref": "#/definitions/DbType"
         }
       }
@@ -581,17 +581,17 @@
     "RecordsSourceItem": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Title": {
+        "title": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Expression": {
+        "expression": {
           "type": [
             "null",
             "string"
@@ -604,11 +604,11 @@
     "MetaObjectRecordsSettingsItem": {
       "type": "object",
       "properties": {
-        "DestinationMetaObjectUid": {
+        "destinationMetaObjectUid": {
           "type": "string",
           "format": "guid"
         },
-        "Rows": {
+        "rows": {
           "type": [
             "array",
             "null"
@@ -622,24 +622,24 @@
     "MetaObjectRecordsSettingsRow": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "SourceUid": {
+        "sourceUid": {
           "type": "string",
           "format": "guid"
         },
-        "Direction": {
+        "direction": {
           "$ref": "#/definitions/RegisterRecordDirections"
         },
-        "Condition": {
+        "condition": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Columns": {
+        "columns": {
           "type": [
             "array",
             "null"
@@ -665,11 +665,11 @@
     "MetaObjectRecordsSettingsColumn": {
       "type": "object",
       "properties": {
-        "DestinationColumnUid": {
+        "destinationColumnUid": {
           "type": "string",
           "format": "guid"
         },
-        "Expression": {
+        "expression": {
           "type": [
             "null",
             "string"

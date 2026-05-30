@@ -3,26 +3,26 @@
   "title": "WorkflowSettingsDto",
   "type": "object",
   "properties": {
-    "Uid": {
+    "uid": {
       "type": "string"
     },
-    "Name": {
+    "name": {
       "type": "string"
     },
-    "Title": {
+    "title": {
       "type": "string"
     },
-    "Memo": {
+    "memo": {
       "type": "string"
     },
-    "IsActive": {
+    "isActive": {
       "type": "boolean"
     },
-    "Version": {
+    "version": {
       "type": "integer",
       "format": "int64"
     },
-    "Steps": {
+    "steps": {
       "type": "array",
       "items": {
         "oneOf": [
@@ -67,42 +67,42 @@
     "SleepStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "2a5aca6d-2c41-4bd2-9e03-b35df7dab23e"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "sleep"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Delay": {
+        "delay": {
           "type": "string"
         }
       }
@@ -110,42 +110,42 @@
     "MessageStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "e192c288-154e-4778-b92c-64da27279796"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "message"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Message": {
+        "message": {
           "type": "string"
         }
       }
@@ -153,88 +153,88 @@
     "HttpConnectorStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "bb368829-007d-4b8e-87ce-1dadee75c7c3"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "http_connector"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Url": {
+        "url": {
           "type": "string"
         },
-        "BodyKind": {
+        "bodyKind": {
           "$ref": "#/definitions/HttpBodyKinds"
         },
-        "BodyEncoding": {
+        "bodyEncoding": {
           "$ref": "#/definitions/HttpBodyEncoding"
         },
-        "Body": {
+        "body": {
           "type": "string"
         },
-        "Method": {
+        "method": {
           "$ref": "#/definitions/HttpMethods"
         },
-        "Timeout": {
+        "timeout": {
           "type": "integer",
           "format": "int32"
         },
-        "LogResponse": {
+        "logResponse": {
           "type": "boolean"
         },
-        "AutoParse": {
+        "autoParse": {
           "type": "boolean"
         },
-        "BypassSslCertificate": {
+        "bypassSslCertificate": {
           "type": "boolean"
         },
-        "ReturnResponseInfo": {
+        "returnResponseInfo": {
           "type": "boolean"
         },
-        "AllowSetCookieFromHeaders": {
+        "allowSetCookieFromHeaders": {
           "type": "boolean"
         },
-        "Headers": {
+        "headers": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/NameValueDescriptionRow"
           }
         },
-        "Parameters": {
+        "parameters": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/NameValueDescriptionRow"
           }
         },
-        "FormData": {
+        "formData": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/NameValueDescriptionRow"
@@ -293,23 +293,23 @@
     "NameValueDescriptionRow": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Value": {
+        "value": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Description": {
+        "description": {
           "type": [
             "null",
             "string"
@@ -320,42 +320,42 @@
     "JavaScriptStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "dff616ce-0f40-4e44-a82b-14aa5ee2e4d6"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "java_script"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Expression": {
+        "expression": {
           "type": "string",
           "description": "JavaScript expression for this step. In export packages the value is a relative file reference (e.g. 'workflow.my_process.step.calculate.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
           "x-example": "workflow.my_process.step.calculate.bjs"
@@ -365,48 +365,48 @@
     "IfStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "9a3a0dc1-b4ed-4679-9f72-0667b7dcfa53"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "if"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Condition": {
+        "condition": {
           "type": "string"
         },
-        "TrueStepUid": {
+        "trueStepUid": {
           "type": "string"
         },
-        "FalseStepUid": {
+        "falseStepUid": {
           "type": "string"
         }
       }
@@ -414,71 +414,71 @@
     "DataObjectLoaderStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "a7edd0be-6f12-4fac-b88a-4f83acc7dacb"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "data_object_loader"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "MetaObjectKindUid": {
+        "metaObjectKindUid": {
           "type": "string",
           "format": "guid"
         },
-        "MetaObjectUid": {
+        "metaObjectUid": {
           "type": "string",
           "format": "guid"
         },
-        "SaveRegime": {
+        "saveRegime": {
           "$ref": "#/definitions/SaveRegimes"
         },
-        "SearchBy": {
+        "searchBy": {
           "type": "string"
         },
-        "SourcePath": {
+        "sourcePath": {
           "type": "string"
         },
-        "Condition": {
+        "condition": {
           "type": "string"
         },
-        "CreateRecords": {
+        "createRecords": {
           "type": "boolean"
         },
-        "HeaderMapping": {
+        "headerMapping": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/FieldMappingRow"
           }
         },
-        "TableMapping": {
+        "tableMapping": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/DetailsTableLoadSettings"
@@ -503,39 +503,39 @@
     "FieldMappingRow": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "SourceFieldName": {
+        "sourceFieldName": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DestinationFieldName": {
+        "destinationFieldName": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DefaultValue": {
+        "defaultValue": {
           "type": [
             "null",
             "string"
           ]
         },
-        "SearchBy": {
+        "searchBy": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DataTypeUid": {
+        "dataTypeUid": {
           "type": "string",
           "format": "guid"
         },
-        "CreateIfNotExist": {
+        "createIfNotExist": {
           "type": "boolean"
         }
       }
@@ -543,17 +543,17 @@
     "DetailsTableLoadSettings": {
       "type": "object",
       "properties": {
-        "TableUid": {
+        "tableUid": {
           "type": "string",
           "format": "guid"
         },
-        "SourcePath": {
+        "sourcePath": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Mapping": {
+        "mapping": {
           "type": [
             "array",
             "null"
@@ -567,45 +567,45 @@
     "IteratorStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "07e698af-d11b-454b-a7f4-577a0439e92c"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "iterator"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "SourcePath": {
+        "sourcePath": {
           "type": "string"
         },
-        "ItemName": {
+        "itemName": {
           "type": "string"
         }
       }
@@ -613,39 +613,39 @@
     "IteratorStopStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "ac090927-e291-4421-b9aa-351b8fa51770"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "iterator_stop"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         }
       }
@@ -653,48 +653,48 @@
     "ReadFileStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "800c9045-1c1c-46d0-a15f-968a43220d1a"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "read_file"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Regime": {
+        "regime": {
           "$ref": "#/definitions/WorkflowReadFileRegimes"
         },
-        "OutputFormat": {
+        "outputFormat": {
           "$ref": "#/definitions/ReadFileOutputFormats"
         },
-        "AttachedFileUidExpression": {
+        "attachedFileUidExpression": {
           "type": "string"
         }
       }
@@ -726,56 +726,56 @@
     "ExcelMappingStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "762db492-58b2-4e7e-86ca-0b80b0e3aaae"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "excel_mapping"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "SourcePath": {
+        "sourcePath": {
           "type": "string"
         },
-        "SheetName": {
+        "sheetName": {
           "type": "string"
         },
-        "StartRow": {
+        "startRow": {
           "type": "integer",
           "format": "int32"
         },
-        "EndRow": {
+        "endRow": {
           "type": "integer",
           "format": "int32"
         },
-        "Mapping": {
+        "mapping": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ExcelMappingRow"
@@ -786,23 +786,23 @@
     "ExcelMappingRow": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "guid"
         },
-        "SourceFieldName": {
+        "sourceFieldName": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DestinationFieldName": {
+        "destinationFieldName": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DataTypeUid": {
+        "dataTypeUid": {
           "type": "string",
           "format": "guid"
         }
@@ -811,79 +811,79 @@
     "SmtpSendStepSettingsDto": {
       "type": "object",
       "required": [
-        "Uid",
-        "KindUid",
-        "KindName"
+        "uid",
+        "kindUid",
+        "kindName"
       ],
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string"
         },
-        "PreviousStepUid": {
+        "previousStepUid": {
           "type": "string"
         },
-        "KindUid": {
+        "kindUid": {
           "type": "string",
           "enum": [
             "df48f1ed-2bcf-4b1d-b45c-1305b55ce1f6"
           ]
         },
-        "KindName": {
+        "kindName": {
           "type": "string",
           "enum": [
             "smtp_send"
           ]
         },
-        "Title": {
+        "title": {
           "type": "string"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Memo": {
+        "memo": {
           "type": "string"
         },
-        "IsActive": {
+        "isActive": {
           "type": "boolean"
         },
-        "Host": {
+        "host": {
           "type": "string"
         },
-        "User": {
+        "user": {
           "type": "string"
         },
-        "Password": {
+        "password": {
           "type": "string"
         },
-        "Port": {
+        "port": {
           "type": "string"
         },
-        "TimeoutSeconds": {
+        "timeoutSeconds": {
           "type": "integer",
           "format": "int32"
         },
-        "EnableSsl": {
+        "enableSsl": {
           "type": "boolean"
         },
-        "From": {
+        "from": {
           "type": "string"
         },
-        "To": {
+        "to": {
           "type": "string"
         },
-        "CC": {
+        "cc": {
           "type": "string"
         },
-        "BCC": {
+        "bcc": {
           "type": "string"
         },
-        "Subject": {
+        "subject": {
           "type": "string"
         },
-        "Body": {
+        "body": {
           "type": "string"
         },
-        "IsBodyHtml": {
+        "isBodyHtml": {
           "type": "boolean"
         }
       }

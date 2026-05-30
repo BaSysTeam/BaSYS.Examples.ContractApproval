@@ -1,56 +1,57 @@
 {
-  "Uid": "f3ecb444-8e72-4387-83f1-66c712de1c32",
-  "Title": "Регистр",
-  "Name": "register",
-  "Prefix": "reg",
-  "StoreData": true,
-  "IsReference": false,
-  "AllowAttachedFiles": false,
-  "IsFilesColumnUid": null,
-  "IsDeletedColumnUid": null,
-  "CanCreateRecords": false,
-  "UseDetailsTables": false,
-  "UseForms": false,
-  "UsePrintForms": false,
-  "IsStandard": false,
-  "Memo": "",
-  "IconClass": "pi pi-table",
-  "OrderByExpression": "id",
-  "DisplayExpression": "",
-  "RecordsSettings": {
-    "SourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
-    "StoragePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageKindColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageRowColumnUid": "00000000-0000-0000-0000-000000000000"
+  "uid": "f3ecb444-8e72-4387-83f1-66c712de1c32",
+  "title": "Регистр",
+  "name": "register",
+  "prefix": "reg",
+  "storeData": true,
+  "isReference": false,
+  "allowAttachedFiles": false,
+  "isFilesColumnUid": null,
+  "isDeletedColumnUid": null,
+  "canCreateRecords": false,
+  "useDetailsTables": false,
+  "useForms": false,
+  "usePrintForms": false,
+  "isStandard": false,
+  "version": 1,
+  "memo": "",
+  "iconClass": "pi pi-table",
+  "orderByExpression": "id",
+  "displayExpression": "",
+  "recordsSettings": {
+    "sourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
+    "storagePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageKindColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageRowColumnUid": "00000000-0000-0000-0000-000000000000"
   },
-  "StandardColumns": [
+  "standardColumns": [
     {
-      "Uid": "96b5f50b-98de-43fb-aea5-70fc29a35763",
-      "Title": "Id",
-      "Name": "id",
-      "HasIndex": false,
-      "DataSettings": {
-        "DataTypeUid": "daa57cb0-32eb-4709-b61f-4ea023ae31c3",
-        "StringLength": 0,
-        "NumberDigits": 0,
-        "PrimaryKey": true,
-        "Required": false,
-        "Unique": false,
-        "DefaultValue": ""
+      "uid": "96b5f50b-98de-43fb-aea5-70fc29a35763",
+      "title": "Id",
+      "name": "id",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "daa57cb0-32eb-4709-b61f-4ea023ae31c3",
+        "stringLength": 0,
+        "numberDigits": 0,
+        "primaryKey": true,
+        "required": false,
+        "unique": false,
+        "defaultValue": ""
       },
-      "RenderSettings": {
-        "ControlKindUid": null,
-        "ShowInItem": true,
-        "ShowInList": true,
-        "ListColumnWidth": ""
+      "renderSettings": {
+        "controlKindUid": null,
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
       },
-      "Memo": null
+      "memo": null
     }
   ],
-  "AvailableRights": [
+  "availableRights": [
     "216606b4-bcac-4445-ae33-b0888a94e3e5",
     "7a0224d9-eb5e-44d7-bc5e-1f20c6412844",
     "07c610bc-6f65-4905-be5f-8389f5b6e1ae",

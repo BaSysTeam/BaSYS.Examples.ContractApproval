@@ -3,40 +3,40 @@
   "title": "MetaObjectConstructorFormSettings",
   "type": "object",
   "properties": {
-    "Uid": {
+    "uid": {
       "type": "string",
       "format": "guid"
     },
-    "MetaObjectUid": {
+    "metaObjectUid": {
       "type": "string",
       "format": "guid"
     },
-    "FormKind": {
+    "formKind": {
       "$ref": "#/definitions/FormKinds"
     },
-    "Title": {
+    "title": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Name": {
+    "name": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Memo": {
+    "memo": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Version": {
+    "version": {
       "type": "integer",
       "format": "int64"
     },
-    "ChildComponents": {
+    "childComponents": {
       "type": [
         "array",
         "null"
@@ -45,13 +45,13 @@
         "$ref": "#/definitions/ChildComponentRow"
       }
     },
-    "Display": {
+    "display": {
       "type": [
         "null",
         "string"
       ]
     },
-    "Root": {
+    "root": {
       "oneOf": [
         {
           "type": "null"
@@ -61,7 +61,7 @@
         }
       ]
     },
-    "OnInitializedScript": {
+    "onInitializedScript": {
       "type": [
         "null",
         "string"
@@ -88,19 +88,19 @@
     "ChildComponentRow": {
       "type": "object",
       "properties": {
-        "MetaObjectKindUid": {
+        "metaObjectKindUid": {
           "type": "string",
           "format": "guid"
         },
-        "MetaObjectUid": {
+        "metaObjectUid": {
           "type": "string",
           "format": "guid"
         },
-        "ComponentUid": {
+        "componentUid": {
           "type": "string",
           "format": "guid"
         },
-        "Alias": {
+        "alias": {
           "type": [
             "null",
             "string"
@@ -111,38 +111,38 @@
     "FormElement": {
       "type": "object",
       "properties": {
-        "Id": {
+        "id": {
           "type": [
             "null",
             "string"
           ]
         },
-        "DataUid": {
+        "dataUid": {
           "type": [
             "null",
             "string"
           ],
           "format": "guid"
         },
-        "ComponentName": {
+        "componentName": {
           "type": [
             "null",
             "string"
           ]
         },
-        "CssClass": {
+        "cssClass": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Style": {
+        "style": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Properties": {
+        "properties": {
           "type": [
             "array",
             "null"
@@ -151,7 +151,7 @@
             "$ref": "#/definitions/FormElementProperty"
           }
         },
-        "Items": {
+        "items": {
           "type": [
             "array",
             "null"
@@ -165,13 +165,13 @@
     "FormElementProperty": {
       "type": "object",
       "properties": {
-        "Name": {
+        "name": {
           "type": [
             "null",
             "string"
           ]
         },
-        "Value": {
+        "value": {
           "type": [
             "null",
             "string"

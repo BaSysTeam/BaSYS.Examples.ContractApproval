@@ -1,69 +1,69 @@
 {
   "$schema": "../../system/schemas/workflowSettings.schema.json",
-  "Uid": "e5a7f1c3-2b8d-4e5f-9a1c-7d3e8b2f9a4c",
-  "Name": "fill_contract_kind",
-  "Title": "01.001 Заполнение видов договоров",
-  "Memo": "Первоначальное заполнение перечисления contract_kind стандартными значениями.",
-  "IsActive": true,
-  "Version": 2,
-  "Steps": [
+  "uid": "e5a7f1c3-2b8d-4e5f-9a1c-7d3e8b2f9a4c",
+  "name": "fill_contract_kind",
+  "title": "01.001 Заполнение видов договоров",
+  "memo": "Первоначальное заполнение перечисления contract_kind стандартными значениями.",
+  "isActive": true,
+  "version": 2,
+  "steps": [
     {
-      "Expression": "workflow.fill_contract_kind.step.data.bjs",
-      "Uid": "a1b2c3d4-e5f6-4789-9abc-1d2e3f4a5b6c",
-      "PreviousStepUid": "",
-      "KindUid": "dff616ce-0f40-4e44-a82b-14aa5ee2e4d6",
-      "KindName": "java_script",
-      "Title": "Данные",
-      "Name": "data",
-      "Memo": "Подготовка DataTable со значениями видов договоров.",
-      "IsActive": true
+      "expression": "workflow.fill_contract_kind.step.data.bjs",
+      "uid": "a1b2c3d4-e5f6-4789-9abc-1d2e3f4a5b6c",
+      "previousStepUid": "",
+      "kindUid": "dff616ce-0f40-4e44-a82b-14aa5ee2e4d6",
+      "kindName": "java_script",
+      "title": "Данные",
+      "name": "data",
+      "memo": "Подготовка DataTable со значениями видов договоров.",
+      "isActive": true
     },
     {
-      "MetaObjectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
-      "MetaObjectUid": "f1a2b3c4-d5e6-4789-9abc-def012345678",
-      "SaveRegime": 1,
-      "SearchBy": "name",
-      "SourcePath": "data",
-      "Condition": "",
-      "CreateRecords": false,
-      "HeaderMapping": [
+      "metaObjectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+      "metaObjectUid": "f1a2b3c4-d5e6-4789-9abc-def012345678",
+      "saveRegime": 1,
+      "searchBy": "name",
+      "sourcePath": "data",
+      "condition": "",
+      "createRecords": false,
+      "headerMapping": [
         {
-          "Uid": "c3d4e5f6-a7b8-49ab-9cde-3f4a5b6c7d8e",
-          "SourceFieldName": "name",
-          "DestinationFieldName": "name",
-          "DefaultValue": "",
-          "SearchBy": "",
-          "DataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
-          "CreateIfNotExist": false
+          "uid": "c3d4e5f6-a7b8-49ab-9cde-3f4a5b6c7d8e",
+          "sourceFieldName": "name",
+          "destinationFieldName": "name",
+          "defaultValue": "",
+          "searchBy": "",
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "createIfNotExist": false
         },
         {
-          "Uid": "d4e5f6a7-b8c9-4abc-9def-4a5b6c7d8e9f",
-          "SourceFieldName": "code",
-          "DestinationFieldName": "code",
-          "DefaultValue": "",
-          "SearchBy": "",
-          "DataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
-          "CreateIfNotExist": false
+          "uid": "d4e5f6a7-b8c9-4abc-9def-4a5b6c7d8e9f",
+          "sourceFieldName": "code",
+          "destinationFieldName": "code",
+          "defaultValue": "",
+          "searchBy": "",
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "createIfNotExist": false
         },
         {
-          "Uid": "e5f6a7b8-c9da-4bcd-9ef0-5b6c7d8e9fa1",
-          "SourceFieldName": "title",
-          "DestinationFieldName": "title",
-          "DefaultValue": "",
-          "SearchBy": "",
-          "DataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
-          "CreateIfNotExist": false
+          "uid": "e5f6a7b8-c9da-4bcd-9ef0-5b6c7d8e9fa1",
+          "sourceFieldName": "title",
+          "destinationFieldName": "title",
+          "defaultValue": "",
+          "searchBy": "",
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "createIfNotExist": false
         }
       ],
-      "TableMapping": [],
-      "Uid": "b2c3d4e5-f6a7-489a-9bcd-2e3f4a5b6c7d",
-      "PreviousStepUid": "a1b2c3d4-e5f6-4789-9abc-1d2e3f4a5b6c",
-      "KindUid": "a7edd0be-6f12-4fac-b88a-4f83acc7dacb",
-      "KindName": "data_object_loader",
-      "Title": "Загрузка данных",
-      "Name": "load",
-      "Memo": "Создание значений перечисления contract_kind. Режим Create, чтобы не задублировать уже существующие записи.",
-      "IsActive": true
+      "tableMapping": [],
+      "uid": "b2c3d4e5-f6a7-489a-9bcd-2e3f4a5b6c7d",
+      "previousStepUid": "a1b2c3d4-e5f6-4789-9abc-1d2e3f4a5b6c",
+      "kindUid": "a7edd0be-6f12-4fac-b88a-4f83acc7dacb",
+      "kindName": "data_object_loader",
+      "title": "Загрузка данных",
+      "name": "load",
+      "memo": "Создание значений перечисления contract_kind. Режим Create, чтобы не задублировать уже существующие записи.",
+      "isActive": true
     }
   ]
 }

@@ -1,166 +1,167 @@
 {
-  "Uid": "3eabc5d2-9cf5-4a74-95c8-ff2c2015ded3",
-  "Title": "Регистр записей",
-  "Name": "records",
-  "Prefix": "regr",
-  "StoreData": true,
-  "IsReference": false,
-  "AllowAttachedFiles": false,
-  "IsFilesColumnUid": null,
-  "IsDeletedColumnUid": null,
-  "CanCreateRecords": false,
-  "UseDetailsTables": false,
-  "UseForms": false,
-  "UsePrintForms": false,
-  "IsStandard": false,
-  "Memo": "",
-  "IconClass": "pi pi-table",
-  "OrderByExpression": "id",
-  "DisplayExpression": "",
-  "RecordsSettings": {
-    "SourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
-    "StoragePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageKindColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
-    "StorageRowColumnUid": "00000000-0000-0000-0000-000000000000"
+  "uid": "3eabc5d2-9cf5-4a74-95c8-ff2c2015ded3",
+  "title": "Регистр записей",
+  "name": "records",
+  "prefix": "regr",
+  "storeData": true,
+  "isReference": false,
+  "allowAttachedFiles": false,
+  "isFilesColumnUid": null,
+  "isDeletedColumnUid": null,
+  "canCreateRecords": false,
+  "useDetailsTables": false,
+  "useForms": false,
+  "usePrintForms": false,
+  "isStandard": false,
+  "version": 1,
+  "memo": "",
+  "iconClass": "pi pi-table",
+  "orderByExpression": "id",
+  "displayExpression": "",
+  "recordsSettings": {
+    "sourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
+    "storagePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageKindColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
+    "storageRowColumnUid": "00000000-0000-0000-0000-000000000000"
   },
-  "StandardColumns": [
+  "standardColumns": [
     {
-      "Uid": "7f7eb95c-7b70-4e4f-a391-4080d0710589",
-      "Title": "Id",
-      "Name": "id",
-      "HasIndex": false,
-      "DataSettings": {
-        "DataTypeUid": "daa57cb0-32eb-4709-b61f-4ea023ae31c3",
-        "StringLength": 0,
-        "NumberDigits": 0,
-        "PrimaryKey": true,
-        "Required": false,
-        "Unique": false,
-        "DefaultValue": ""
+      "uid": "7f7eb95c-7b70-4e4f-a391-4080d0710589",
+      "title": "Id",
+      "name": "id",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "daa57cb0-32eb-4709-b61f-4ea023ae31c3",
+        "stringLength": 0,
+        "numberDigits": 0,
+        "primaryKey": true,
+        "required": false,
+        "unique": false,
+        "defaultValue": ""
       },
-      "RenderSettings": {
-        "ControlKindUid": null,
-        "ShowInItem": true,
-        "ShowInList": true,
-        "ListColumnWidth": ""
+      "renderSettings": {
+        "controlKindUid": null,
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
       },
-      "Memo": null
+      "memo": null
     },
     {
-      "Uid": "8893e1df-525e-4a3f-b421-988294b4a2a8",
-      "Title": "Период",
-      "Name": "period",
-      "HasIndex": true,
-      "DataSettings": {
-        "DataTypeUid": "9001eafb-efb1-442f-b288-723bb8002b12",
-        "StringLength": 0,
-        "NumberDigits": 0,
-        "PrimaryKey": false,
-        "Required": true,
-        "Unique": false,
-        "DefaultValue": ""
+      "uid": "8893e1df-525e-4a3f-b421-988294b4a2a8",
+      "title": "Период",
+      "name": "period",
+      "hasIndex": true,
+      "dataSettings": {
+        "dataTypeUid": "9001eafb-efb1-442f-b288-723bb8002b12",
+        "stringLength": 0,
+        "numberDigits": 0,
+        "primaryKey": false,
+        "required": true,
+        "unique": false,
+        "defaultValue": ""
       },
-      "RenderSettings": {
-        "ControlKindUid": null,
-        "ShowInItem": true,
-        "ShowInList": true,
-        "ListColumnWidth": ""
+      "renderSettings": {
+        "controlKindUid": null,
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
       },
-      "Memo": null
+      "memo": null
     },
     {
-      "Uid": "dcb06a92-5d6f-46be-af10-88a4f91f47e6",
-      "Title": "Вид объекта",
-      "Name": "object_kind",
-      "HasIndex": false,
-      "DataSettings": {
-        "DataTypeUid": "689d1aac-66d8-478f-852e-0e3881b427bf",
-        "StringLength": 0,
-        "NumberDigits": 0,
-        "PrimaryKey": false,
-        "Required": true,
-        "Unique": false,
-        "DefaultValue": ""
+      "uid": "dcb06a92-5d6f-46be-af10-88a4f91f47e6",
+      "title": "Вид объекта",
+      "name": "object_kind",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "689d1aac-66d8-478f-852e-0e3881b427bf",
+        "stringLength": 0,
+        "numberDigits": 0,
+        "primaryKey": false,
+        "required": true,
+        "unique": false,
+        "defaultValue": ""
       },
-      "RenderSettings": {
-        "ControlKindUid": null,
-        "ShowInItem": true,
-        "ShowInList": true,
-        "ListColumnWidth": ""
+      "renderSettings": {
+        "controlKindUid": null,
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
       },
-      "Memo": null
+      "memo": null
     },
     {
-      "Uid": "7c2b8ad7-034d-495b-ba80-e300edc50146",
-      "Title": "Объект метаданных",
-      "Name": "meta_object",
-      "HasIndex": false,
-      "DataSettings": {
-        "DataTypeUid": "a4d064c6-465f-42a5-bbc0-48f743148c36",
-        "StringLength": 0,
-        "NumberDigits": 0,
-        "PrimaryKey": false,
-        "Required": true,
-        "Unique": false,
-        "DefaultValue": ""
+      "uid": "7c2b8ad7-034d-495b-ba80-e300edc50146",
+      "title": "Объект метаданных",
+      "name": "meta_object",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "a4d064c6-465f-42a5-bbc0-48f743148c36",
+        "stringLength": 0,
+        "numberDigits": 0,
+        "primaryKey": false,
+        "required": true,
+        "unique": false,
+        "defaultValue": ""
       },
-      "RenderSettings": {
-        "ControlKindUid": null,
-        "ShowInItem": true,
-        "ShowInList": true,
-        "ListColumnWidth": ""
+      "renderSettings": {
+        "controlKindUid": null,
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
       },
-      "Memo": null
+      "memo": null
     },
     {
-      "Uid": "78c493f2-e58a-4ce6-8665-27af40000562",
-      "Title": "Объект",
-      "Name": "object_uid",
-      "HasIndex": true,
-      "DataSettings": {
-        "DataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
-        "StringLength": 0,
-        "NumberDigits": 0,
-        "PrimaryKey": false,
-        "Required": true,
-        "Unique": false,
-        "DefaultValue": ""
+      "uid": "78c493f2-e58a-4ce6-8665-27af40000562",
+      "title": "Объект",
+      "name": "object_uid",
+      "hasIndex": true,
+      "dataSettings": {
+        "dataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
+        "stringLength": 0,
+        "numberDigits": 0,
+        "primaryKey": false,
+        "required": true,
+        "unique": false,
+        "defaultValue": ""
       },
-      "RenderSettings": {
-        "ControlKindUid": null,
-        "ShowInItem": true,
-        "ShowInList": true,
-        "ListColumnWidth": ""
+      "renderSettings": {
+        "controlKindUid": null,
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
       },
-      "Memo": null
+      "memo": null
     },
     {
-      "Uid": "398c66ad-10ce-4c75-9a7b-f2ba9398972f",
-      "Title": "Номер строки",
-      "Name": "row",
-      "HasIndex": false,
-      "DataSettings": {
-        "DataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
-        "StringLength": 0,
-        "NumberDigits": 0,
-        "PrimaryKey": false,
-        "Required": true,
-        "Unique": false,
-        "DefaultValue": ""
+      "uid": "398c66ad-10ce-4c75-9a7b-f2ba9398972f",
+      "title": "Номер строки",
+      "name": "row",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
+        "stringLength": 0,
+        "numberDigits": 0,
+        "primaryKey": false,
+        "required": true,
+        "unique": false,
+        "defaultValue": ""
       },
-      "RenderSettings": {
-        "ControlKindUid": null,
-        "ShowInItem": true,
-        "ShowInList": true,
-        "ListColumnWidth": ""
+      "renderSettings": {
+        "controlKindUid": null,
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
       },
-      "Memo": null
+      "memo": null
     }
   ],
-  "AvailableRights": [
+  "availableRights": [
     "216606b4-bcac-4445-ae33-b0888a94e3e5",
     "7a0224d9-eb5e-44d7-bc5e-1f20c6412844",
     "07c610bc-6f65-4905-be5f-8389f5b6e1ae",
