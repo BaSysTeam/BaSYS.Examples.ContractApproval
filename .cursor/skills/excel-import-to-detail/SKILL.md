@@ -12,14 +12,14 @@ description: >-
 
 Before creating anything, clarify (if not obvious from context):
 
-1. **Target operation** — which operation receives the data? (its `Name`)
-2. **Detail table** — which `DetailTables` entry to load into? (its `Name`)
+1. **Target operation** — which operation receives the data? (its `name`)
+2. **Detail table** — which `detailTables` entry to load into? (its `name`)
 3. **Excel structure** — column headers, target field names, data types. Specifically:
    - Sheet name (default `"Лист1"`)
-   - Source column headers (`SourceFieldName` — exact text in the Excel header row)
-   - Destination field names (`DestinationFieldName` — column names in the detail table)
-   - `DataTypeUid` for each mapping row (look up in `system/dataTypes.json`)
-4. **Formula columns** — inspect the target detail table's columns for any with a non-empty `Formula` field. These values **must** be computed explicitly in the workflow because formulas do not auto-fire during `$t.load(source)`. If formula columns exist, a `result` step is mandatory.
+   - Source column headers (`sourceFieldName` — exact text in the Excel header row)
+   - Destination field names (`destinationFieldName` — column names in the detail table)
+   - `dataTypeUid` for each mapping row (look up in `system/dataTypes.json`)
+4. **Formula columns** — inspect the target detail table's columns for any with a non-empty `formula` field. These values **must** be computed explicitly in the workflow because formulas do not auto-fire during `$t.load(source)`. If formula columns exist, a `result` step is mandatory.
 5. **Post-processing** — is any other transformation needed after mapping (join, filter, etc.)? If not and there are no formula columns, the mapping step result is returned directly.
 
 ---
@@ -32,7 +32,7 @@ The solution consists of **two parts**:
 
 A workflow with sequential steps:
 
-| # | Step Name | KindName | Purpose |
+| # | Step Name | `kindName` | Purpose |
 |---|-----------|----------|---------|
 | 1 | `find_file` | `java_script` | Find attached file by document id |
 | 2 | `read_file` | `read_file` | Read the found file |
@@ -41,7 +41,7 @@ A workflow with sequential steps:
 
 ### B. Command in the operation
 
-A programmable command (`Kind = 0`) bound to the target detail table, calling the workflow via `runWorkflow(...)`.
+A programmable command (`kind = 0`) bound to the target detail table, calling the workflow via `runWorkflow(...)`.
 
 ---
 
@@ -58,58 +58,58 @@ A programmable command (`Kind = 0`) bound to the target detail table, calling th
 ```json
 {
   "$schema": "../../system/schemas/workflowSettings.schema.json",
-  "Uid": "<new-uuid>",
-  "Name": "<workflow_name>",
-  "Title": "<Human-readable title>",
-  "Memo": "Загрузка табличной части операции из прикреплённого Excel-файла",
-  "IsActive": true,
-  "Version": 1,
-  "Steps": [
+  "uid": "<new-uuid>",
+  "name": "<workflow_name>",
+  "title": "<Human-readable title>",
+  "memo": "Загрузка табличной части операции из прикреплённого Excel-файла",
+  "isActive": true,
+  "version": 1,
+  "steps": [
     {
-      "Expression": "workflow.<name>.step.find_file.bjs",
-      "Uid": "<step1-uuid>",
-      "PreviousStepUid": "",
-      "KindUid": "dff616ce-0f40-4e44-a82b-14aa5ee2e4d6",
-      "KindName": "java_script",
-      "Title": "Find file",
-      "Name": "find_file",
-      "Memo": "Поиск прикреплённого файла операции",
-      "IsActive": true
+      "expression": "workflow.<name>.step.find_file.bjs",
+      "uid": "<step1-uuid>",
+      "previousStepUid": "",
+      "kindUid": "dff616ce-0f40-4e44-a82b-14aa5ee2e4d6",
+      "kindName": "java_script",
+      "title": "Find file",
+      "name": "find_file",
+      "memo": "Поиск прикреплённого файла операции",
+      "isActive": true
     },
     {
-      "Regime": 1,
-      "OutputFormat": 0,
-      "AttachedFileUidExpression": "_data.find_file.rows[0].uid",
-      "Uid": "<step2-uuid>",
-      "PreviousStepUid": "<step1-uuid>",
-      "KindUid": "800c9045-1c1c-46d0-a15f-968a43220d1a",
-      "KindName": "read_file",
-      "Title": "Read file",
-      "Name": "read_file",
-      "Memo": "Чтение прикреплённого файла",
-      "IsActive": true
+      "regime": 1,
+      "outputFormat": 0,
+      "attachedFileUidExpression": "_data.find_file.rows[0].uid",
+      "uid": "<step2-uuid>",
+      "previousStepUid": "<step1-uuid>",
+      "kindUid": "800c9045-1c1c-46d0-a15f-968a43220d1a",
+      "kindName": "read_file",
+      "title": "Read file",
+      "name": "read_file",
+      "memo": "Чтение прикреплённого файла",
+      "isActive": true
     },
     {
-      "SourcePath": "read_file",
-      "SheetName": "<sheet_name>",
-      "StartRow": 1,
-      "EndRow": 0,
-      "Mapping": [
+      "sourcePath": "read_file",
+      "sheetName": "<sheet_name>",
+      "startRow": 1,
+      "endRow": 0,
+      "mapping": [
         {
-          "Uid": "<mapping-row-uuid>",
-          "SourceFieldName": "<Excel column header>",
-          "DestinationFieldName": "<target_field_name>",
-          "DataTypeUid": "<uuid from system/dataTypes.json>"
+          "uid": "<mapping-row-uuid>",
+          "sourceFieldName": "<Excel column header>",
+          "destinationFieldName": "<target_field_name>",
+          "dataTypeUid": "<uuid from system/dataTypes.json>"
         }
       ],
-      "Uid": "<step3-uuid>",
-      "PreviousStepUid": "<step2-uuid>",
-      "KindUid": "762db492-58b2-4e7e-86ca-0b80b0e3aaae",
-      "KindName": "excel_mapping",
-      "Title": "Mapping",
-      "Name": "mapping",
-      "Memo": "Маппинг колонок Excel в таблицу данных",
-      "IsActive": true
+      "uid": "<step3-uuid>",
+      "previousStepUid": "<step2-uuid>",
+      "kindUid": "762db492-58b2-4e7e-86ca-0b80b0e3aaae",
+      "kindName": "excel_mapping",
+      "title": "mapping",
+      "name": "mapping",
+      "memo": "Маппинг колонок Excel в таблицу данных",
+      "isActive": true
     }
   ]
 }
@@ -134,12 +134,12 @@ Key points:
 - `_parameters.id` — the document identifier passed from the command.
 - Parameter type `11` = `Int32`.
 
-### Formula columns — important
+### formula columns — important
 
-Column formulas defined in the operation's detail table settings (`Formula` field on columns) **do not fire automatically** when data is loaded via `$t.load(source)`. Therefore, if the detail table has columns with formulas, the workflow **must** compute those values explicitly and include them in the returned `DataTable`.
+Column formulas defined in the operation's detail table settings (`formula` field on columns) **do not fire automatically** when data is loaded via `$t.load(source)`. Therefore, if the detail table has columns with formulas, the workflow **must** compute those values explicitly and include them in the returned `DataTable`.
 
 Typical approach:
-1. Check the target detail table's columns for any that have a non-empty `Formula`.
+1. Check the target detail table's columns for any that have a non-empty `formula`.
 2. In the `result` step (or in a dedicated post-processing step), iterate over the mapped rows and calculate those values using the same logic as the formula.
 3. Include the computed columns in the `DataTable` returned by the workflow.
 
@@ -172,28 +172,28 @@ return dt;
 
 ## Step 2. Create the Command in the Operation
 
-### Commands entry (in the operation JSON)
+### commands entry (in the operation JSON)
 
 ```json
 {
-  "Uid": "<new-uuid>",
-  "TableUid": "<Uid of the target detail table>",
-  "Kind": 0,
-  "Title": "Заполнить из файла",
-  "Name": "load_from_file",
-  "Expression": "operation.<operation_name>.command.load_from_file.bjs",
-  "Memo": "Загрузка данных из прикреплённого Excel-файла",
-  "IsActive": true,
-  "Parameters": [
+  "uid": "<new-uuid>",
+  "tableUid": "<uid of the target detail table>",
+  "kind": 0,
+  "title": "Заполнить из файла",
+  "name": "load_from_file",
+  "expression": "operation.<operation_name>.command.load_from_file.bjs",
+  "memo": "Загрузка данных из прикреплённого Excel-файла",
+  "isActive": true,
+  "parameters": [
     {
-      "Name": "data_source",
-      "Value": "",
-      "DbType": 16
+      "name": "data_source",
+      "value": "",
+      "dbType": 16
     },
     {
-      "Name": "clear",
-      "Value": "false",
-      "DbType": 3
+      "name": "clear",
+      "value": "false",
+      "dbType": 3
     }
   ]
 }
@@ -216,8 +216,8 @@ setIsModified(true);
 ```
 
 Where:
-- `<workflow_name>` — the workflow's `Name`.
-- `<last_step_name>` — `Name` of the final step whose result is the ready DataTable (typically `mapping` or `result`).
+- `<workflow_name>` — the workflow's `name`.
+- `<last_step_name>` — `name` of the final step whose result is the ready DataTable (typically `mapping` or `result`).
 - `$h.number` — standard `number` column of the operation header, used as the document identifier for file lookup.
 - `$t.<detail_table_name>.load(source)` — loads the result into the detail table.
 
@@ -227,12 +227,12 @@ Where:
 
 - [ ] Workflow JSON validates against `workflowSettings.schema.json`
 - [ ] All Uid values are unique fresh UUID v4
-- [ ] `PreviousStepUid` forms a chain (first = `""`)
+- [ ] `previousStepUid` forms a chain (first = `""`)
 - [ ] `.bjs` files follow naming: `workflow.{name}.step.{stepName}.bjs`
-- [ ] `Expression` in JSON matches the actual filename
+- [ ] `expression` in JSON matches the actual filename
 - [ ] `find_file.bjs` references the correct operation (`operation.<name>.attached_files`)
-- [ ] `DataTypeUid` values in Mapping are taken from `system/dataTypes.json`
-- [ ] Command is bound to the correct detail table (`TableUid`)
+- [ ] `dataTypeUid` values in Mapping are taken from `system/dataTypes.json`
+- [ ] Command is bound to the correct detail table (`tableUid`)
 - [ ] `runWorkflow` call references the correct workflow name and step
 - [ ] Formula columns of the target detail table are computed explicitly in the workflow (formulas do not auto-fire on `$t.load`)
-- [ ] `Memo` is filled (in Russian) for the workflow, steps, and command
+- [ ] `memo` is filled (in Russian) for the workflow, steps, and command

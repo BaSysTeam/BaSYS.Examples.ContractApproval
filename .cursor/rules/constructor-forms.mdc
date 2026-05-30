@@ -6,9 +6,9 @@ alwaysApply: false
 
 # Constructor Forms (Формы-конструкторы)
 
-A **constructor form** in BaSYS is a metaobject form authored in the **visual form designer** and stored as a JSON tree of `FormElement` nodes. At runtime the BaSYS client gets the `Root` element of that tree and recursively builds a Vue 3 VNode tree via `renderComponentTree`: for each node it picks a Vue component from a fixed `componentRegistry` (PrimeVue 3 + internal BaSYS components), expands the `Properties` collection into Vue `props` (props, `v-model`, `v-bind`, `v-if`, `@event`, named slots) and recurses into `Items`. Wrapper nodes `bs-form`, `bs-row`, `bs-col` are always rendered as plain `<div>`s — they are the [PrimeFlex](https://primeflex.org/) grid scaffolding.
+A **constructor form** in BaSYS is a metaobject form authored in the **visual form designer** and stored as a JSON tree of `FormElement` nodes. At runtime the BaSYS client gets the `root` element of that tree and recursively builds a Vue 3 VNode tree via `renderComponentTree`: for each node it picks a Vue component from a fixed `componentRegistry` (PrimeVue 3 + internal BaSYS components), expands the `properties` collection into Vue `props` (props, `v-model`, `v-bind`, `v-if`, `@event`, named slots) and recurses into `items`. Wrapper nodes `bs-form`, `bs-row`, `bs-col` are always rendered as plain `<div>`s — they are the [PrimeFlex](https://primeflex.org/) grid scaffolding.
 
-The set of available `ComponentName` values is **closed**. It is hardwired into the `ConstructorComponents` enum and the `componentRegistry` map of the BaSYS frontend — third-party components and arbitrary tags cannot be used in a constructor form. When a layout the registry cannot express is needed (custom dashboards, complex wizards, ad-hoc widgets), the answer is a **programmable form** (`.vue`, FormKind = 0), not adding a new component into the constructor form.
+The set of available `componentName` values is **closed**. It is hardwired into the `ConstructorComponents` enum and the `componentRegistry` map of the BaSYS frontend — third-party components and arbitrary tags cannot be used in a constructor form. When a layout the registry cannot express is needed (custom dashboards, complex wizards, ad-hoc widgets), the answer is a **programmable form** (`.vue`, `formKind = 0`), not adding a new component into the constructor form.
 
 Documentation: https://basysteam.github.io/BaSys.Docs/ru/userInterface/formConstructor.html
 
@@ -26,18 +26,18 @@ Compare with related artefacts:
 | :-------------------------------------------------------------------------------------------- | :----------------------------------- |
 | Form composed visually from a closed registry of components (most typical list / edit forms)  | **Constructor form**                 |
 | Layouts the constructor cannot express (custom dashboards, wizards, ad-hoc widgets, dialogs)  | [Programmable Form](mdc:programmable-forms.mdc) |
-| No form authored at all — the platform generates one from the metaobject's metadata           | Auto form (`FormKind = -1`), set in metaobject JSON |
+| No form authored at all — the platform generates one from the metaobject's metadata           | Auto form (`formKind = -1`), set in metaobject JSON |
 
-Constructor forms (`*.form.*.json`, `FormKind = 1` / Constructor) and programmable forms (`*.form.*.vue`, `FormKind = 0` / Programmable) are **different artefacts**. Never silently convert one into the other: the file extension, the schema and the editor in the BaSYS UI are all different.
+Constructor forms (`*.form.*.json`, `formKind = 1` / Constructor) and programmable forms (`*.form.*.vue`, `formKind = 0` / Programmable) are **different artefacts**. Never silently convert one into the other: the file extension, the schema and the editor in the BaSYS UI are all different.
 
 ## Where Constructor Forms Are Allowed
 
-A constructor form can be created **only** on metaobjects whose kind has `UseForms = true` (field on `MetaObjectKindSettings` in `system/kinds/kind.*.json`). In the standard model this is on for:
+A constructor form can be created **only** on metaobjects whose kind has `useForms = true` (field on `MetaObjectKindSettings` in `system/kinds/kind.*.json`). In the standard model this is on for:
 
-- `catalog`, `register`, `operation` (storable kinds with `EditMethod = OpenForm`);
+- `catalog`, `register`, `operation` (storable kinds with `editMethod = OpenForm`);
 - `customreport`, `customview`, `data_view` (non-storable presentation kinds).
 
-It is off for `enum`, `records`, `workflow`, `excel_report`, `menu`. Before creating a form, check `system/kinds/kind.{kindName}.json` and confirm `UseForms = true`. If it is `false`, tell the user the kind does not support forms in the current model — do not silently create the file.
+It is off for `enum`, `records`, `workflow`, `excel_report`, `menu`. Before creating a form, check `system/kinds/kind.{kindName}.json` and confirm `useForms = true`. If it is `false`, tell the user the kind does not support forms in the current model — do not silently create the file.
 
 ## File Layout
 
@@ -45,8 +45,8 @@ A constructor form is **one `.json` file** that lives inside the owner metaobjec
 
 | Artefact | Filename |
 | :--- | :--- |
-| Form JSON | `{kind.Name}.{object.Name}.form.{form.Name}.json` |
-| Optional companion init script | `{kind.Name}.{object.Name}.form.{form.Name}.on_initialized.bjs` |
+| Form JSON | `{kind.name}.{object.name}.form.{form.name}.json` |
+| Optional companion init script | `{kind.name}.{object.name}.form.{form.name}.on_initialized.bjs` |
 
 Filename patterns:
 
@@ -56,13 +56,13 @@ Filename patterns:
 {kind}/{object}/{kind}.{object}.form.main.json            // single main form (typical for customview / customreport / data_view)
 ```
 
-Where `{kind}` is the kind name (`operation`, `catalog`, `register`, `customview`, `customreport`, `data_view`), `{object}` is the metaobject's `Name`, and `{suffix}` (when present) is a short opaque tail generated at form creation in the visual designer (e.g. `KgWjmu`, `PM2RXN`). Do not invent or rename suffixes — keep them as exported.
+Where `{kind}` is the kind name (`operation`, `catalog`, `register`, `customview`, `customreport`, `data_view`), `{object}` is the metaobject's `name`, and `{suffix}` (when present) is a short opaque tail generated at form creation in the visual designer (e.g. `KgWjmu`, `PM2RXN`). Do not invent or rename suffixes — keep them as exported.
 
 Rules:
 
 - The `$schema` at the top of the file points to `system/schemas/constructorFormSettings.schema.json` (with the correct relative path — usually `../../system/schemas/constructorFormSettings.schema.json`).
-- The form's `Name` must be unique within the metaobject. A single metaobject may have any number of constructor forms.
-- The metaobject's main JSON does **not** list its forms — the binding is implicit, by `MetaObjectUid` inside each form file. The only references back from the metaobject JSON are the optional `ListFormUid` / `ItemFormUid` that point to the default list / item form (any of constructor or programmable).
+- The form's `name` must be unique within the metaobject. A single metaobject may have any number of constructor forms.
+- The metaobject's main JSON does **not** list its forms — the binding is implicit, by `metaObjectUid` inside each form file. The only references back from the metaobject JSON are the optional `listFormUid` / `itemFormUid` that point to the default list / item form (any of constructor or programmable).
 - A constructor form is **not** a metaobject of its own — do **not** add anything to `system/dataTypes.json`.
 - Do **not** rename existing form files. Many existing files have suffixes generated at form creation (e.g. `list_bDO3vr`, `edit_PM2RXN`) — keep them as-is.
 
@@ -73,61 +73,61 @@ The root JSON object is a `MetaObjectConstructorFormSettings` (see [constructorF
 | Field | Required | Meaning |
 | :--- | :---: | :--- |
 | `$schema` | yes | Relative path to `system/schemas/constructorFormSettings.schema.json`. |
-| `Uid` | yes | UUID v4 of the form (lowercase, hyphenated). Stable, do not regenerate when editing. |
-| `MetaObjectUid` | yes | UUID of the owner metaobject — must match the `Uid` in the metaobject's main JSON. |
-| `FormKind` | yes | `1` (Constructor). The other values are `0` (Programmable — `.vue`) and `-1` (Auto). Never change a `1` to `0` or vice versa silently. |
-| `Title` | yes | UI title of the form (Russian is fine). |
-| `Name` | yes | snake_case English identifier (unique within the metaobject). Used to address the form internally. |
-| `Memo` | recommended | Short Russian description of the form's purpose. |
-| `Version` | yes | Integer. `1` for new forms; the server increments it on save. |
-| `Display` | optional | Human-readable display string used in the menu (defaults to `Title`). |
-| `ChildComponents` | optional | Array of programmable child components embedded inside this form. See [Programmable Forms](mdc:programmable-forms.mdc). |
-| `Root` | yes | The root `FormElement` (always `ComponentName = "bs-form"`). |
-| `OnInitializedScript` | optional | JavaScript executed once after the form is loaded. In the exported package this field holds the **filename** of the companion `.bjs` (`{kind}.{object}.form.{formName}.on_initialized.bjs`). The import pipeline inlines the file content automatically. |
+| `uid` | yes | UUID v4 of the form (lowercase, hyphenated). Stable, do not regenerate when editing. |
+| `metaObjectUid` | yes | UUID of the owner metaobject — must match the `uid` in the metaobject's main JSON. |
+| `formKind` | yes | `1` (Constructor). The other values are `0` (Programmable — `.vue`) and `-1` (Auto). Never change a `1` to `0` or vice versa silently. |
+| `title` | yes | UI title of the form (Russian is fine). |
+| `name` | yes | snake_case English identifier (unique within the metaobject). Used to address the form internally. |
+| `memo` | recommended | Short Russian description of the form's purpose. |
+| `version` | yes | Integer. `1` for new forms; the server increments it on save. |
+| `display` | optional | Human-readable display string used in the menu (defaults to `title`). |
+| `childComponents` | optional | Array of programmable child components embedded inside this form. See [Programmable Forms](mdc:programmable-forms.mdc). |
+| `root` | yes | The root `FormElement` (always `componentName = "bs-form"`). |
+| `onInitializedScript` | optional | JavaScript executed once after the form is loaded. In the exported package this field holds the **filename** of the companion `.bjs` (`{kind}.{object}.form.{formName}.on_initialized.bjs`). The import pipeline inlines the file content automatically. |
 
 When creating a new form:
 
-- Generate a fresh `Uid` for the form (UUID v4, lowercase, hyphenated).
-- Set `MetaObjectUid` to the owner metaobject's `Uid` — do not invent UUIDs.
-- Pick a snake_case English `Name` unique within the metaobject.
-- Fill `Title` and `Memo` (short Russian description).
-- Build the `Root` element tree per the rules below.
+- Generate a fresh `uid` for the form (UUID v4, lowercase, hyphenated).
+- Set `metaObjectUid` to the owner metaobject's `uid` — do not invent UUIDs.
+- Pick a snake_case English `name` unique within the metaobject.
+- Fill `title` and `memo` (short Russian description).
+- Build the `root` element tree per the rules below.
 
 ## FormElement Structure
 
-Every node in the form tree is a `FormElement` (PascalCase in JSON):
+Every node in the form tree is a `FormElement` (camelCase in JSON):
 
 | Field | Type | Meaning |
 | :--- | :--- | :--- |
-| `Id` | string | Identifier of the element within the form. Used by the visual editor for selection / drag-and-drop, and as the DOM `id` at runtime. Generated as `{componentName}-{6chars}` (e.g. `bs-row-VALQSs`, `pv-button-zHgBIQ`); the 6-character tail is a short random suffix. Must be unique within the form. |
-| `DataUid` | string \| null | UID of the metadata column / detail table the element is bound to. Filled on `bs-form-field`, `bs-details-table-column`, `bs-table-view-column`, `pv-tab-panel` and on the input control itself when it directly binds to a column (`pv-calendar`, `pv-checkbox`, `pv-input-text`, `pv-input-number`, `pv-input-textarea`, `bs-object-reference-select`, …). May be `null` for layout-only nodes (`bs-form`, `bs-row`, `bs-col`, `pv-button`, `pv-divider`, …). |
-| `ComponentName` | string | Component identifier from the closed `ConstructorComponents` registry (see below). |
-| `CssClass` | string | Additional CSS class applied to the rendered element. |
-| `Style` | string | Inline CSS style. |
-| `Properties` | `{Name, Value}[]` | Ordered list of props / bindings / event handlers / slot markers. See "Bindings" below. |
-| `Items` | `FormElement[]` | Child elements. Empty array for leaves. |
+| `id` | string | Identifier of the element within the form. Used by the visual editor for selection / drag-and-drop, and as the DOM `id` at runtime. Generated as `{componentName}-{6chars}` (e.g. `bs-row-VALQSs`, `pv-button-zHgBIQ`); the 6-character tail is a short random suffix. Must be unique within the form. |
+| `dataUid` | string \| null | UID of the metadata column / detail table the element is bound to. Filled on `bs-form-field`, `bs-details-table-column`, `bs-table-view-column`, `pv-tab-panel` and on the input control itself when it directly binds to a column (`pv-calendar`, `pv-checkbox`, `pv-input-text`, `pv-input-number`, `pv-input-textarea`, `bs-object-reference-select`, …). May be `null` for layout-only nodes (`bs-form`, `bs-row`, `bs-col`, `pv-button`, `pv-divider`, …). |
+| `componentName` | string | Component identifier from the closed `ConstructorComponents` registry (see below). |
+| `cssClass` | string | Additional CSS class applied to the rendered element. |
+| `style` | string | Inline CSS style. |
+| `properties` | `{name, value}[]` | Ordered list of props / bindings / event handlers / slot markers. See "Bindings" below. |
+| `items` | `FormElement[]` | Child elements. Empty array for leaves. |
 
-Rules for the `Properties` collection:
+Rules for the `properties` collection:
 
-- Both `Name` and `Value` are strings (the schema typings are loose; numbers, booleans and expressions all live as strings).
+- Both `name` and `value` are strings (the schema typings are loose; numbers, booleans and expressions all live as strings).
 - One property per row — do not merge several props into a single string.
-- For `vModel` and `:`-bindings the `Value` is **a path / expression**, not a literal value (`"$h.author"`, `"data.header.create_records"`, ``"`№${data.header.number}`"``).
-- For plain props the `Value` is the literal (`"label" → "Сохранить"`, `"size" → "small"`, `"outlined" → "outlined"`).
+- For `vModel` and `:`-bindings the `value` is **a path / expression**, not a literal value (`"$h.author"`, `"data.header.create_records"`, ``"`№${data.header.number}`"``).
+- For plain props the `value` is the literal (`"label" → "Сохранить"`, `"size" → "small"`, `"outlined" → "outlined"`).
 - A boolean prop "enabled" is typically expressed by an empty string or the prop name itself (`"outlined" → "outlined"`, `"showIcon" → ""`, `"required" → ""`). To set a boolean explicitly, use a `:`-binding (`":showTime" → "true"`).
 
-Rules for `DataUid`:
+Rules for `dataUid`:
 
-- Always set `DataUid` on `bs-form-field`, `bs-details-table-column`, `bs-table-view-column` when the element binds to a column (the value is the column's `Uid` from the metaobject JSON / detail table JSON).
-- Set `DataUid` on the input element placed inside `bs-form-field` (`pv-input-text`, `pv-calendar`, `bs-object-reference-select`, …) to the same column UID — this lets the platform sync the displayed value with the metadata column when the column is renamed / retyped.
-- Never invent `DataUid` values — they must match real column UIDs in the metaobject / detail tables.
+- Always set `dataUid` on `bs-form-field`, `bs-details-table-column`, `bs-table-view-column` when the element binds to a column (the value is the column's `uid` from the metaobject JSON / detail table JSON).
+- Set `dataUid` on the input element placed inside `bs-form-field` (`pv-input-text`, `pv-calendar`, `bs-object-reference-select`, …) to the same column UID — this lets the platform sync the displayed value with the metadata column when the column is renamed / retyped.
+- Never invent `dataUid` values — they must match real column UIDs in the metaobject / detail tables.
 
 ## Wrapper Hierarchy
 
 The form layout is built on the PrimeFlex 12-column grid. Wrapper nodes must form the chain `bs-form → bs-row → bs-col → ... content ...`:
 
-| Wrapper | Purpose | Typical `CssClass` | Allowed children |
+| Wrapper | Purpose | Typical `cssClass` | Allowed children |
 | :--- | :--- | :--- | :--- |
-| `bs-form` | Root of the form. Always the single `Root` element. | пусто | `bs-row` |
+| `bs-form` | Root of the form. Always the single `root` element. | пусто | `bs-row` |
 | `bs-row` | Row of the PrimeFlex grid. | `grid` | `bs-col` |
 | `bs-col` | Column of the PrimeFlex grid. | `col`, `col-2`, `col-6`, `col-12`, `md:col-6`, … | Any component from the registry |
 | `bs-collapsible-group` | Inside a `bs-col`, may itself wrap `bs-row`s. | пусто | `bs-row` |
@@ -138,16 +138,16 @@ Inside a `bs-col` you can place either simple components (a button, an input, te
 
 ## Bindings and Path Shortcuts
 
-Components are wired to data and events through entries in the `Properties` array. The renderer interprets the property `Name` as follows:
+Components are wired to data and events through entries in the `properties` array. The renderer interprets the property `name` as follows:
 
-| `Name` | Meaning | Notes |
+| `name` | Meaning | Notes |
 | :--- | :--- | :--- |
-| `propName` | Plain prop. `Value` passed to the Vue component as-is (string). | `"label" → "Сохранить"`, `"icon" → "pi pi-save"`, `"size" → "small"`. |
-| `vModel` | Two-way binding. `Value` is a path into `formState`. | Renderer registers `onUpdate:modelValue` automatically. Typical: `"$h.date"`, `"$r.amount"`, `"data.header.create_records"`. |
-| `:propName` / `v-bind:propName` | One-way binding. `Value` is a JS expression evaluated against `formState`. Supports `formatter.*` and template literals. | `":isWaiting" → "isWaiting"`, ``":title" → "`№${data.header.number} от ${formatter.formatDateTime(data.header.date)}`"``, `":disabled" → "!$h.is_user_author"`. |
-| `v-bind` / `:` | Bind a whole object. `Value` is a path; keys of the resolved object are merged into props. | Rarely used in BaSYS forms. |
-| `v-if` / `vIf` | Conditional rendering. `Value` is a JS expression. If falsy the element and its subtree are skipped. | `"v-if" → "$h.договор_допсоглашение == 'доп_соглашение'"`. |
-| `@EventName` | Event handler. `Value` is a **command name** (see "Commands" below). | `"@Click" → "standard.save"`, `"@RowSelect" → "standard.row_select"`, `"@RowDblClick" → "standard.row_dbl_click"`, `"@TabChange" → "..."`, `"@Change" → "..."`. Renderer maps `@Click` → `onClick`, `@RowSelect` → `onRowSelect` etc. |
+| `propName` | Plain prop. `value` passed to the Vue component as-is (string). | `"label" → "Сохранить"`, `"icon" → "pi pi-save"`, `"size" → "small"`. |
+| `vModel` | Two-way binding. `value` is a path into `formState`. | Renderer registers `onUpdate:modelValue` automatically. Typical: `"$h.date"`, `"$r.amount"`, `"data.header.create_records"`. |
+| `:propName` / `v-bind:propName` | One-way binding. `value` is a JS expression evaluated against `formState`. Supports `formatter.*` and template literals. | `":isWaiting" → "isWaiting"`, ``":title" → "`№${data.header.number} от ${formatter.formatDateTime(data.header.date)}`"``, `":disabled" → "!$h.is_user_author"`. |
+| `v-bind` / `:` | Bind a whole object. `value` is a path; keys of the resolved object are merged into props. | Rarely used in BaSYS forms. |
+| `v-if` / `vIf` | Conditional rendering. `value` is a JS expression. If falsy the element and its subtree are skipped. | `"v-if" → "$h.договор_допсоглашение == 'доп_соглашение'"`. |
+| `@EventName` | Event handler. `value` is a **command name** (see "Commands" below). | `"@Click" → "standard.save"`, `"@RowSelect" → "standard.row_select"`, `"@RowDblClick" → "standard.row_dbl_click"`, `"@TabChange" → "..."`, `"@Change" → "..."`. Renderer maps `@Click` → `onClick`, `@RowSelect` → `onRowSelect` etc. |
 | `slot` | Place this element into a named slot of the parent. | `"slot" → "start"` / `"slot" → "end"` for `pv-toolbar`. |
 
 ### Path Shortcuts
@@ -170,7 +170,7 @@ Inside `:`-bindings the following helpers are also available:
 
 ## Commands
 
-In `@Event` handlers and in `command` of `pv-split-button-item`, the `Value` is **a command name** of the form `группа.имя[:параметр]`. The renderer resolves the name against the `handlers` map passed to the renderer. Several command families are recognised:
+In `@Event` handlers and in `command` of `pv-split-button-item`, the `value` is **a command name** of the form `группа.имя[:параметр]`. The renderer resolves the name against the `handlers` map passed to the renderer. Several command families are recognised:
 
 - **Standard commands** — implemented by the platform. Most common:
 
@@ -198,18 +198,18 @@ In `@Event` handlers and in `command` of `pv-split-button-item`, the `Value` is 
   | `standard.row_dbl_click` | Hook for `bs-table-view` `@RowDblClick`. Usually opens the edit form. |
   | `standard.table_add:<table>` | Add a new row to the named `bs-details-table`. |
 
-- **Custom commands** — declared in the `Commands` collection of the metaobject JSON, body stored in a separate `.bjs`. See [Commands rule](mdc:commands.mdc) for the file naming, expression body and the `$h` / `$t` / `$r` execution context. Custom command names are referenced by their `Name` (e.g. `"@Click" → "mark_messages"`, `"@Click" → "сотрудники"`).
+- **Custom commands** — declared in the `commands` collection of the metaobject JSON, body stored in a separate `.bjs`. See [Commands rule](mdc:commands.mdc) for the file naming, expression body and the `$h` / `$t` / `$r` execution context. Custom command names are referenced by their `name` (e.g. `"@Click" → "mark_messages"`, `"@Click" → "сотрудники"`).
 
 The parameter after a colon (e.g. `standard.refresh:list`, `standard.table_add:время`) is interpreted by the renderer for a fixed list of standard commands (`standard.table_add`, `standard.refresh`, `standard.delete`, `standard.open_files`, `standard.print`, `standard.clear_filters`) — there it identifies the target table / mode.
 
-## OnInitializedScript (companion `.bjs`)
+## onInitializedScript (companion `.bjs`)
 
-`OnInitializedScript` is JavaScript executed **once** after the form is loaded. Typical uses: prefill data from `_parameters`, subscribe to changes, open a dialog depending on the context.
+`onInitializedScript` is JavaScript executed **once** after the form is loaded. Typical uses: prefill data from `_parameters`, subscribe to changes, open a dialog depending on the context.
 
 In the exported package the value of the field is the **filename** of a companion `.bjs` script lying next to the form JSON. Name pattern:
 
 ```
-{kind.Name}.{object.Name}.form.{form.Name}.on_initialized.bjs
+{kind.name}.{object.name}.form.{form.name}.on_initialized.bjs
 ```
 
 Example:
@@ -218,30 +218,30 @@ Example:
 // operation/invoice/operation.invoice.form.mainForm.json
 {
   // ...
-  "OnInitializedScript": "operation.invoice.form.mainForm.on_initialized.bjs"
+  "onInitializedScript": "operation.invoice.form.mainForm.on_initialized.bjs"
 }
 ```
 
 When editing an existing form:
 
-- If `OnInitializedScript` references a `.bjs` filename — edit the companion `.bjs` file, not the JSON value.
+- If `onInitializedScript` references a `.bjs` filename — edit the companion `.bjs` file, not the JSON value.
 - If a new initialization script is needed — create a new companion `.bjs` and write its filename into the JSON field.
 - Do **not** inline JS into the JSON field — the import pipeline expects the companion-file convention.
 
-## ChildComponents
+## childComponents
 
-`ChildComponents` lists programmable forms (Vue components) used as children inside this constructor form. Each entry has the shape:
+`childComponents` lists programmable forms (Vue components) used as children inside this constructor form. Each entry has the shape:
 
 ```jsonc
 {
-  "MetaObjectKindUid": "...",
-  "MetaObjectUid": "...",
-  "ComponentUid": "...",
-  "Alias": "..."
+  "metaObjectKindUid": "...",
+  "metaObjectUid": "...",
+  "componentUid": "...",
+  "alias": "..."
 }
 ```
 
-`Alias` is the tag name under which the child component is usable in this form. The child component itself is a separate programmable form file — see [Programmable Forms](mdc:programmable-forms.mdc). Do not edit the cross-references manually; if you need to embed a programmable component, point the user to the visual designer or update `ChildComponents` together with the matching `.vue` file under the same metaobject.
+`alias` is the tag name under which the child component is usable in this form. The child component itself is a separate programmable form file — see [Programmable Forms](mdc:programmable-forms.mdc). Do not edit the cross-references manually; if you need to embed a programmable component, point the user to the visual designer or update `childComponents` together with the matching `.vue` file under the same metaobject.
 
 ## Принятая в проекте структура формы списка
 
@@ -249,10 +249,10 @@ A typical list form (`*.form.list_*.json`) follows the pattern:
 
 1. `bs-row` with `bs-view-title` (title row, may include `:isWaiting` / `:isModified`).
 2. `bs-row` with the button row: a `pv-button-group` («Добавить» / «Редактировать» / «Удалить»), an optional standalone `pv-button` («Копировать», «Записи», «Файлы», …) and a `pv-split-button` «Действия» («Обновить», «Очистить фильтры», «Excel», optionally «Создать записи» / «Удалить записи»).
-3. `bs-row` with a single `pv-divider` (`Style = "margin: 5px"`).
+3. `bs-row` with a single `pv-divider` (`style = "margin: 5px"`).
 4. `bs-row` with `bs-table-view` (`dataSource = "<kind>.<name>"`, `height = "stretch"`, `name = "list"`, `@RowSelect = "standard.row_select"`, `@RowDblClick = "standard.row_dbl_click"`) and `bs-table-view-column` children.
 
-This is a **stylistic recommendation** — most list forms in BaSYS configurations follow it. When editing an existing list form, preserve this skeleton; when extending, add new buttons inside the existing `pv-button-group` or alongside it with `CssClass = "ml-1"`.
+This is a **stylistic recommendation** — most list forms in BaSYS configurations follow it. When editing an existing list form, preserve this skeleton; when extending, add new buttons inside the existing `pv-button-group` or alongside it with `cssClass = "ml-1"`.
 
 ## Принятая в проекте структура формы редактирования
 
@@ -261,7 +261,7 @@ A typical edit form (`*.form.edit_*.json`) follows the pattern:
 1. `bs-row` with the title and (optionally) compact header fields (date, "create_records" flag …) split into `bs-col`s. The title element is `bs-view-title` with `:title` bound to a composite expression and `:isWaiting` / `:isModified` flags.
 2. `bs-row` with the button row: a `pv-button-group` («Вернуться» / «Сохранить&Закрыть» / «Сохранить»; `:disabled` bindings if the user lacks permission), optionally standalone `pv-button`s («Создать на основании», «Записи», «Файлы»), a `pv-split-button` «Печать» (печатные формы), and a `pv-split-button` «Действия» («Журнал расчётов», «Пересчитать», «Создать/Удалить записи», «Excel», и custom commands of the object).
 3. `bs-row` with a single `pv-divider`.
-4. Header fields — either directly in a grid of `bs-col`s, each containing a `bs-form-field` with the appropriate input, or wrapped in a `bs-collapsible-group` «Основные» (with `bs-row`s inside).
+4. header fields — either directly in a grid of `bs-col`s, each containing a `bs-form-field` with the appropriate input, or wrapped in a `bs-collapsible-group` «Основные» (with `bs-row`s inside).
 5. For each detail table — a `pv-tab-view` with a `pv-tab-panel` per table. Inside a `pv-tab-panel`: an optional `pv-toolbar` with the detail-table command panel (add row, badge with row count, custom commands) followed by `bs-details-table` with `bs-details-table-column` children.
 
 This is a **stylistic recommendation** — most edit forms in BaSYS configurations follow it. When editing an existing edit form, keep the row order; when adding new fields, drop them into the appropriate `bs-row` (header grid or collapsible group) and add a `bs-form-field` wrapper.
@@ -277,25 +277,25 @@ When picking an input for a column, follow the type-to-component mapping:
 | `date` / `dateTime` | `pv-calendar` (use `:showTime` to switch between date and date-time) |
 | `string` short | `pv-input-text` |
 | `string` long | `pv-input-textarea` (`rows = "3"` / `"5"`) |
-| Reference to a metaobject (catalog, enum, operation) | `bs-object-reference-select` (`dataType = "<DataTypeUid>"`, `vModel = "$h.<name>"`) |
+| Reference to a metaobject (catalog, enum, operation) | `bs-object-reference-select` (`dataType = "<dataTypeUid>"`, `vModel = "$h.<name>"`) |
 
-Always wrap the input in `bs-form-field` (label + control). For virtual columns (`Kind = 1` in the metaobject JSON) the input is read-only — add `disabled = ""`. For required columns add `required = ""` on the `bs-form-field`.
+Always wrap the input in `bs-form-field` (label + control). For virtual columns (`kind = 1` in the metaobject JSON) the input is read-only — add `disabled = ""`. For required columns add `required = ""` on the `bs-form-field`.
 
 ## Component Reference
 
-The set of components available in a constructor form is **closed**. Below — every name that may appear in `ComponentName`, with the most common props / events. Bindings (`vModel`, `:prop`, `v-if`, `@Event`, `slot`) work the same on every component and are not repeated in the per-component tables.
+The set of components available in a constructor form is **closed**. Below — every name that may appear in `componentName`, with the most common props / events. Bindings (`vModel`, `:prop`, `v-if`, `@Event`, `slot`) work the same on every component and are not repeated in the per-component tables.
 
 ### Wrappers
 
-| `ComponentName` | Purpose | Typical props |
+| `componentName` | Purpose | Typical props |
 | :--- | :--- | :--- |
-| `bs-form` | Root of the form. Always the single `Root` element. | (no props) |
-| `bs-row` | Row of the PrimeFlex grid. | `CssClass = "grid"` |
-| `bs-col` | Column of the PrimeFlex grid. Holds the actual content. | `CssClass = "col"` / `"col-2"` / `"col-6"` / `"col-12"` / `"md:col-6"` |
+| `bs-form` | root of the form. Always the single `root` element. | (no props) |
+| `bs-row` | Row of the PrimeFlex grid. | `cssClass = "grid"` |
+| `bs-col` | Column of the PrimeFlex grid. Holds the actual content. | `cssClass = "col"` / `"col-2"` / `"col-6"` / `"col-12"` / `"md:col-6"` |
 
 ### BaSYS components
 
-| `ComponentName` | Purpose | Typical props / events | Upstream doc |
+| `componentName` | Purpose | Typical props / events | Upstream doc |
 | :--- | :--- | :--- | :--- |
 | `bs-view-title` | Page title with a "waiting" spinner and a "modified" badge. | `title`, `:title` (composite), `:isWaiting`, `:isModified` | [bsViewTitleComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsViewTitleComponent.html) |
 | `bs-text` | Plain text block. Useful as a toolbar caption or status text. | `text`, `:text`, `severity` (`primary` / `secondary` / `success` / `info` / `warning` / `danger` / `contrast`), `slot` | [bsTextComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsTextComponent.html) |
@@ -303,25 +303,25 @@ The set of components available in a constructor form is **closed**. Below — e
 | `bs-form-field` | Container "label + input" on the PrimeFlex grid. Splits the row into a label column (`labelCols`) and an input column (`12 - labelCols`). Single child = the input. | `text`, `labelCols` (`"0"`…`"12"`, default `"4"`), `labelAlign` (`"left"` / `"center"` / `"right"`), `required` | [bsFormFieldComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsFormFieldComponent.html) |
 | `bs-input-pattern` | Single-line input with a regex validator (`pattern`). Reverts to the last valid value on `Tab` / `Enter` / `blur`. | `vModel`, `pattern` (literal `"^...$"` или `"/.../i"`), `size` | [bsInputPatternComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsInputPatternComponent.html) |
 | `bs-collapsible-group` | Collapsible group with a clickable title and a chevron. Children must be `bs-row`s. | `title`, `open` / `:open`, `text-align` (`"left"` / `"right"`) | [bsCollapsibleGroupComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsCollapsibleGroupComponent.html) |
-| `bs-object-reference-select` | Dropdown bound to a metadata reference (catalog / enum / operation). Lazy-loads items from the platform API by `dataType`. | `vModel`, `dataType` (`DataTypeUid`), `:text` (pre-filled display), `itemsSource` (JS expression for custom collection), `:header` / `:currentRow` (required when `itemsSource` reads `$h.` / `$r.`), `size`, `:disabled`, `showClear`, `appendTo = "body"` | [bsObjectReferenceSelectComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsObjectReferenceSelectComponent.html) |
-| `bs-details-table` | Editable detail table of the current document / catalog. Columns are `bs-details-table-column` children. | `:header` (= `"data.header"`), `:table` (= `"$t.<имя>"`), `name` (also used by `standard.refresh:<name>` / `standard.clear_filters:<name>`), `height` (`"stretch"` или CSS), `:resizableColumns`, `:reorderableColumns`, `size` (`"normal"` / `"compact"` / `"small"`), `paginator`. События: `@RowFieldChange`, `@TableChange`, `@RowRecalculate`. | [bsDetailsTableComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsDetailsTableComponent.html) |
+| `bs-object-reference-select` | Dropdown bound to a metadata reference (catalog / enum / operation). Lazy-loads items from the platform API by `dataType`. | `vModel`, `dataType` (`dataTypeUid`), `:text` (pre-filled display), `itemsSource` (JS expression for custom collection), `:header` / `:currentRow` (required when `itemsSource` reads `$h.` / `$r.`), `size`, `:disabled`, `showClear`, `appendTo = "body"` | [bsObjectReferenceSelectComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsObjectReferenceSelectComponent.html) |
+| `bs-details-table` | Editable detail table of the current document / catalog. columns are `bs-details-table-column` children. | `:header` (= `"data.header"`), `:table` (= `"$t.<имя>"`), `name` (also used by `standard.refresh:<name>` / `standard.clear_filters:<name>`), `height` (`"stretch"` или CSS), `:resizableColumns`, `:reorderableColumns`, `size` (`"normal"` / `"compact"` / `"small"`), `paginator`. События: `@RowFieldChange`, `@TableChange`, `@RowRecalculate`. | [bsDetailsTableComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsDetailsTableComponent.html) |
 | `bs-details-table-column` | Column of a `bs-details-table`. **Not rendered as a Vue node** — collected by the renderer into the `columns` prop. | `title`, `name` (column name; for reference columns use `<field>_display` to show the human title), `control` (`"input-text"` / `"input-textarea"` / `"input-pattern"` / `"input-number"` / `"input-checkbox"` / `"input-switch"` / `"input-date"` / `"input-datetime"` / `"dropdown"`), `width` (`"auto"` / `"120px"` / `"15rem"`), `sortable`, `sortField`, `frozen`, `disabled` / `:disabled`, `:visible`, `dataType` (для `dropdown`), `itemsSource`, `pattern` (для `input-pattern`), `numberDigits` (для `input-number`), `hasFilter`, `filterKind` (`"number"` / `"string"` / `"boolean"` / `"date"` / `"dateTime"` / `"objectReference"` / `"select"` / `"multiSelect"`) | (см. `bs-details-table` выше) |
-| `bs-table-view` | List view with filters, sorting and lazy server-side pagination. Columns are `bs-table-view-column` children. | `dataSource` (`"<kind>.<name>"` или выражение `from('…')…`), `name` (адресуется командой `standard.refresh:<name>`), `height` (`"stretch"` или CSS), `paginator`, `:data` (контекст для выражения `from(...)`), `:fixed-filters`, `:fixedSort`, `:rowTransformer`, `size` (`"normal"` / `"compact"` / `"small"`). События: `@RowSelect → "standard.row_select"`, `@RowDblClick → "standard.row_dbl_click"`. | [bsTableViewComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsTableViewComponent.html) |
+| `bs-table-view` | List view with filters, sorting and lazy server-side pagination. columns are `bs-table-view-column` children. | `dataSource` (`"<kind>.<name>"` или выражение `from('…')…`), `name` (адресуется командой `standard.refresh:<name>`), `height` (`"stretch"` или CSS), `paginator`, `:data` (контекст для выражения `from(...)`), `:fixed-filters`, `:fixedSort`, `:rowTransformer`, `size` (`"normal"` / `"compact"` / `"small"`). События: `@RowSelect → "standard.row_select"`, `@RowDblClick → "standard.row_dbl_click"`. | [bsTableViewComponent.md](https://basysteam.github.io/BaSys.Docs/ru/userInterface/bsTableViewComponent.html) |
 | `bs-table-view-column` | Column of a `bs-table-view`. **Not rendered as a Vue node** — collected by the renderer into the `columns` prop. | `title`, `name` (для ссылочных колонок — `<field>_display`), `width`, `sortable`, `frozen`, `format` (`""` / `"number"` / `"date"` / `"dateTime"` / `"boolean"` / `"tag"` / `"badge.<severity>"`), `numberDigits`, `filterKind` (`"none"` / `"string"` / `"number"` / `"boolean"` / `"date"` / `"dateTime"` / `"objectReference"` / `"multiSelect"`), `filterSource` (для `objectReference` / `multiSelect`), `iconClass`, `tagConfig` / `defaultTagConfig` / `tagSeverityMap` | (см. `bs-table-view` выше) |
 
 ### PrimeVue 3 components
 
-| `ComponentName` | Purpose | Typical props / events | Upstream doc |
+| `componentName` | Purpose | Typical props / events | Upstream doc |
 | :--- | :--- | :--- | :--- |
 | `pv-badge` | Counter / status indicator. Usually rendered in a toolbar `end` slot. | `value` / `:value` (e.g. `"$t.<имя>?.count()"`), `severity` (`"primary"` / `"info"` / `"success"` / `"warning"` / `"danger"`), `size` (`"small"` / `"large"` / `"xlarge"`), `slot` | [PrimeVue 3 — Badge](https://v3.primevue.org/badge/) |
 | `pv-button` | Standard button. Used for both command buttons and toolbar actions. | `label`, `icon` (`"pi pi-…"`), `severity` (`"primary"` / `"secondary"` / `"success"` / `"info"` / `"warning"` / `"help"` / `"danger"` / `"contrast"`), `size` (`"small"` / `"large"`), `outlined`, `text`, `loading`, `:disabled`, `slot`. Events: `@Click → "<command>"`. | [PrimeVue 3 — Button](https://v3.primevue.org/button/) |
 | `pv-button-group` | Structural container for `pv-button`s — no gaps, shared rounded corners. Children must all be `pv-button`s. | (no own props) | [PrimeVue 3 — Button / Group](https://v3.primevue.org/button/) |
 | `pv-split-button` | Button with a dropdown menu. Children — `pv-split-button-item`. | `label` (typically `"Действия"` или `"Печать"`), `severity`, `size`, `outlined`, `@Click` (rare — usually only menu items are wired) | [PrimeVue 3 — SplitButton](https://v3.primevue.org/splitbutton/) |
 | `pv-split-button-item` | Item of a `pv-split-button` dropdown. **Not a real Vue component** — collected into the parent's `model` prop. | `label`, `icon`, `command` (имя команды, **не `@Click`**) | (см. `pv-split-button` выше) |
-| `pv-divider` | Horizontal / vertical divider. Default: horizontal, solid, no content. | Usually only `Style = "margin: 5px"` is set. PrimeVue props (rarely used): `layout` (`"horizontal"` / `"vertical"`), `type` (`"solid"` / `"dotted"` / `"dashed"`), `align` | [PrimeVue 3 — Divider](https://v3.primevue.org/divider/) |
-| `pv-toolbar` | Flex container with `start` and `end` slots. Children mark their slot via `slot = "start"` / `slot = "end"`. | Default `Style = "display: flex; flex-wrap: wrap; gap: 5px;"`. No own props. | [PrimeVue 3 — Toolbar](https://v3.primevue.org/toolbar/) |
+| `pv-divider` | Horizontal / vertical divider. Default: horizontal, solid, no content. | Usually only `style = "margin: 5px"` is set. PrimeVue props (rarely used): `layout` (`"horizontal"` / `"vertical"`), `type` (`"solid"` / `"dotted"` / `"dashed"`), `align` | [PrimeVue 3 — Divider](https://v3.primevue.org/divider/) |
+| `pv-toolbar` | Flex container with `start` and `end` slots. Children mark their slot via `slot = "start"` / `slot = "end"`. | Default `style = "display: flex; flex-wrap: wrap; gap: 5px;"`. No own props. | [PrimeVue 3 — Toolbar](https://v3.primevue.org/toolbar/) |
 | `pv-tab-view` | Tab set. Children — `pv-tab-panel`. | `:activeIndex` (rare), `@TabChange`, `:pt` (only in programmable forms) | [PrimeVue 3 — TabView](https://v3.primevue.org/tabview/) |
-| `pv-tab-panel` | A single tab inside `pv-tab-view`. May carry `DataUid` of the bound detail table. | `header` (label), `:disabled`, `:key` (forces re-render on value change, e.g. `"$h.статус"`) | [PrimeVue 3 — TabView](https://v3.primevue.org/tabview/) |
+| `pv-tab-panel` | A single tab inside `pv-tab-view`. May carry `dataUid` of the bound detail table. | `header` (label), `:disabled`, `:key` (forces re-render on value change, e.g. `"$h.статус"`) | [PrimeVue 3 — TabView](https://v3.primevue.org/tabview/) |
 | `pv-calendar` | Date / date-time input. | `vModel = "$h.<имя>"`, `dateFormat` (`"dd.mm.yy"`), `:showTime`, `:timeOnly`, `showIcon`, `iconDisplay = "input"`, `showButtonBar`, `size = "small"`, `:disabled` | [PrimeVue 3 — Calendar](https://v3.primevue.org/calendar/) |
 | `pv-checkbox` | Single boolean checkbox. Always set `binary = "true"`. | `vModel`, `binary = "true"`, `:disabled` | [PrimeVue 3 — Checkbox](https://v3.primevue.org/checkbox/) |
 | `pv-input-switch` | Boolean toggle (alternative to `pv-checkbox`). | `vModel`, `inputId` (для связки с `bs-label`), `:disabled`, `@Change` | [PrimeVue 3 — InputSwitch](https://v3.primevue.org/inputswitch/) |
@@ -335,34 +335,34 @@ For exhaustive props / events / slots — consult the upstream doc linked from e
 
 Compact JSON fragments for the most common scenarios. All examples are real (or close to real) snippets from this repository.
 
-### Title row and modification flags
+### title row and modification flags
 
 ```json
 {
-  "Id": "bs-row-VALQSs",
-  "ComponentName": "bs-row",
-  "CssClass": "grid",
-  "Style": "",
-  "Properties": [],
-  "Items": [
+  "id": "bs-row-VALQSs",
+  "componentName": "bs-row",
+  "cssClass": "grid",
+  "style": "",
+  "properties": [],
+  "items": [
     {
-      "Id": "bs-col-DqWxvQ",
-      "ComponentName": "bs-col",
-      "CssClass": "col",
-      "Style": "",
-      "Properties": [],
-      "Items": [
+      "id": "bs-col-DqWxvQ",
+      "componentName": "bs-col",
+      "cssClass": "col",
+      "style": "",
+      "properties": [],
+      "items": [
         {
-          "Id": "bs-view-title-X8aCWq",
-          "ComponentName": "bs-view-title",
-          "CssClass": "",
-          "Style": "",
-          "Properties": [
-            { "Name": ":title",      "Value": "`Операция.Задача # ${data.header.number} от ${formatter.formatDateTime(data.header.date)}`" },
-            { "Name": ":isWaiting",  "Value": "isWaiting" },
-            { "Name": ":isModified", "Value": "isModified" }
+          "id": "bs-view-title-X8aCWq",
+          "componentName": "bs-view-title",
+          "cssClass": "",
+          "style": "",
+          "properties": [
+            { "name": ":title",      "value": "`Операция.Задача # ${data.header.number} от ${formatter.formatDateTime(data.header.date)}`" },
+            { "name": ":isWaiting",  "value": "isWaiting" },
+            { "name": ":isModified", "value": "isModified" }
           ],
-          "Items": []
+          "items": []
         }
       ]
     }
@@ -374,38 +374,38 @@ Compact JSON fragments for the most common scenarios. All examples are real (or 
 
 ```json
 {
-  "Id": "pv-button-group-uM22qD",
-  "ComponentName": "pv-button-group",
-  "CssClass": "",
-  "Style": "",
-  "Properties": [],
-  "Items": [
+  "id": "pv-button-group-uM22qD",
+  "componentName": "pv-button-group",
+  "cssClass": "",
+  "style": "",
+  "properties": [],
+  "items": [
     {
-      "Id": "pv-button-YLSvAe",
-      "ComponentName": "pv-button",
-      "Properties": [
-        { "Name": "label",     "Value": "Вернуться" },
-        { "Name": "icon",      "Value": "pi pi-arrow-left" },
-        { "Name": "@Click",    "Value": "standard.return" },
-        { "Name": "severity",  "Value": "primary" },
-        { "Name": "size",      "Value": "small" },
-        { "Name": "outlined",  "Value": "outlined" }
+      "id": "pv-button-YLSvAe",
+      "componentName": "pv-button",
+      "properties": [
+        { "name": "label",     "value": "Вернуться" },
+        { "name": "icon",      "value": "pi pi-arrow-left" },
+        { "name": "@Click",    "value": "standard.return" },
+        { "name": "severity",  "value": "primary" },
+        { "name": "size",      "value": "small" },
+        { "name": "outlined",  "value": "outlined" }
       ],
-      "Items": []
+      "items": []
     },
     {
-      "Id": "pv-button-OlwYc7",
-      "ComponentName": "pv-button",
-      "Properties": [
-        { "Name": "label",     "Value": "Сохранить" },
-        { "Name": "icon",      "Value": "pi pi-save" },
-        { "Name": "@Click",    "Value": "standard.save" },
-        { "Name": "severity",  "Value": "primary" },
-        { "Name": "size",      "Value": "small" },
-        { "Name": "outlined",  "Value": "outlined" },
-        { "Name": ":disabled", "Value": "!$h.is_task_user" }
+      "id": "pv-button-OlwYc7",
+      "componentName": "pv-button",
+      "properties": [
+        { "name": "label",     "value": "Сохранить" },
+        { "name": "icon",      "value": "pi pi-save" },
+        { "name": "@Click",    "value": "standard.save" },
+        { "name": "severity",  "value": "primary" },
+        { "name": "size",      "value": "small" },
+        { "name": "outlined",  "value": "outlined" },
+        { "name": ":disabled", "value": "!$h.is_task_user" }
       ],
-      "Items": []
+      "items": []
     }
   ]
 }
@@ -415,36 +415,36 @@ Compact JSON fragments for the most common scenarios. All examples are real (or 
 
 ```json
 {
-  "Id": "pv-split-button-u0LAOa",
-  "ComponentName": "pv-split-button",
-  "CssClass": "ml-1",
-  "Style": "",
-  "Properties": [
-    { "Name": "label",    "Value": "Действия" },
-    { "Name": "severity", "Value": "primary" },
-    { "Name": "size",     "Value": "small" },
-    { "Name": "outlined", "Value": "outlined" }
+  "id": "pv-split-button-u0LAOa",
+  "componentName": "pv-split-button",
+  "cssClass": "ml-1",
+  "style": "",
+  "properties": [
+    { "name": "label",    "value": "Действия" },
+    { "name": "severity", "value": "primary" },
+    { "name": "size",     "value": "small" },
+    { "name": "outlined", "value": "outlined" }
   ],
-  "Items": [
+  "items": [
     {
-      "Id": "pv-split-button-item-dSdtWl",
-      "ComponentName": "pv-split-button-item",
-      "Properties": [
-        { "Name": "label",   "Value": "Обновить" },
-        { "Name": "icon",    "Value": "pi pi-refresh" },
-        { "Name": "command", "Value": "standard.refresh:list" }
+      "id": "pv-split-button-item-dSdtWl",
+      "componentName": "pv-split-button-item",
+      "properties": [
+        { "name": "label",   "value": "Обновить" },
+        { "name": "icon",    "value": "pi pi-refresh" },
+        { "name": "command", "value": "standard.refresh:list" }
       ],
-      "Items": []
+      "items": []
     },
     {
-      "Id": "pv-split-button-item-TJkC1o",
-      "ComponentName": "pv-split-button-item",
-      "Properties": [
-        { "Name": "label",   "Value": "Очистить фильтры" },
-        { "Name": "icon",    "Value": "pi pi-filter-slash" },
-        { "Name": "command", "Value": "standard.clear_filters:list" }
+      "id": "pv-split-button-item-TJkC1o",
+      "componentName": "pv-split-button-item",
+      "properties": [
+        { "name": "label",   "value": "Очистить фильтры" },
+        { "name": "icon",    "value": "pi pi-filter-slash" },
+        { "name": "command", "value": "standard.clear_filters:list" }
       ],
-      "Items": []
+      "items": []
     }
   ]
 }
@@ -456,56 +456,56 @@ Note: split-button items use **`command`**, not `@Click`.
 
 ```json
 {
-  "Id": "bs-form-field-wAf07A",
-  "DataUid": "0d9fc741-1867-e208-b0db-4d1bc02b44d2",
-  "ComponentName": "bs-form-field",
-  "CssClass": "",
-  "Style": "",
-  "Properties": [
-    { "Name": "text",      "Value": "Автор" },
-    { "Name": "labelCols", "Value": "4" },
-    { "Name": "required",  "Value": "" }
+  "id": "bs-form-field-wAf07A",
+  "dataUid": "0d9fc741-1867-e208-b0db-4d1bc02b44d2",
+  "componentName": "bs-form-field",
+  "cssClass": "",
+  "style": "",
+  "properties": [
+    { "name": "text",      "value": "Автор" },
+    { "name": "labelCols", "value": "4" },
+    { "name": "required",  "value": "" }
   ],
-  "Items": [
+  "items": [
     {
-      "Id": "bs-object-reference-select-author",
-      "DataUid": "0d9fc741-1867-e208-b0db-4d1bc02b44d2",
-      "ComponentName": "bs-object-reference-select",
-      "CssClass": "",
-      "Style": "",
-      "Properties": [
-        { "Name": "vModel",   "Value": "$h.author" },
-        { "Name": "size",     "Value": "small" },
-        { "Name": "dataType", "Value": "30fa0620-3db1-43e2-a700-b6295739bbb6" }
+      "id": "bs-object-reference-select-author",
+      "dataUid": "0d9fc741-1867-e208-b0db-4d1bc02b44d2",
+      "componentName": "bs-object-reference-select",
+      "cssClass": "",
+      "style": "",
+      "properties": [
+        { "name": "vModel",   "value": "$h.author" },
+        { "name": "size",     "value": "small" },
+        { "name": "dataType", "value": "30fa0620-3db1-43e2-a700-b6295739bbb6" }
       ],
-      "Items": []
+      "items": []
     }
   ]
 }
 ```
 
-`DataUid` on both the wrapper and the input points to the same column UID. `dataType` is a `DataTypeUid` from `system/dataTypes.json` — never invent it.
+`dataUid` on both the wrapper and the input points to the same column UID. `dataType` is a `dataTypeUid` from `system/dataTypes.json` — never invent it.
 
 ### Date-time field with conditional disable
 
 ```json
 {
-  "Id": "pv-calendar-YKavgY",
-  "DataUid": "28ae968a-973d-bd39-28fa-7ec91799c2ad",
-  "ComponentName": "pv-calendar",
-  "CssClass": "",
-  "Style": "",
-  "Properties": [
-    { "Name": "vModel",         "Value": "$h.deadline" },
-    { "Name": "size",           "Value": "small" },
-    { "Name": "showIcon",       "Value": "" },
-    { "Name": "showButtonBar",  "Value": "" },
-    { "Name": "iconDisplay",    "Value": "input" },
-    { "Name": ":showTime",      "Value": "true" },
-    { "Name": "dateFormat",     "Value": "dd.mm.yy" },
-    { "Name": ":disabled",      "Value": "!$h.is_user_author" }
+  "id": "pv-calendar-YKavgY",
+  "dataUid": "28ae968a-973d-bd39-28fa-7ec91799c2ad",
+  "componentName": "pv-calendar",
+  "cssClass": "",
+  "style": "",
+  "properties": [
+    { "name": "vModel",         "value": "$h.deadline" },
+    { "name": "size",           "value": "small" },
+    { "name": "showIcon",       "value": "" },
+    { "name": "showButtonBar",  "value": "" },
+    { "name": "iconDisplay",    "value": "input" },
+    { "name": ":showTime",      "value": "true" },
+    { "name": "dateFormat",     "value": "dd.mm.yy" },
+    { "name": ":disabled",      "value": "!$h.is_user_author" }
   ],
-  "Items": []
+  "items": []
 }
 ```
 
@@ -513,30 +513,30 @@ Note: split-button items use **`command`**, not `@Click`.
 
 ```json
 {
-  "Id": "bs-collapsible-group-JlldTC",
-  "ComponentName": "bs-collapsible-group",
-  "CssClass": "",
-  "Style": "",
-  "Properties": [
-    { "Name": "title",      "Value": "Основные" },
-    { "Name": "open",       "Value": "true" },
-    { "Name": "text-align", "Value": "right" }
+  "id": "bs-collapsible-group-JlldTC",
+  "componentName": "bs-collapsible-group",
+  "cssClass": "",
+  "style": "",
+  "properties": [
+    { "name": "title",      "value": "Основные" },
+    { "name": "open",       "value": "true" },
+    { "name": "text-align", "value": "right" }
   ],
-  "Items": [
+  "items": [
     {
-      "Id": "bs-row-ZEW0KN",
-      "ComponentName": "bs-row",
-      "CssClass": "grid",
-      "Style": "",
-      "Properties": [],
-      "Items": [
+      "id": "bs-row-ZEW0KN",
+      "componentName": "bs-row",
+      "cssClass": "grid",
+      "style": "",
+      "properties": [],
+      "items": [
         {
-          "Id": "bs-col-xxx",
-          "ComponentName": "bs-col",
-          "CssClass": "col-6",
-          "Style": "",
-          "Properties": [],
-          "Items": [
+          "id": "bs-col-xxx",
+          "componentName": "bs-col",
+          "cssClass": "col-6",
+          "style": "",
+          "properties": [],
+          "items": [
             /* bs-form-field with input */
           ]
         }
@@ -552,52 +552,52 @@ Children of `bs-collapsible-group` must be `bs-row`s — direct content (a butto
 
 ```json
 {
-  "Id": "pv-tab-view-UFNeID",
-  "ComponentName": "pv-tab-view",
-  "CssClass": "w-full",
-  "Style": "",
-  "Properties": [],
-  "Items": [
+  "id": "pv-tab-view-UFNeID",
+  "componentName": "pv-tab-view",
+  "cssClass": "w-full",
+  "style": "",
+  "properties": [],
+  "items": [
     {
-      "Id": "pv-tab-panel-YccvYN",
-      "DataUid": "dc29dbd1-2a91-c867-3e20-4b9354d33c29",
-      "ComponentName": "pv-tab-panel",
-      "Properties": [
-        { "Name": "header", "Value": "Тарифы" }
+      "id": "pv-tab-panel-YccvYN",
+      "dataUid": "dc29dbd1-2a91-c867-3e20-4b9354d33c29",
+      "componentName": "pv-tab-panel",
+      "properties": [
+        { "name": "header", "value": "Тарифы" }
       ],
-      "Items": [
+      "items": [
         {
-          "Id": "bs-row-EhFAQP",
-          "ComponentName": "bs-row",
-          "CssClass": "grid",
-          "Properties": [],
-          "Items": [
+          "id": "bs-row-EhFAQP",
+          "componentName": "bs-row",
+          "cssClass": "grid",
+          "properties": [],
+          "items": [
             {
-              "Id": "bs-col-xxx",
-              "ComponentName": "bs-col",
-              "CssClass": "col",
-              "Properties": [],
-              "Items": [
+              "id": "bs-col-xxx",
+              "componentName": "bs-col",
+              "cssClass": "col",
+              "properties": [],
+              "items": [
                 {
-                  "Id": "bs-details-table-tqVFVK",
-                  "ComponentName": "bs-details-table",
-                  "Properties": [
-                    { "Name": ":header", "Value": "data.header" },
-                    { "Name": ":table",  "Value": "$t.table_1" },
-                    { "Name": "height",  "Value": "stretch" },
-                    { "Name": "name",    "Value": "table_1" }
+                  "id": "bs-details-table-tqVFVK",
+                  "componentName": "bs-details-table",
+                  "properties": [
+                    { "name": ":header", "value": "data.header" },
+                    { "name": ":table",  "value": "$t.table_1" },
+                    { "name": "height",  "value": "stretch" },
+                    { "name": "name",    "value": "table_1" }
                   ],
-                  "Items": [
+                  "items": [
                     {
-                      "Id": "bs-details-table-column-тариф",
-                      "ComponentName": "bs-details-table-column",
-                      "Properties": [
-                        { "Name": "title",   "Value": "Тариф, руб" },
-                        { "Name": "name",    "Value": "тариф" },
-                        { "Name": "control", "Value": "input-number" },
-                        { "Name": "width",   "Value": "auto" }
+                      "id": "bs-details-table-column-тариф",
+                      "componentName": "bs-details-table-column",
+                      "properties": [
+                        { "name": "title",   "value": "Тариф, руб" },
+                        { "name": "name",    "value": "тариф" },
+                        { "name": "control", "value": "input-number" },
+                        { "name": "width",   "value": "auto" }
                       ],
-                      "Items": []
+                      "items": []
                     }
                   ]
                 }
@@ -611,50 +611,50 @@ Children of `bs-collapsible-group` must be `bs-row`s — direct content (a butto
 }
 ```
 
-The `DataUid` on `pv-tab-panel` points to the detail table's UID; `:table` resolves the detail table by its technical name via the `$t.` shortcut.
+The `dataUid` on `pv-tab-panel` points to the detail table's UID; `:table` resolves the detail table by its technical name via the `$t.` shortcut.
 
 ### Toolbar with a row counter
 
 ```json
 {
-  "Id": "pv-toolbar-JVyHFb",
-  "ComponentName": "pv-toolbar",
-  "Style": "padding: 0.2rem; margin-bottom: 0.2rem",
-  "Properties": [],
-  "Items": [
+  "id": "pv-toolbar-JVyHFb",
+  "componentName": "pv-toolbar",
+  "style": "padding: 0.2rem; margin-bottom: 0.2rem",
+  "properties": [],
+  "items": [
     {
-      "Id": "pv-button-Px6yls",
-      "ComponentName": "pv-button",
-      "Properties": [
-        { "Name": "icon",     "Value": "pi pi-plus" },
-        { "Name": "@Click",   "Value": "standard.table_add:время" },
-        { "Name": "severity", "Value": "primary" },
-        { "Name": "size",     "Value": "small" },
-        { "Name": "text",     "Value": "" },
-        { "Name": "slot",     "Value": "start" }
+      "id": "pv-button-Px6yls",
+      "componentName": "pv-button",
+      "properties": [
+        { "name": "icon",     "value": "pi pi-plus" },
+        { "name": "@Click",   "value": "standard.table_add:время" },
+        { "name": "severity", "value": "primary" },
+        { "name": "size",     "value": "small" },
+        { "name": "text",     "value": "" },
+        { "name": "slot",     "value": "start" }
       ],
-      "Items": []
+      "items": []
     },
     {
-      "Id": "bs-text-ZCPAci",
-      "ComponentName": "bs-text",
-      "Properties": [
-        { "Name": "text", "Value": "Учет отработанного времени" },
-        { "Name": "slot", "Value": "end" }
+      "id": "bs-text-ZCPAci",
+      "componentName": "bs-text",
+      "properties": [
+        { "name": "text", "value": "Учет отработанного времени" },
+        { "name": "slot", "value": "end" }
       ],
-      "Items": []
+      "items": []
     },
     {
-      "Id": "pv-badge-gQIbPu",
-      "ComponentName": "pv-badge",
-      "CssClass": "ml-1",
-      "Properties": [
-        { "Name": ":value",   "Value": "data.tables.время?.count()" },
-        { "Name": "severity", "Value": "primary" },
-        { "Name": "size",     "Value": "small" },
-        { "Name": "slot",     "Value": "end" }
+      "id": "pv-badge-gQIbPu",
+      "componentName": "pv-badge",
+      "cssClass": "ml-1",
+      "properties": [
+        { "name": ":value",   "value": "data.tables.время?.count()" },
+        { "name": "severity", "value": "primary" },
+        { "name": "size",     "value": "small" },
+        { "name": "slot",     "value": "end" }
       ],
-      "Items": []
+      "items": []
     }
   ]
 }
@@ -665,8 +665,8 @@ The `DataUid` on `pv-tab-panel` points to the detail table's UID; `:table` resol
 When the visual style of a component needs adjusting, prefer in this order:
 
 1. **Component props** — `severity`, `size`, `outlined`, `text`, `:showTime`, … — they are theme-aware and survive theme changes.
-2. **PrimeFlex / PrimeVue CSS classes** in `CssClass` — `ml-1`, `mt-2`, `col-6`, `text-right`, `w-full`, …
-3. **Inline `Style`** — only as a last resort, when neither props nor classes can express the requirement (e.g. `min-width: 180px;`, `padding: 3px;`, `gap: 5px;`).
+2. **PrimeFlex / PrimeVue CSS classes** in `cssClass` — `ml-1`, `mt-2`, `col-6`, `text-right`, `w-full`, …
+3. **Inline `style`** — only as a last resort, when neither props nor classes can express the requirement (e.g. `min-width: 180px;`, `padding: 3px;`, `gap: 5px;`).
 
 Do not use inline styles for colors or font weights when a `severity` / utility class would do.
 
@@ -674,27 +674,27 @@ Do not use inline styles for colors or font weights when a `severity` / utility 
 
 When the user asks to modify an existing constructor form:
 
-- **Do not regenerate `Id` values** of existing elements — they may be referenced by the visual editor for selection / drag-and-drop. Reuse them as-is and generate new `{componentName}-{6chars}` IDs only for newly added elements.
-- **Preserve `DataUid` values** of existing fields, columns and tab panels — they tie the form to metadata columns / detail tables.
-- **Do not flip `FormKind`** between `0`, `1` and `-1`. Constructor forms (`.json`, `FormKind = 1`) and programmable forms (`.vue`, `FormKind = 0`) are distinct artefacts living in different files.
-- **Do not bump `Version`** manually — the server increments it on save.
+- **Do not regenerate `id` values** of existing elements — they may be referenced by the visual editor for selection / drag-and-drop. Reuse them as-is and generate new `{componentName}-{6chars}` IDs only for newly added elements.
+- **Preserve `dataUid` values** of existing fields, columns and tab panels — they tie the form to metadata columns / detail tables.
+- **Do not flip `formKind`** between `0`, `1` and `-1`. Constructor forms (`.json`, `formKind = 1`) and programmable forms (`.vue`, `formKind = 0`) are distinct artefacts living in different files.
+- **Do not bump `version`** manually — the server increments it on save.
 - When adding a button to an existing toolbar / button group, drop it next to its siblings rather than building a new toolbar — match the surrounding structure.
-- When adding a new field, wrap the input in `bs-form-field` and place the wrapper in the appropriate `bs-col` of the existing header grid / collapsible group. Set `DataUid` on both the `bs-form-field` and the input.
+- When adding a new field, wrap the input in `bs-form-field` and place the wrapper in the appropriate `bs-col` of the existing header grid / collapsible group. Set `dataUid` on both the `bs-form-field` and the input.
 
 ## Building / Editing Checklist
 
 When the user asks to create a new constructor form:
 
-1. **Check the kind.** `system/kinds/kind.{kindName}.json` must have `UseForms = true`. Otherwise stop and tell the user.
-2. **Pick the form name.** snake_case English, unique within the metaobject (e.g. `list_main`, `edit_main`, `dashboard`). Compose the filename `{kind.Name}.{object.Name}.form.{form.Name}.json`.
-3. **Generate fresh UIDs.** `Uid` of the form (UUID v4). Reuse `MetaObjectUid` of the owner metaobject — do not invent UUIDs.
-4. **Set top-level fields.** `$schema`, `Uid`, `MetaObjectUid`, `FormKind = 1`, `Title`, `Name`, `Memo`, `Version = 1`.
-5. **Build the `Root`.** Always `ComponentName = "bs-form"`.
+1. **Check the kind.** `system/kinds/kind.{kindName}.json` must have `useForms = true`. Otherwise stop and tell the user.
+2. **Pick the form name.** snake_case English, unique within the metaobject (e.g. `list_main`, `edit_main`, `dashboard`). Compose the filename `{kind.name}.{object.name}.form.{form.name}.json`.
+3. **Generate fresh UIDs.** `uid` of the form (UUID v4). Reuse `metaObjectUid` of the owner metaobject — do not invent UUIDs.
+4. **Set top-level fields.** `$schema`, `uid`, `metaObjectUid`, `formKind = 1`, `title`, `name`, `memo`, `version = 1`.
+5. **Build the `root`.** Always `componentName = "bs-form"`.
 6. **Pick the canonical skeleton** (list or edit — see the two sections above) and add the rows in order.
-7. **Generate `Id`** for each new element as `{componentName}-{6chars}` (the 6-character tail is a short random suffix). Keep IDs unique within the form.
-8. **Wire data bindings.** Use `$h.`, `$t.`, `$r.` shortcuts for `vModel` and `:`-bindings. Set `DataUid` on every field-bound `bs-form-field`, `bs-details-table-column`, `bs-table-view-column` and on each input that binds to a column.
-9. **Wire events.** Standard commands as `@Click → "standard.<command>[:<table>]"`, custom commands by their `Name`. Split-button items use `command`, not `@Click`.
-10. **OnInitializedScript** — only if needed. If yes, create the companion `{kind.Name}.{object.Name}.form.{form.Name}.on_initialized.bjs` and write its filename into the JSON field. Do not inline JS into the JSON field.
-11. **Validate.** The file must match `system/schemas/constructorFormSettings.schema.json`. Every `ComponentName` must come from the closed registry above. Every `DataUid` must point to a real column / detail table UID in the metaobject.
+7. **Generate `id`** for each new element as `{componentName}-{6chars}` (the 6-character tail is a short random suffix). Keep IDs unique within the form.
+8. **Wire data bindings.** Use `$h.`, `$t.`, `$r.` shortcuts for `vModel` and `:`-bindings. Set `dataUid` on every field-bound `bs-form-field`, `bs-details-table-column`, `bs-table-view-column` and on each input that binds to a column.
+9. **Wire events.** Standard commands as `@Click → "standard.<command>[:<table>]"`, custom commands by their `name`. Split-button items use `command`, not `@Click`.
+10. **`onInitializedScript`** — only if needed. If yes, create the companion `{kind.name}.{object.name}.form.{form.name}.on_initialized.bjs` and write its filename into the JSON field. Do not inline JS into the JSON field.
+11. **Validate.** The file must match `system/schemas/constructorFormSettings.schema.json`. Every `componentName` must come from the closed registry above. Every `dataUid` must point to a real column / detail table UID in the metaobject.
 
 When editing an existing form, skip steps 1–4 and 11.last-checks and focus on points 6–10.

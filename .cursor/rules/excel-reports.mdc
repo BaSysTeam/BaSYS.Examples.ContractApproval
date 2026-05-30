@@ -22,12 +22,12 @@ For typical tables, dashboards, charts, KPIs, pivots — use a `data_view` inste
 
 ## File Layout
 
-- Kind `excel_report` has `StoreData = false` and `IsReference = false` → do **not** add an entry to `system/dataTypes.json`.
+- Kind `excel_report` has `storeData = false` and `isReference = false` → do **not** add an entry to `system/dataTypes.json`.
 - Settings file location: `excel_report/{name}/excel_report.{name}.json` — must validate against `system/schemas/excelReportSettings.schema.json` (set `$schema` to the correct relative path).
-- Top-level structure follows the standard metaobject conventions (`Uid`, `Name`, `Title`, `Memo`, `IsActive`, `Version`) plus two collections: `DataSources`, `Filters`.
+- Top-level structure follows the standard metaobject conventions (`uid`, `name`, `title`, `memo`, `isActive`, `version`) plus two collections: `dataSources`, `filters`.
 - **Template** is stored as a **separate binary `.xlsx` file** in the same folder, named **strictly** `excel_report.{name}.template.xlsx` (this exact filename is what the import pipeline looks for). The template is **not** referenced from the JSON — the binding is by filename convention. Do **not** invent a custom name and do **not** embed the template content into the JSON.
 - Data source scripts are stored as **separate `.bjs` files** in the same folder, named by the template `excel_report.{name}.data_source.{dataSourceName}.bjs` (e.g. `excel_report/sales_report/excel_report.sales_report.data_source.rows.bjs`).
-- No `Header`, `DetailTables`, `Commands`, `Forms` or `RecordsSettings` — Excel reports store no user data and have no edit form.
+- No `header`, `detailTables`, `commands`, `Forms` or `recordsSettings` — Excel reports store no user data and have no edit form.
 
 ### Working With the Template `.xlsx` File
 
@@ -41,23 +41,23 @@ Rules for the agent:
 
 ## Data Sources
 
-Each entry of `DataSources` declares a named expression whose result is exposed to the template (and to subsequent data sources) under that name.
+Each entry of `dataSources` declares a named expression whose result is exposed to the template (and to subsequent data sources) under that name.
 
 | Field        | Purpose                                                                                                |
 | :----------- | :----------------------------------------------------------------------------------------------------- |
-| `Uid`        | Freshly generated UUID v4 for the data source.                                                         |
-| `Name`       | Identifier (snake_case English). Becomes the key on `_data` and the marker name in the template.       |
-| `Expression` | Filename of the companion `.bjs` script (e.g. `excel_report.sales_report.data_source.rows.bjs`).       |
-| `Memo`       | Short description of what the source returns.                                                          |
+| `uid`        | Freshly generated UUID v4 for the data source.                                                         |
+| `name`       | Identifier (snake_case English). Becomes the key on `_data` and the marker name in the template.       |
+| `expression` | Filename of the companion `.bjs` script (e.g. `excel_report.sales_report.data_source.rows.bjs`).       |
+| `memo`       | Short description of what the source returns.                                                          |
 
 Key rules:
 
 - Sources are evaluated **strictly in declaration order**. Later sources may use earlier results via `_data.<earlierName>`. Order matters — put base queries first, derived aggregations afterwards.
-- The `Expression` field must contain the **filename** of the `.bjs` script (not the script body). Create both the `DataSources` entry **and** the corresponding `.bjs` file. File naming: `excel_report.{objectName}.data_source.{dataSourceName}.bjs`.
+- The `expression` field must contain the **filename** of the `.bjs` script (not the script body). Create both the `dataSources` entry **and** the corresponding `.bjs` file. File naming: `excel_report.{objectName}.data_source.{dataSourceName}.bjs`.
 - The script **must `return`** its result.
 - Three implicit variables are available inside a data source script:
   - `_filters` — array of active filter values. Pass into the query builder via `.withFilters(_filters)`.
-  - `_data` — dictionary of results of **earlier** data sources, addressable by their `Name` (e.g. `_data.rows`).
+  - `_data` — dictionary of results of **earlier** data sources, addressable by their `name` (e.g. `_data.rows`).
   - `_parameters` — dictionary of call parameters (rarely used).
 - Prefer the BaSYS query builder (`from('kind.name').…query()`) over plain JS for DB access. See https://basysteam.github.io/BaSys.Docs/ru/calculations/queryBuilder.html.
 - Use `.getDisplays()` when querying reference fields so that human-readable display values are available as `<column>_display` for use in template markers.
@@ -69,8 +69,8 @@ Key rules:
 | :-------------------------------- | :------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Scalar (string, number, date, bool) | `{{sourceName}}`                                |                                                                                                                                                      |
 | Object / dictionary / `Expando`   | `{{sourceName.property}}`                         | Server converts the dictionary into a typed CLR object on the fly (cached by signature). Dotted access works after conversion.                       |
-| Collection of typed objects       | `{{item.Property}}` inside a named range          | The template must contain a **named range** whose name matches the data source `Name`. The engine repeats the range area per element.                |
-| `DataTable`                       | `{{item["ColumnName"]}}` or `{{item[index]}}`     | Passed as `DataRowCollection`. Also requires a named range named after the source.                                                                   |
+| Collection of typed objects       | `{{item.Property}}` inside a named range          | The template must contain a **named range** whose name matches the data source `name`. The engine repeats the range area per element.                |
+| `DataTable`                       | `{{item["columnName"]}}` or `{{item[index]}}`     | Passed as `DataRowCollection`. Also requires a named range named after the source.                                                                   |
 
 ### Computing Totals
 
@@ -81,18 +81,18 @@ Totals should usually be computed **in a separate data source** that consumes th
 `excel_report/sales_report/excel_report.sales_report.json` (excerpt):
 
 ```json
-"DataSources": [
+"dataSources": [
   {
-    "Uid": "3f5eb097-ca63-2414-4a5f-5ee0dc4e342e",
-    "Name": "rows",
-    "Expression": "excel_report.sales_report.data_source.rows.bjs",
-    "Memo": "Строки отчёта — выгрузка движений по регистру с фильтрами формы."
+    "uid": "3f5eb097-ca63-2414-4a5f-5ee0dc4e342e",
+    "name": "rows",
+    "expression": "excel_report.sales_report.data_source.rows.bjs",
+    "memo": "Строки отчёта — выгрузка движений по регистру с фильтрами формы."
   },
   {
-    "Uid": "6179d17a-74ca-6a78-60c7-8d37eeb5a49f",
-    "Name": "totals",
-    "Expression": "excel_report.sales_report.data_source.totals.bjs",
-    "Memo": "Итоговые суммы, рассчитанные поверх _data.rows."
+    "uid": "6179d17a-74ca-6a78-60c7-8d37eeb5a49f",
+    "name": "totals",
+    "expression": "excel_report.sales_report.data_source.totals.bjs",
+    "memo": "Итоговые суммы, рассчитанные поверх _data.rows."
   }
 ]
 ```
@@ -126,24 +126,24 @@ In the template, `rows` is a named range with cells like `{{item["contract_displ
 
 ## Filters
 
-`Filters` configure the standard BaSYS filter bar / sidebar, integrated with the query builder. Each entry has the following fields:
+`filters` configure the standard BaSYS filter bar / sidebar, integrated with the query builder. Each entry has the following fields:
 
 | Field                       | Purpose                                                                                                                                  |
 | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
-| `Uid`                       | Freshly generated UUID v4.                                                                                                               |
-| `Name`                      | Identifier used as the parameter name in queries (snake_case English; Cyrillic allowed only for filters that match a real Cyrillic column on the underlying source). |
-| `Title`                     | Human-readable label shown in the UI.                                                                                                    |
-| `DataPath`                  | Optional column path inside the source (usually `""`).                                                                                   |
-| `DataTypeUid`               | UID from `system/dataTypes.json` describing the value type.                                                                              |
-| `NumberDigits`              | Number of fractional digits for numeric filters (else `0`).                                                                              |
-| `DefaultComparisonKind`     | Default operator: `0` Equal, `1` NotEqual, `2` Greater, `3` GreaterOrEqual, `4` Less, `5` LessOrEqual, `6` Between.                      |
-| `RenderPlace`               | `0` Sidebar, `1` Header (above the command bar).                                                                                         |
-| `ControlKindUid`            | UID of the input control (period picker, reference picker, date, number, etc.) — copy from a working filter of the same data type.      |
-| `JoinOperator`              | `0` And, `1` Or — how the filter combines with neighbours.                                                                               |
-| `Required`                  | If `true`, the report will not build until the user fills this filter.                                                                   |
-| `AvailableComparisonKinds`  | Optional whitelist of operators offered in the UI (empty array = all kinds available).                                                   |
+| `uid`                       | Freshly generated UUID v4.                                                                                                               |
+| `name`                      | Identifier used as the parameter name in queries (snake_case English; Cyrillic allowed only for filters that match a real Cyrillic column on the underlying source). |
+| `title`                     | Human-readable label shown in the UI.                                                                                                    |
+| `dataPath`                  | Optional column path inside the source (usually `""`).                                                                                   |
+| `dataTypeUid`               | UID from `system/dataTypes.json` describing the value type.                                                                              |
+| `numberDigits`              | Number of fractional digits for numeric filters (else `0`).                                                                              |
+| `defaultComparisonKind`     | Default operator: `0` Equal, `1` NotEqual, `2` Greater, `3` GreaterOrEqual, `4` Less, `5` LessOrEqual, `6` Between.                      |
+| `renderPlace`               | `0` Sidebar, `1` Header (above the command bar).                                                                                         |
+| `controlKindUid`            | UID of the input control (period picker, reference picker, date, number, etc.) — copy from a working filter of the same data type.      |
+| `joinOperator`              | `0` And, `1` Or — how the filter combines with neighbours.                                                                               |
+| `required`                  | If `true`, the report will not build until the user fills this filter.                                                                   |
+| `availableComparisonKinds`  | Optional whitelist of operators offered in the UI (empty array = all kinds available).                                                   |
 
-Active filter values are passed into every data source through the implicit `_filters` array and are applied to the query builder via `.withFilters(_filters)`. The query builder will look up each filter by its `Name` and apply the right column / operator pair, so the filter `Name` must match the column key produced by `select` (or by `getDisplays`).
+Active filter values are passed into every data source through the implicit `_filters` array and are applied to the query builder via `.withFilters(_filters)`. The query builder will look up each filter by its `name` and apply the right column / operator pair, so the filter `name` must match the column key produced by `select` (or by `getDisplays`).
 
 For a deeper description of filter setup and the available control kinds see the BaSYS docs on configurable filters.
 
@@ -153,7 +153,7 @@ The agent does not write `.xlsx` files but must instruct the user on the marker 
 
 - **Scalar value:** `{{sourceName}}` (e.g. `{{period}}`).
 - **Property of an object source:** `{{sourceName.property}}` (e.g. `{{totals.amount}}`).
-- **Collection / DataTable:** place a **named range** in the workbook whose name equals the data source `Name`; inside the range use `{{item.Property}}` (typed collections) or `{{item["ColumnName"]}}` / `{{item[index]}}` (`DataTable`).
+- **Collection / DataTable:** place a **named range** in the workbook whose name equals the data source `name`; inside the range use `{{item.Property}}` (typed collections) or `{{item["columnName"]}}` / `{{item[index]}}` (`DataTable`).
 - **Keep named ranges tight.** Include only the cells that actually contain markers or styling — `ClosedXML.Report` processes every cell of the range when expanding the collection. Selecting whole rows "for spare" dramatically slows building.
 - **Compute totals in data sources**, not via `<<sum>>` markup, when the totals need to appear in the in-app preview.
 - See https://closedxml.io/ClosedXML.Report/docs/en/Markup.html for the full ClosedXML.Report markup language (nested ranges, grouping, sorting, conditional blocks, …).
@@ -164,17 +164,17 @@ When the user asks to add a new Excel report:
 
 1. Confirm `excel_report` is the right kind (vs `data_view`). If the requirement is a plain table / chart / dashboard, propose `data_view` first.
 2. Create folder `excel_report/{name}/`.
-3. Create `excel_report/{name}/excel_report.{name}.json` conforming to `excelReportSettings.schema.json`, with a fresh `Uid`, the chosen `Name` / `Title` / `Memo`, `IsActive = true`, `Version = 1`, and the `DataSources` / `Filters` collections filled in.
+3. Create `excel_report/{name}/excel_report.{name}.json` conforming to `excelReportSettings.schema.json`, with a fresh `uid`, the chosen `name` / `title` / `memo`, `isActive = true`, `version = 1`, and the `dataSources` / `filters` collections filled in.
 4. Create one `.bjs` file per data source, returning the value of the right shape (scalar / object / collection / `DataTable`).
-5. Tell the user to prepare `excel_report.{name}.template.xlsx` themselves and to place it next to the JSON — describe which marker names and named ranges the template must contain (derived from `DataSources` names and the columns each source returns).
-6. After the user uploads the template via import, the system will set `HasTemplate = true` automatically — the agent should not author that flag.
+5. Tell the user to prepare `excel_report.{name}.template.xlsx` themselves and to place it next to the JSON — describe which marker names and named ranges the template must contain (derived from `dataSources` names and the columns each source returns).
+6. After the user uploads the template via import, the system will set `hasTemplate = true` automatically — the agent should not author that flag.
 
 ## General Hygiene
 
-- Generate a fresh `Uid` (UUID v4, lowercase, hyphenated) for the metaobject and for every data source / filter.
-- `Name` values must be in English, lowercase, `snake_case` and meaningful for new objects, columns and filters (existing Cyrillic names in the project must not be renamed).
-- Fill `Memo` on the metaobject and on each data source / filter with a short Russian description of its purpose.
-- Set `IsActive = true` unless the user explicitly asks to hide the report.
+- Generate a fresh `uid` (UUID v4, lowercase, hyphenated) for the metaobject and for every data source / filter.
+- `name` values must be in English, lowercase, `snake_case` and meaningful for new objects, columns and filters (existing Cyrillic names in the project must not be renamed).
+- Fill `memo` on the metaobject and on each data source / filter with a short Russian description of its purpose.
+- Set `isActive = true` unless the user explicitly asks to hide the report.
 - Do not add an entry to `system/dataTypes.json` — kind `excel_report` is not a reference.
 
 ## Communication and Comments
