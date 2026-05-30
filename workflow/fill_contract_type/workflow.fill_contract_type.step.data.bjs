@@ -1,0 +1,10 @@
+// Формирование набора значений для загрузки в enum.contract_type.
+const data = createTable([
+    { name: 'name', dataType: 'string' },
+    { name: 'code', dataType: 'string' },
+    { name: 'title', dataType: 'string' }
+])
+    .addRow({ name: 'standard',      code: '01', title: 'Типовой договор' })
+    .addRow({ name: 'supplier_form', code: '02', title: 'Форма поставщика' });
+
+return data;

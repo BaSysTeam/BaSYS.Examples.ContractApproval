@@ -1,0 +1,69 @@
+{
+  "$schema": "../../system/schemas/workflowSettings.schema.json",
+  "uid": "d4e5f6a7-b8c9-4d0e-9f1a-2b3c4d5e6f70",
+  "name": "fill_contract_type",
+  "title": "01.003 Заполнение типов договоров",
+  "memo": "Первоначальное заполнение перечисления contract_type стандартными значениями.",
+  "isActive": true,
+  "version": 2,
+  "steps": [
+    {
+      "expression": "workflow.fill_contract_type.step.data.bjs",
+      "uid": "e5f6a7b8-c9d0-4e1f-9a2b-3c4d5e6f7081",
+      "previousStepUid": "",
+      "kindUid": "dff616ce-0f40-4e44-a82b-14aa5ee2e4d6",
+      "kindName": "java_script",
+      "title": "Данные",
+      "name": "data",
+      "memo": "Подготовка DataTable со значениями типов договоров.",
+      "isActive": true
+    },
+    {
+      "metaObjectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+      "metaObjectUid": "b8c9d0e1-f2a3-4b5c-8d6e-7f8a9b0c1d2e",
+      "saveRegime": 1,
+      "searchBy": "name",
+      "sourcePath": "data",
+      "condition": "",
+      "createRecords": false,
+      "headerMapping": [
+        {
+          "uid": "a7b8c9d0-e1f2-4a3b-9c4d-5e6f708192a3",
+          "sourceFieldName": "name",
+          "destinationFieldName": "name",
+          "defaultValue": "",
+          "searchBy": "",
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "createIfNotExist": false
+        },
+        {
+          "uid": "b8c9d0e1-f2a3-4b4c-9d5e-6f708192a3b4",
+          "sourceFieldName": "code",
+          "destinationFieldName": "code",
+          "defaultValue": "",
+          "searchBy": "",
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "createIfNotExist": false
+        },
+        {
+          "uid": "c9d0e1f2-a3b4-4c5d-9e6f-708192a3b4c5",
+          "sourceFieldName": "title",
+          "destinationFieldName": "title",
+          "defaultValue": "",
+          "searchBy": "",
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "createIfNotExist": false
+        }
+      ],
+      "tableMapping": [],
+      "uid": "f6a7b8c9-d0e1-4f2a-9b3c-4d5e6f708192",
+      "previousStepUid": "e5f6a7b8-c9d0-4e1f-9a2b-3c4d5e6f7081",
+      "kindUid": "a7edd0be-6f12-4fac-b88a-4f83acc7dacb",
+      "kindName": "data_object_loader",
+      "title": "Загрузка данных",
+      "name": "load",
+      "memo": "Создание значений перечисления contract_type. Режим Create, чтобы не задублировать уже существующие записи.",
+      "isActive": true
+    }
+  ]
+}

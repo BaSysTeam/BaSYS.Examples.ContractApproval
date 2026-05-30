@@ -1,0 +1,157 @@
+{
+  "$schema": "../../system/schemas/metaObjectStorableSettings.schema.json",
+  "uid": "b8c9d0e1-f2a3-4b5c-8d6e-7f8a9b0c1d2e",
+  "metaObjectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+  "title": "Тип договора",
+  "name": "contract_type",
+  "memo": "Тип договора (типовой / форма поставщика и т.п.). Параллельная классификация к виду договора.",
+  "editMethod": 0,
+  "orderByExpression": "",
+  "displayExpression": "",
+  "listFormUid": null,
+  "itemFormUid": null,
+  "showMainImage": false,
+  "version": 0,
+  "isActive": true,
+  "header": {
+    "uid": "c9d0e1f2-a3b4-4c5d-9e6f-7a8b9c0d1e2f",
+    "title": "header",
+    "name": "header",
+    "memo": "",
+    "autoClearMethod": 0,
+    "columns": [
+      {
+        "uid": "d0e1f2a3-b4c5-4d5e-9f6a-7b8c9d0e1f20",
+        "kind": 0,
+        "standardColumnUid": "3cceebad-7d5a-4943-a102-6267e22227a8",
+        "title": "Имя",
+        "name": "name",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 20,
+          "numberDigits": 2,
+          "primaryKey": true,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "e1f2a3b4-c5d6-4e5f-906b-7c8d9e0f1a21",
+        "kind": 0,
+        "standardColumnUid": "1e0063d0-288d-494a-8761-1185300d571d",
+        "title": "Удалено",
+        "name": "is_deleted",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": false,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "f2a3b4c5-d6e7-4f50-916c-7d8e9f0a1b22",
+        "kind": 0,
+        "standardColumnUid": "e647fb57-470e-4547-9a94-2be0f3d0985e",
+        "title": "Код",
+        "name": "code",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 3,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": true,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "a3b4c5d6-e7f8-4051-826d-7e8f9a0b1c23",
+        "kind": 0,
+        "standardColumnUid": "91a26ae4-5723-4109-8322-7e4e59129239",
+        "title": "Заголовок",
+        "name": "title",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      }
+    ],
+    "indexes": [
+      {
+        "uid": "b4c5d6e7-f809-4152-836e-7f809a1b2c34",
+        "columns": [
+          {
+            "columnUid": "e1f2a3b4-c5d6-4e5f-906b-7c8d9e0f1a21",
+            "direction": 0
+          }
+        ]
+      },
+      {
+        "uid": "c5d6e7f8-091a-4253-846f-8091a2b3c4d5",
+        "columns": [
+          {
+            "columnUid": "f2a3b4c5-d6e7-4f50-916c-7d8e9f0a1b22",
+            "direction": 0
+          }
+        ]
+      }
+    ]
+  },
+  "detailTables": [],
+  "commands": [],
+  "recordsSources": [],
+  "recordsSettings": []
+}

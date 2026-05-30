@@ -108,5 +108,15 @@
     "dbType": 16,
     "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
     "typeName": null
+  },
+  {
+    "uid": "b8c9d0e1-f2a3-4b5c-8d6e-7f8a9b0c1d2e",
+    "kind": "enum",
+    "name": "contract_type",
+    "title": "Перечисление.Тип договора",
+    "isPrimitive": false,
+    "dbType": 16,
+    "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
   }
 ]

@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-05-30T13:32:20.1284625Z",
+  "exportedAtUtc": "2026-05-30T13:41:12.6663594Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -11,10 +11,10 @@
   },
   "counts": {
     "kinds": 9,
-    "dataTypes": 11,
-    "metaObjects": 2,
+    "dataTypes": 12,
+    "metaObjects": 3,
     "dataViews": 0,
-    "workflows": 2,
+    "workflows": 3,
     "menus": 0,
     "excelReports": 0,
     "excelReportTemplates": 0,
@@ -25,9 +25,9 @@
     "dataSourceScripts": 0,
     "recordsSourceScripts": 0,
     "commandScripts": 0,
-    "workflowStepScripts": 2,
+    "workflowStepScripts": 3,
     "constructorFormScripts": 0,
-    "files": 23
+    "files": 26
   },
   "files": [
     {
@@ -214,8 +214,8 @@
       "kindName": null,
       "name": null,
       "version": null,
-      "sizeBytes": 2805,
-      "sha256": "3ada282059daa67b28d60395a3861a64513869fa3b37d048d1ad9a4677b11c29"
+      "sizeBytes": 3115,
+      "sha256": "ef5e79b59dd0a385f149c4ffd035f0f6a279461834b0d4e8c4f276ece01ccc3f"
     },
     {
       "path": "enum/contract_kind/enum.contract_kind.json",
@@ -238,6 +238,17 @@
       "version": 2,
       "sizeBytes": 4639,
       "sha256": "b7112ebf2ce8513280a28e0bb82a441a7adc7c4b47de65954437f242c1c27cc2"
+    },
+    {
+      "path": "enum/contract_type/enum.contract_type.json",
+      "category": "metaObject",
+      "uid": "b8c9d0e1-f2a3-4b5c-8d6e-7f8a9b0c1d2e",
+      "kindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+      "kindName": "enum",
+      "name": "contract_type",
+      "version": 1,
+      "sizeBytes": 4679,
+      "sha256": "bf2cb611b1a6cc568ebfd5c7438c19d0e2ca140229cf43401d4593fbdb58e49c"
     },
     {
       "path": "workflow/fill_contract_kind/workflow.fill_contract_kind.step.data.bjs",
@@ -282,6 +293,28 @@
       "version": 2,
       "sizeBytes": 2725,
       "sha256": "37b75f3dd258b9631b9235d3684afca883ed587a8d852c301bd8453a4918ce94"
+    },
+    {
+      "path": "workflow/fill_contract_type/workflow.fill_contract_type.step.data.bjs",
+      "category": "workflowStepScript",
+      "uid": "d4e5f6a7-b8c9-4d0e-9f1a-2b3c4d5e6f70",
+      "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "kindName": "workflow",
+      "name": "data",
+      "version": 2,
+      "sizeBytes": 470,
+      "sha256": "74216b4ffb767de4ca0b75310f42763a6eafdfd4c8f4d64a0f33a59c3ef88ab1"
+    },
+    {
+      "path": "workflow/fill_contract_type/workflow.fill_contract_type.json",
+      "category": "workflow",
+      "uid": "d4e5f6a7-b8c9-4d0e-9f1a-2b3c4d5e6f70",
+      "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "kindName": "workflow",
+      "name": "fill_contract_type",
+      "version": 2,
+      "sizeBytes": 2705,
+      "sha256": "0de22cef0b307c144c47b4e804d3b17cab8a6d64c529aa9272320340178fee14"
     }
   ]
 }
