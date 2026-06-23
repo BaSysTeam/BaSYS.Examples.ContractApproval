@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-05-30T13:41:12.6663594Z",
+  "exportedAtUtc": "2026-06-23T09:09:25.2580716Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -11,11 +11,11 @@
   },
   "counts": {
     "kinds": 9,
-    "dataTypes": 12,
-    "metaObjects": 3,
+    "dataTypes": 14,
+    "metaObjects": 5,
     "dataViews": 0,
     "workflows": 3,
-    "menus": 0,
+    "menus": 1,
     "excelReports": 0,
     "excelReportTemplates": 0,
     "printForms": 0,
@@ -24,10 +24,10 @@
     "constructorForms": 0,
     "dataSourceScripts": 0,
     "recordsSourceScripts": 0,
-    "commandScripts": 0,
+    "commandScripts": 1,
     "workflowStepScripts": 3,
     "constructorFormScripts": 0,
-    "files": 26
+    "files": 30
   },
   "files": [
     {
@@ -38,8 +38,8 @@
       "kindName": null,
       "name": "MetaObjectStorableSettings",
       "version": null,
-      "sizeBytes": 14163,
-      "sha256": "03f620bdaf49f899f2e801770596b5c63860a2989d2f25c1172d8e92239e48da"
+      "sizeBytes": 14481,
+      "sha256": "d9696e141c15bfb5468e6706247d87eb9cd61c9e9f38bc9b459190367f473ba6"
     },
     {
       "path": "system/schemas/dataViewSettings.schema.json",
@@ -104,8 +104,8 @@
       "kindName": null,
       "name": "WorkflowSettingsDto",
       "version": null,
-      "sizeBytes": 19089,
-      "sha256": "3a039d01f3ae4d73a7afea5a1a4f48559227e2e9f928c7fd07375b4b615aae64"
+      "sizeBytes": 19994,
+      "sha256": "4d4ab1dff83259b32e06f716e3ffa70a8e8e805bf743f6eec05b0f16aacd469b"
     },
     {
       "path": "system/kinds/kind.menu.json",
@@ -115,8 +115,8 @@
       "kindName": "menu",
       "name": "menu",
       "version": 1,
-      "sizeBytes": 1139,
-      "sha256": "a8a8207a802cdca87a184df19f61942ed276fa903bd15fea6eefe86c5c7196ec"
+      "sizeBytes": 1164,
+      "sha256": "290fb2f3f7c6836f745558137ce090c1a88e930f75a9eaa40adcd1dfaf78f513"
     },
     {
       "path": "system/kinds/kind.operation.json",
@@ -126,8 +126,8 @@
       "kindName": "operation",
       "name": "operation",
       "version": 1,
-      "sizeBytes": 4567,
-      "sha256": "d70ab747385d18ded9fe2b999bf1a5e083e718d2714ef8df6ad7701598906ad8"
+      "sizeBytes": 4592,
+      "sha256": "b3ab5bacb881d9b16160cebefd48992e86087117c6cdd7350564fd0f99a7de70"
     },
     {
       "path": "system/kinds/kind.excel_report.json",
@@ -137,8 +137,8 @@
       "kindName": "excel_report",
       "name": "excel_report",
       "version": 1,
-      "sizeBytes": 1161,
-      "sha256": "33b493444e486d72f1347a07f309cd72bbb93a4ef4873a23ce400fdb8cb000a6"
+      "sizeBytes": 1186,
+      "sha256": "de72120a271e0cc05ed17515319d270496bd843541098890af41773c6f0e810c"
     },
     {
       "path": "system/kinds/kind.data_view.json",
@@ -148,8 +148,8 @@
       "kindName": "data_view",
       "name": "data_view",
       "version": 1,
-      "sizeBytes": 1165,
-      "sha256": "4c70df74987a09b5b262f13b9547cbb68ed9d0888a2777d5cffc201447fadd21"
+      "sizeBytes": 1190,
+      "sha256": "3c77886d2280caa2149ea15d696c3ed63900adbf690883f375d1c4b956940f29"
     },
     {
       "path": "system/kinds/kind.enum.json",
@@ -159,8 +159,8 @@
       "kindName": "enum",
       "name": "enum",
       "version": 1,
-      "sizeBytes": 3766,
-      "sha256": "b33891e6c5fffceeb76225a28dc14f91fe67d3bba757513cab3da92b91eea824"
+      "sizeBytes": 3791,
+      "sha256": "b579c500d51b166b49e2226c36e5b52bd8210c86b536793b48dd6146de0db99d"
     },
     {
       "path": "system/kinds/kind.workflow.json",
@@ -170,8 +170,8 @@
       "kindName": "workflow",
       "name": "workflow",
       "version": 1,
-      "sizeBytes": 1148,
-      "sha256": "df327a3ecc9a1572650487725a8d6ab52760e57a8f00fde0a156c3b7cedc18bb"
+      "sizeBytes": 1173,
+      "sha256": "37f221ce99bf321c0a49a8ade63804373c174547e35c4ab6e22c20139215918f"
     },
     {
       "path": "system/kinds/kind.register.json",
@@ -181,8 +181,8 @@
       "kindName": "register",
       "name": "register",
       "version": 1,
-      "sizeBytes": 1918,
-      "sha256": "a2aeda99bcdbd76ced1791c0b380d954269fb18efe7116ae67c3943e122881c0"
+      "sizeBytes": 1943,
+      "sha256": "c64020facc018826b7366668fa0c06569c8f71be781865e00c4e7802d39df488"
     },
     {
       "path": "system/kinds/kind.records.json",
@@ -192,8 +192,8 @@
       "kindName": "records",
       "name": "records",
       "version": 1,
-      "sizeBytes": 4968,
-      "sha256": "83aeae5e7bdcdc0b7ab3f68fd79fe0a2fc26d815fedd1ec65894bffddb12c713"
+      "sizeBytes": 4993,
+      "sha256": "33ceb2dab67af66bdf287a769626bc1ad353523c253463a36ca7ddd20569760a"
     },
     {
       "path": "system/kinds/kind.catalog.json",
@@ -203,8 +203,8 @@
       "kindName": "catalog",
       "name": "catalog",
       "version": 1,
-      "sizeBytes": 3892,
-      "sha256": "ceaec42815a7f204274f0059f29c64f7a50600306f51edccafd8a2721bf3477e"
+      "sizeBytes": 3917,
+      "sha256": "91eb53287b6d47e78af01d9b60a107f0a52a7458057714be33cbc87906e79fc9"
     },
     {
       "path": "system/dataTypes.json",
@@ -214,8 +214,30 @@
       "kindName": null,
       "name": null,
       "version": null,
-      "sizeBytes": 3115,
-      "sha256": "ef5e79b59dd0a385f149c4ffd035f0f6a279461834b0d4e8c4f276ece01ccc3f"
+      "sizeBytes": 3741,
+      "sha256": "b2ff309eced9528a9c1b411b6a8bc76a0cba1710d4e54a2f92d22733db18cbc2"
+    },
+    {
+      "path": "operation/test_operation/operation.test_operation.command.test_alert.bjs",
+      "category": "commandScript",
+      "uid": "a1b2c3d4-0001-4a1b-8c2d-100000000001",
+      "kindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
+      "kindName": "operation",
+      "name": "test_alert",
+      "version": 1,
+      "sizeBytes": 217,
+      "sha256": "449e9a8c0876d5bc043b065a806b7cc10c37b63ca3a726236e12bb0680911f99"
+    },
+    {
+      "path": "operation/test_operation/operation.test_operation.json",
+      "category": "metaObject",
+      "uid": "a1b2c3d4-0001-4a1b-8c2d-100000000001",
+      "kindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
+      "kindName": "operation",
+      "name": "test_operation",
+      "version": 1,
+      "sizeBytes": 6964,
+      "sha256": "6261a56ceed6c45851b9bd0d64acad9da50ab07ec5061bf386b1846654cb59ec"
     },
     {
       "path": "enum/contract_kind/enum.contract_kind.json",
@@ -225,8 +247,8 @@
       "kindName": "enum",
       "name": "contract_kind",
       "version": 1,
-      "sizeBytes": 4595,
-      "sha256": "0e5a0814e18b8960744a6b8d7bef76d4b1769208002c31be308b4f0cb903a6c1"
+      "sizeBytes": 4616,
+      "sha256": "b054c3e31280e80083e7b99025f71dda66052542d1b21e07f6de60d632a2c881"
     },
     {
       "path": "enum/contract_status/enum.contract_status.json",
@@ -236,8 +258,8 @@
       "kindName": "enum",
       "name": "contract_status",
       "version": 2,
-      "sizeBytes": 4639,
-      "sha256": "b7112ebf2ce8513280a28e0bb82a441a7adc7c4b47de65954437f242c1c27cc2"
+      "sizeBytes": 4660,
+      "sha256": "efebba2818d54e99294e669f10d9a82314a5fa802786dbfbbf31a0623e1f5262"
     },
     {
       "path": "enum/contract_type/enum.contract_type.json",
@@ -247,8 +269,19 @@
       "kindName": "enum",
       "name": "contract_type",
       "version": 1,
-      "sizeBytes": 4679,
-      "sha256": "bf2cb611b1a6cc568ebfd5c7438c19d0e2ca140229cf43401d4593fbdb58e49c"
+      "sizeBytes": 4700,
+      "sha256": "fc8d9b9a2bd35b8e281bd6fe3e116472f511902a66da9cbaf8ca513b36f6bf18"
+    },
+    {
+      "path": "catalog/person/catalog.person.json",
+      "category": "metaObject",
+      "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a01",
+      "kindUid": "032d8377-500f-4631-b435-1f7f69046674",
+      "kindName": "catalog",
+      "name": "person",
+      "version": 1,
+      "sizeBytes": 8433,
+      "sha256": "66795a270db26ac2eec8885575af4b6881f6c7628c23e151205ebb41a788727f"
     },
     {
       "path": "workflow/fill_contract_kind/workflow.fill_contract_kind.step.data.bjs",
@@ -269,8 +302,8 @@
       "kindName": "workflow",
       "name": "fill_contract_kind",
       "version": 2,
-      "sizeBytes": 2705,
-      "sha256": "f035f18bd463960f5e40f9e5a045cc528a912212c5f95f2bb314f4ce58f98bce"
+      "sizeBytes": 2755,
+      "sha256": "3615b7246218f73c76375a7322c5e3b2cccb67edc95f0fa05f8eb5de817da9c4"
     },
     {
       "path": "workflow/fill_contract_status/workflow.fill_contract_status.step.data.bjs",
@@ -291,8 +324,8 @@
       "kindName": "workflow",
       "name": "fill_contract_status",
       "version": 2,
-      "sizeBytes": 2725,
-      "sha256": "37b75f3dd258b9631b9235d3684afca883ed587a8d852c301bd8453a4918ce94"
+      "sizeBytes": 2775,
+      "sha256": "5790b78d454adc945ef285eb26f4cf7ab606267c428d16ed424b5c46d0333855"
     },
     {
       "path": "workflow/fill_contract_type/workflow.fill_contract_type.step.data.bjs",
@@ -313,8 +346,19 @@
       "kindName": "workflow",
       "name": "fill_contract_type",
       "version": 2,
-      "sizeBytes": 2705,
-      "sha256": "0de22cef0b307c144c47b4e804d3b17cab8a6d64c529aa9272320340178fee14"
+      "sizeBytes": 2755,
+      "sha256": "40de3ff5474109a523b7d25f3c289662feb9ecd1651aefd5ab084f7c6d07f191"
+    },
+    {
+      "path": "menu/metadata/menu.metadata.json",
+      "category": "menu",
+      "uid": "9b1f3c54-2d7a-4e18-9a6b-1c0f5d8e2a47",
+      "kindUid": "4fb2cc15-2579-4d01-aedb-f097430756f7",
+      "kindName": "menu",
+      "name": "metadata",
+      "version": 2,
+      "sizeBytes": 2605,
+      "sha256": "34ec2c55d749e37135ba97b40cabd6e20e64a4489db8251e3cfea9a2808a1858"
     }
   ]
 }

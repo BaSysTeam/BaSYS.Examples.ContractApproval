@@ -90,6 +90,16 @@
     "typeName": "System.Guid"
   },
   {
+    "uid": "a1b2c3d4-0001-4a1b-8c2d-100000000001",
+    "kind": "operation",
+    "name": "test_operation",
+    "title": "Операция.Тестовая операция",
+    "isPrimitive": false,
+    "dbType": 11,
+    "objectKindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
+    "typeName": null
+  },
+  {
     "uid": "f1a2b3c4-d5e6-4789-9abc-def012345678",
     "kind": "enum",
     "name": "contract_kind",
@@ -117,6 +127,16 @@
     "isPrimitive": false,
     "dbType": 16,
     "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
+  },
+  {
+    "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a01",
+    "kind": "catalog",
+    "name": "person",
+    "title": "Справочник.Физическое лицо",
+    "isPrimitive": false,
+    "dbType": 11,
+    "objectKindUid": "032d8377-500f-4631-b435-1f7f69046674",
     "typeName": null
   }
 ]
