@@ -1,0 +1,76 @@
+{
+  "$schema": "../../system/schemas/menuSettings.schema.json",
+  "uid": "9b1f3c54-2d7a-4e18-9a6b-1c0f5d8e2a47",
+  "name": "metadata",
+  "title": "Метаданные",
+  "memo": "Меню с автоматическим заполнением объектов по видам метаданных: перечисления, справочники, операции, регистры и регистры записей.",
+  "isActive": true,
+  "version": 2,
+  "items": [
+    {
+      "uid": "0c2a7e91-5b34-4d62-8f10-7a9d3e6b1c25",
+      "kind": 3,
+      "title": "Перечисления",
+      "iconClass": "pi pi-list",
+      "url": "",
+      "isVisible": true,
+      "autoFill": true,
+      "itemsPerColumn": 30,
+      "metaObjectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+      "items": [],
+      "metaObjectKindUidParsed": "5449a8ad-9359-41b2-8ff2-3f415eb4da76"
+    },
+    {
+      "uid": "1d3b8f02-6c45-4e73-9021-8b0e4f7c2d36",
+      "kind": 3,
+      "title": "Справочники",
+      "iconClass": "pi pi-book",
+      "url": "",
+      "isVisible": true,
+      "autoFill": true,
+      "itemsPerColumn": 30,
+      "metaObjectKindUid": "032d8377-500f-4631-b435-1f7f69046674",
+      "items": [],
+      "metaObjectKindUidParsed": "032d8377-500f-4631-b435-1f7f69046674"
+    },
+    {
+      "uid": "2e4c9013-7d56-4f84-a132-9c1f508d3e47",
+      "kind": 3,
+      "title": "Операции",
+      "iconClass": "pi pi-file-edit",
+      "url": "",
+      "isVisible": true,
+      "autoFill": true,
+      "itemsPerColumn": 30,
+      "metaObjectKindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
+      "items": [],
+      "metaObjectKindUidParsed": "14a60875-e241-4e99-b32d-d45b2726d18b"
+    },
+    {
+      "uid": "3f5d0124-8e67-4095-b243-0d2061ae4f58",
+      "kind": 3,
+      "title": "Регистры",
+      "iconClass": "pi pi-table",
+      "url": "",
+      "isVisible": true,
+      "autoFill": true,
+      "itemsPerColumn": 30,
+      "metaObjectKindUid": "f3ecb444-8e72-4387-83f1-66c712de1c32",
+      "items": [],
+      "metaObjectKindUidParsed": "f3ecb444-8e72-4387-83f1-66c712de1c32"
+    },
+    {
+      "uid": "406e1235-9f78-41a6-c354-1e3172bf5069",
+      "kind": 3,
+      "title": "Регистры записей",
+      "iconClass": "pi pi-database",
+      "url": "",
+      "isVisible": true,
+      "autoFill": true,
+      "itemsPerColumn": 30,
+      "metaObjectKindUid": "3eabc5d2-9cf5-4a74-95c8-ff2c2015ded3",
+      "items": [],
+      "metaObjectKindUidParsed": "3eabc5d2-9cf5-4a74-95c8-ff2c2015ded3"
+    }
+  ]
+}
