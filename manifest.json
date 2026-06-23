@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-06-23T09:09:25.2580716Z",
+  "exportedAtUtc": "2026-06-23T09:17:06.7313088Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -14,7 +14,7 @@
     "dataTypes": 14,
     "metaObjects": 5,
     "dataViews": 0,
-    "workflows": 3,
+    "workflows": 4,
     "menus": 1,
     "excelReports": 0,
     "excelReportTemplates": 0,
@@ -25,9 +25,9 @@
     "dataSourceScripts": 0,
     "recordsSourceScripts": 0,
     "commandScripts": 1,
-    "workflowStepScripts": 3,
+    "workflowStepScripts": 4,
     "constructorFormScripts": 0,
-    "files": 30
+    "files": 32
   },
   "files": [
     {
@@ -348,6 +348,28 @@
       "version": 2,
       "sizeBytes": 2755,
       "sha256": "40de3ff5474109a523b7d25f3c289662feb9ecd1651aefd5ab084f7c6d07f191"
+    },
+    {
+      "path": "workflow/fill_person/workflow.fill_person.step.data.bjs",
+      "category": "workflowStepScript",
+      "uid": "a1b2c3d4-e5f6-4a7b-8c9d-001122334455",
+      "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "kindName": "workflow",
+      "name": "data",
+      "version": 3,
+      "sizeBytes": 4245,
+      "sha256": "24cade52a1ea7e8bb7126d260c0d391b14ff7d2e48544b07eb3a9a2b48bf85c0"
+    },
+    {
+      "path": "workflow/fill_person/workflow.fill_person.json",
+      "category": "workflow",
+      "uid": "a1b2c3d4-e5f6-4a7b-8c9d-001122334455",
+      "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "kindName": "workflow",
+      "name": "fill_person",
+      "version": 3,
+      "sizeBytes": 3096,
+      "sha256": "d7bb62cbddd00518c292646f92a44a846cbe4bd254f40c2a9db3b2ac5211c140"
     },
     {
       "path": "menu/metadata/menu.metadata.json",
