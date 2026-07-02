@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-07-02T11:58:14.1468344Z",
+  "exportedAtUtc": "2026-07-02T12:03:30.7244864Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -125,9 +125,9 @@
       "kindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
       "kindName": "operation",
       "name": "operation",
-      "version": 1,
-      "sizeBytes": 4592,
-      "sha256": "b3ab5bacb881d9b16160cebefd48992e86087117c6cdd7350564fd0f99a7de70"
+      "version": 2,
+      "sizeBytes": 4577,
+      "sha256": "7ba39b53d3331b14379e4825e4424648f01c53d08adc06858dcd85291e151e28"
     },
     {
       "path": "system/kinds/kind.excel_report.json",
@@ -158,9 +158,9 @@
       "kindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
       "kindName": "enum",
       "name": "enum",
-      "version": 1,
-      "sizeBytes": 3791,
-      "sha256": "b579c500d51b166b49e2226c36e5b52bd8210c86b536793b48dd6146de0db99d"
+      "version": 2,
+      "sizeBytes": 3277,
+      "sha256": "ce2b24a82f329abeed0bf504757b71b2a285b251d827095a0456007c113ac87d"
     },
     {
       "path": "system/kinds/kind.workflow.json",
@@ -202,9 +202,9 @@
       "kindUid": "032d8377-500f-4631-b435-1f7f69046674",
       "kindName": "catalog",
       "name": "catalog",
-      "version": 1,
-      "sizeBytes": 3917,
-      "sha256": "91eb53287b6d47e78af01d9b60a107f0a52a7458057714be33cbc87906e79fc9"
+      "version": 2,
+      "sizeBytes": 3403,
+      "sha256": "096fdd785b7742a77335d2f5338cfc31c13dab337bacef3ec39fc907ef927917"
     },
     {
       "path": "system/dataTypes.json",

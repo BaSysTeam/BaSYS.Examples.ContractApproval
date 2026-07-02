@@ -12,21 +12,14 @@
   "useDetailsTables": false,
   "useForms": false,
   "usePrintForms": false,
+  "saveHistory": true,
   "isStandard": false,
-  "version": 1,
+  "version": 2,
   "memo": "",
   "iconClass": "pi pi-list",
   "orderByExpression": "code",
   "displayExpression": "title",
-  "recordsSettings": {
-    "sourceCreateRecordsColumnUid": "00000000-0000-0000-0000-000000000000",
-    "storageMetaObjectKindUid": "00000000-0000-0000-0000-000000000000",
-    "storagePeriodColumnUid": "00000000-0000-0000-0000-000000000000",
-    "storageKindColumnUid": "00000000-0000-0000-0000-000000000000",
-    "storageMetaObjectColumnUid": "00000000-0000-0000-0000-000000000000",
-    "storageObjectColumnUid": "00000000-0000-0000-0000-000000000000",
-    "storageRowColumnUid": "00000000-0000-0000-0000-000000000000"
-  },
+  "recordsSettings": null,
   "standardColumns": [
     {
       "uid": "3cceebad-7d5a-4943-a102-6267e22227a8",
@@ -36,19 +29,19 @@
       "dataSettings": {
         "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
         "stringLength": 20,
-        "numberDigits": 0,
+        "numberDigits": 2,
         "primaryKey": true,
         "required": false,
         "unique": false,
-        "defaultValue": ""
+        "defaultValue": null
       },
       "renderSettings": {
-        "controlKindUid": null,
+        "controlKindUid": "",
         "showInItem": true,
         "showInList": true,
         "listColumnWidth": ""
       },
-      "memo": null
+      "memo": ""
     },
     {
       "uid": "1e0063d0-288d-494a-8761-1185300d571d",
@@ -58,19 +51,19 @@
       "dataSettings": {
         "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
         "stringLength": 0,
-        "numberDigits": 0,
+        "numberDigits": 2,
         "primaryKey": false,
         "required": false,
         "unique": false,
-        "defaultValue": ""
+        "defaultValue": null
       },
       "renderSettings": {
-        "controlKindUid": null,
+        "controlKindUid": "",
         "showInItem": false,
         "showInList": false,
         "listColumnWidth": ""
       },
-      "memo": null
+      "memo": ""
     },
     {
       "uid": "e647fb57-470e-4547-9a94-2be0f3d0985e",
@@ -80,19 +73,19 @@
       "dataSettings": {
         "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
         "stringLength": 3,
-        "numberDigits": 0,
+        "numberDigits": 2,
         "primaryKey": false,
         "required": true,
         "unique": true,
-        "defaultValue": ""
+        "defaultValue": null
       },
       "renderSettings": {
-        "controlKindUid": null,
+        "controlKindUid": "",
         "showInItem": true,
         "showInList": true,
         "listColumnWidth": ""
       },
-      "memo": null
+      "memo": ""
     },
     {
       "uid": "91a26ae4-5723-4109-8322-7e4e59129239",
@@ -102,19 +95,19 @@
       "dataSettings": {
         "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
         "stringLength": 100,
-        "numberDigits": 0,
+        "numberDigits": 2,
         "primaryKey": false,
         "required": true,
         "unique": false,
-        "defaultValue": ""
+        "defaultValue": null
       },
       "renderSettings": {
-        "controlKindUid": null,
+        "controlKindUid": "",
         "showInItem": true,
         "showInList": true,
         "listColumnWidth": ""
       },
-      "memo": null
+      "memo": ""
     }
   ],
   "availableRights": [

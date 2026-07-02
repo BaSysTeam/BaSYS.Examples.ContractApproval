@@ -6,6 +6,7 @@
   "memo": "Первоначальное заполнение перечисления contract_kind стандартными значениями.",
   "isActive": true,
   "version": 2,
+  "parameters": [],
   "steps": [
     {
       "expression": "workflow.fill_contract_kind.step.data.bjs",
@@ -26,6 +27,7 @@
       "sourcePath": "data",
       "condition": "",
       "createRecords": false,
+      "skipHistory": false,
       "headerMapping": [
         {
           "uid": "c3d4e5f6-a7b8-49ab-9cde-3f4a5b6c7d8e",

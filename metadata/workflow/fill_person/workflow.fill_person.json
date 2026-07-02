@@ -5,7 +5,7 @@
   "title": "01.004 Заполнение физических лиц",
   "memo": "Первоначальное заполнение справочника физических лиц тестовыми ФИО.",
   "isActive": true,
-  "version": 3,
+  "version": 4,
   "parameters": [],
   "steps": [
     {
@@ -23,7 +23,7 @@
       "metaObjectKindUid": "032d8377-500f-4631-b435-1f7f69046674",
       "metaObjectUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a01",
       "saveRegime": 1,
-      "searchBy": "last_name",
+      "searchBy": "title",
       "sourcePath": "data",
       "condition": "",
       "createRecords": false,

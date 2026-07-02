@@ -70,7 +70,7 @@
         "renderSettings": {
           "controlKindUid": "",
           "showInItem": true,
-          "showInList": true,
+          "showInList": false,
           "listColumnWidth": ""
         },
         "dependencies": []
@@ -103,33 +103,6 @@
         "dependencies": []
       },
       {
-        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a06",
-        "kind": 0,
-        "standardColumnUid": "e163c0c4-de77-4e58-a468-f3527b573e4a",
-        "title": "Заголовок",
-        "name": "title",
-        "formula": "return [$h.last_name, $h.first_name, $h.middle_name].filter(Boolean).join(' ');",
-        "itemsSource": "",
-        "autoClearMethod": 0,
-        "isStandard": true,
-        "dataSettings": {
-          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
-          "stringLength": 150,
-          "numberDigits": 2,
-          "primaryKey": false,
-          "required": true,
-          "unique": false,
-          "defaultValue": null
-        },
-        "renderSettings": {
-          "controlKindUid": "",
-          "showInItem": true,
-          "showInList": true,
-          "listColumnWidth": ""
-        },
-        "dependencies": []
-      },
-      {
         "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a07",
         "kind": 0,
         "standardColumnUid": "349f72d7-ac0f-40cd-b02d-a5b5f7dcd467",
@@ -145,6 +118,33 @@
           "numberDigits": 2,
           "primaryKey": false,
           "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a06",
+        "kind": 0,
+        "standardColumnUid": "e163c0c4-de77-4e58-a468-f3527b573e4a",
+        "title": "Заголовок",
+        "name": "title",
+        "formula": "return [$h.last_name, $h.first_name, $h.middle_name].filter(Boolean).join(' ');",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 150,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
           "unique": false,
           "defaultValue": null
         },

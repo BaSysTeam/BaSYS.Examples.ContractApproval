@@ -12,6 +12,7 @@
   "useDetailsTables": false,
   "useForms": false,
   "usePrintForms": false,
+  "saveHistory": false,
   "isStandard": false,
   "version": 1,
   "memo": "",

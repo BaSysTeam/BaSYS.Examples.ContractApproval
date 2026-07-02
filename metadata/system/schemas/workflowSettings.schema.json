@@ -22,6 +22,12 @@
       "type": "integer",
       "format": "int64"
     },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/WorkflowParameterDefinition"
+      }
+    },
     "steps": {
       "type": "array",
       "items": {
@@ -64,6 +70,42 @@
     }
   },
   "definitions": {
+    "WorkflowParameterDefinition": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "dataType": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "defaultValue": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "memo": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
     "SleepStepSettingsDto": {
       "type": "object",
       "required": [
@@ -470,6 +512,9 @@
           "type": "string"
         },
         "createRecords": {
+          "type": "boolean"
+        },
+        "skipHistory": {
           "type": "boolean"
         },
         "headerMapping": {

@@ -61,6 +61,9 @@
     "showMainImage": {
       "type": "boolean"
     },
+    "saveHistory": {
+      "$ref": "#/definitions/SaveHistoryMode"
+    },
     "version": {
       "type": "integer",
       "format": "int64"
@@ -126,6 +129,20 @@
       "enum": [
         0,
         1
+      ]
+    },
+    "SaveHistoryMode": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Inherit",
+        "Disabled",
+        "Enabled"
+      ],
+      "enum": [
+        0,
+        1,
+        2
       ]
     },
     "MetaObjectTable": {
