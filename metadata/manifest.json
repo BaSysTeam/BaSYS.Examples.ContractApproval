@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-06-23T12:06:39.7299101Z",
+  "exportedAtUtc": "2026-07-02T11:58:14.1468344Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -11,8 +11,8 @@
   },
   "counts": {
     "kinds": 9,
-    "dataTypes": 14,
-    "metaObjects": 5,
+    "dataTypes": 15,
+    "metaObjects": 6,
     "dataViews": 0,
     "workflows": 4,
     "menus": 1,
@@ -27,7 +27,7 @@
     "commandScripts": 1,
     "workflowStepScripts": 4,
     "constructorFormScripts": 0,
-    "files": 32
+    "files": 33
   },
   "files": [
     {
@@ -214,8 +214,8 @@
       "kindName": null,
       "name": null,
       "version": null,
-      "sizeBytes": 3741,
-      "sha256": "b2ff309eced9528a9c1b411b6a8bc76a0cba1710d4e54a2f92d22733db18cbc2"
+      "sizeBytes": 3941,
+      "sha256": "6e9cbf45c44f9cb3e31bdbac3c49d93f9075650e46ad09d0dd74d3c7e6131685"
     },
     {
       "path": "operation/test_operation/operation.test_operation.command.test_alert.bjs",
@@ -249,6 +249,17 @@
       "version": 1,
       "sizeBytes": 4616,
       "sha256": "b054c3e31280e80083e7b99025f71dda66052542d1b21e07f6de60d632a2c881"
+    },
+    {
+      "path": "enum/contract_priority/enum.contract_priority.json",
+      "category": "metaObject",
+      "uid": "8aeea012-aba9-426a-a6a2-b02f9d76eab6",
+      "kindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+      "kindName": "enum",
+      "name": "contract_priority",
+      "version": 1,
+      "sizeBytes": 4584,
+      "sha256": "80626b76a32932e197f3ee0902f5c12c7e96dd0bf381c10a6ca2b895ae00d659"
     },
     {
       "path": "enum/contract_status/enum.contract_status.json",
