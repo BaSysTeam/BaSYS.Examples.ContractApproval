@@ -1,0 +1,14 @@
+# Зависимости
+node_modules/
+
+# Секреты (реальные креды и адрес стенда)
+.env
+
+# Сохранённое состояние авторизации (сессионные cookie)
+/.auth/
+
+# Артефакты запусков Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
