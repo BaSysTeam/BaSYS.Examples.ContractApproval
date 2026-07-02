@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-07-02T12:03:30.7244864Z",
+  "exportedAtUtc": "2026-07-02T12:09:08.0936246Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -14,7 +14,7 @@
     "dataTypes": 15,
     "metaObjects": 6,
     "dataViews": 0,
-    "workflows": 4,
+    "workflows": 5,
     "menus": 1,
     "excelReports": 0,
     "excelReportTemplates": 0,
@@ -25,9 +25,9 @@
     "dataSourceScripts": 0,
     "recordsSourceScripts": 0,
     "commandScripts": 1,
-    "workflowStepScripts": 4,
+    "workflowStepScripts": 5,
     "constructorFormScripts": 0,
-    "files": 33
+    "files": 35
   },
   "files": [
     {
@@ -381,6 +381,28 @@
       "version": 4,
       "sizeBytes": 3092,
       "sha256": "51e1a11839b2055a60b976a949bd5294361f6d0e3b507f8b07266c95317cca75"
+    },
+    {
+      "path": "workflow/fill_contract_priority/workflow.fill_contract_priority.step.data.bjs",
+      "category": "workflowStepScript",
+      "uid": "3f9c1a72-6b4d-4e18-9a2f-8c5d7e1b0a34",
+      "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "kindName": "workflow",
+      "name": "data",
+      "version": 2,
+      "sizeBytes": 614,
+      "sha256": "af943209ad6f85df3af0e1d839f66257ed0aa9b1937910035c7c901beb15f483"
+    },
+    {
+      "path": "workflow/fill_contract_priority/workflow.fill_contract_priority.json",
+      "category": "workflow",
+      "uid": "3f9c1a72-6b4d-4e18-9a2f-8c5d7e1b0a34",
+      "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
+      "kindName": "workflow",
+      "name": "fill_contract_priority",
+      "version": 2,
+      "sizeBytes": 2795,
+      "sha256": "ce21cdb934a4f566c59a581b2aeed07dc95da8044ab8a8e910ebda9f2daa8084"
     },
     {
       "path": "menu/metadata/menu.metadata.json",

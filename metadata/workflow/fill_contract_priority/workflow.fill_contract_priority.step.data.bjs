@@ -1,0 +1,12 @@
+// Формирование набора значений для загрузки в enum.contract_priority.
+const data = createTable([
+    { name: 'name', dataType: 'string' },
+    { name: 'code', dataType: 'string' },
+    { name: 'title', dataType: 'string' }
+])
+    .addRow({ name: 'not_urgent',  code: '01', title: 'Не срочно' })
+    .addRow({ name: 'medium_term', code: '02', title: 'Среднесрочно' })
+    .addRow({ name: 'urgent',      code: '03', title: 'Срочно' })
+    .addRow({ name: 'asap',        code: '04', title: 'Сверхсрочно (ASAP)' });
+
+return data;
