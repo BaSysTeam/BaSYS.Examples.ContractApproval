@@ -1,183 +1,183 @@
 {
   "$schema": "../../../../system/schemas/metaObjectStorableSettings.schema.json",
-  "Uid": "a1b2c3d4-1111-4111-8111-111111111111",
-  "MetaObjectKindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
-  "Title": "Закрытие месяца",
-  "Name": "month_close",
-  "Memo": "Минимальная операция: только стандартные колонки шапки, без ТЧ и без проведения по регистрам.",
-  "EditMethod": 0,
-  "OrderByExpression": "",
-  "DisplayExpression": "",
-  "ListFormUid": null,
-  "ItemFormUid": null,
-  "ShowMainImage": false,
-  "IsActive": true,
-  "Header": {
-    "Uid": "a1b2c3d4-2222-4222-8222-222222222222",
-    "Title": "header",
-    "Name": "header",
-    "Memo": "",
-    "AutoClearMethod": 0,
-    "Columns": [
+  "uid": "a1b2c3d4-1111-4111-8111-111111111111",
+  "metaObjectKindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
+  "title": "Закрытие месяца",
+  "name": "month_close",
+  "memo": "Минимальная операция: только стандартные колонки шапки, без ТЧ и без проведения по регистрам.",
+  "editMethod": 0,
+  "orderByExpression": "",
+  "displayExpression": "",
+  "listFormUid": null,
+  "itemFormUid": null,
+  "showMainImage": false,
+  "isActive": true,
+  "header": {
+    "uid": "a1b2c3d4-2222-4222-8222-222222222222",
+    "title": "header",
+    "name": "header",
+    "memo": "",
+    "autoClearMethod": 0,
+    "columns": [
       {
-        "Uid": "a1b2c3d4-3333-4333-8333-333333333333",
-        "Kind": 0,
-        "StandardColumnUid": "a39e7b83-e94d-4646-b620-04434fef2f4c",
-        "Title": "Номер",
-        "Name": "number",
-        "Formula": "",
-        "ItemsSource": "",
-        "AutoClearMethod": 0,
-        "IsStandard": true,
-        "DataSettings": {
-          "DataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
-          "StringLength": 100,
-          "NumberDigits": 2,
-          "PrimaryKey": true,
-          "Required": false,
-          "Unique": false,
-          "DefaultValue": null
+        "uid": "a1b2c3d4-3333-4333-8333-333333333333",
+        "kind": 0,
+        "standardColumnUid": "a39e7b83-e94d-4646-b620-04434fef2f4c",
+        "title": "Номер",
+        "name": "number",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": true,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
         },
-        "RenderSettings": {
-          "ControlKindUid": "",
-          "ShowInItem": true,
-          "ShowInList": true,
-          "ListColumnWidth": ""
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
         },
-        "Dependencies": []
+        "dependencies": []
       },
       {
-        "Uid": "a1b2c3d4-4444-4444-8444-444444444444",
-        "Kind": 0,
-        "StandardColumnUid": "95d36e42-5d4d-4c26-adc1-1319e860b45e",
-        "Title": "Удалено",
-        "Name": "is_deleted",
-        "Formula": "",
-        "ItemsSource": "",
-        "AutoClearMethod": 0,
-        "IsStandard": true,
-        "DataSettings": {
-          "DataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
-          "StringLength": 100,
-          "NumberDigits": 2,
-          "PrimaryKey": false,
-          "Required": false,
-          "Unique": false,
-          "DefaultValue": null
+        "uid": "a1b2c3d4-4444-4444-8444-444444444444",
+        "kind": 0,
+        "standardColumnUid": "95d36e42-5d4d-4c26-adc1-1319e860b45e",
+        "title": "Удалено",
+        "name": "is_deleted",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
         },
-        "RenderSettings": {
-          "ControlKindUid": "",
-          "ShowInItem": false,
-          "ShowInList": false,
-          "ListColumnWidth": ""
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": false,
+          "showInList": false,
+          "listColumnWidth": ""
         },
-        "Dependencies": []
+        "dependencies": []
       },
       {
-        "Uid": "a1b2c3d4-5555-4555-8555-555555555555",
-        "Kind": 0,
-        "StandardColumnUid": "f244de36-53c9-4e93-a5a2-94abbed91e02",
-        "Title": "Дата",
-        "Name": "date",
-        "Formula": "",
-        "ItemsSource": "",
-        "AutoClearMethod": 0,
-        "IsStandard": true,
-        "DataSettings": {
-          "DataTypeUid": "9001eafb-efb1-442f-b288-723bb8002b12",
-          "StringLength": 100,
-          "NumberDigits": 2,
-          "PrimaryKey": false,
-          "Required": true,
-          "Unique": false,
-          "DefaultValue": "now"
+        "uid": "a1b2c3d4-5555-4555-8555-555555555555",
+        "kind": 0,
+        "standardColumnUid": "f244de36-53c9-4e93-a5a2-94abbed91e02",
+        "title": "Дата",
+        "name": "date",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "9001eafb-efb1-442f-b288-723bb8002b12",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": false,
+          "defaultValue": "now"
         },
-        "RenderSettings": {
-          "ControlKindUid": "",
-          "ShowInItem": true,
-          "ShowInList": true,
-          "ListColumnWidth": ""
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
         },
-        "Dependencies": []
+        "dependencies": []
       },
       {
-        "Uid": "a1b2c3d4-6666-4666-8666-666666666666",
-        "Kind": 0,
-        "StandardColumnUid": "9cac33f4-6758-4aab-be4a-b00790bdf452",
-        "Title": "Файлы",
-        "Name": "is_files",
-        "Formula": "",
-        "ItemsSource": "",
-        "AutoClearMethod": 0,
-        "IsStandard": true,
-        "DataSettings": {
-          "DataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
-          "StringLength": 100,
-          "NumberDigits": 2,
-          "PrimaryKey": false,
-          "Required": false,
-          "Unique": false,
-          "DefaultValue": null
+        "uid": "a1b2c3d4-6666-4666-8666-666666666666",
+        "kind": 0,
+        "standardColumnUid": "9cac33f4-6758-4aab-be4a-b00790bdf452",
+        "title": "Файлы",
+        "name": "is_files",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
         },
-        "RenderSettings": {
-          "ControlKindUid": "",
-          "ShowInItem": false,
-          "ShowInList": true,
-          "ListColumnWidth": ""
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": false,
+          "showInList": true,
+          "listColumnWidth": ""
         },
-        "Dependencies": []
+        "dependencies": []
       },
       {
-        "Uid": "a1b2c3d4-7777-4777-8777-777777777777",
-        "Kind": 0,
-        "StandardColumnUid": "fee422db-18dc-442a-a8dd-01df76c20a98",
-        "Title": "Записи",
-        "Name": "create_records",
-        "Formula": "",
-        "ItemsSource": "",
-        "AutoClearMethod": 0,
-        "IsStandard": true,
-        "DataSettings": {
-          "DataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
-          "StringLength": 100,
-          "NumberDigits": 2,
-          "PrimaryKey": false,
-          "Required": false,
-          "Unique": false,
-          "DefaultValue": "true"
+        "uid": "a1b2c3d4-7777-4777-8777-777777777777",
+        "kind": 0,
+        "standardColumnUid": "fee422db-18dc-442a-a8dd-01df76c20a98",
+        "title": "Записи",
+        "name": "create_records",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": "true"
         },
-        "RenderSettings": {
-          "ControlKindUid": "",
-          "ShowInItem": true,
-          "ShowInList": true,
-          "ListColumnWidth": ""
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
         },
-        "Dependencies": []
+        "dependencies": []
       }
     ],
-    "Indexes": [
+    "indexes": [
       {
-        "Uid": "a1b2c3d4-8888-4888-8888-888888888888",
-        "Columns": [
-          { "ColumnUid": "a1b2c3d4-4444-4444-8444-444444444444", "Direction": 0 }
+        "uid": "a1b2c3d4-8888-4888-8888-888888888888",
+        "columns": [
+          { "columnUid": "a1b2c3d4-4444-4444-8444-444444444444", "direction": 0 }
         ]
       },
       {
-        "Uid": "a1b2c3d4-9999-4999-8999-999999999999",
-        "Columns": [
-          { "ColumnUid": "a1b2c3d4-5555-4555-8555-555555555555", "Direction": 0 }
+        "uid": "a1b2c3d4-9999-4999-8999-999999999999",
+        "columns": [
+          { "columnUid": "a1b2c3d4-5555-4555-8555-555555555555", "direction": 0 }
         ]
       },
       {
-        "Uid": "a1b2c3d4-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
-        "Columns": [
-          { "ColumnUid": "a1b2c3d4-6666-4666-8666-666666666666", "Direction": 0 }
+        "uid": "a1b2c3d4-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "columns": [
+          { "columnUid": "a1b2c3d4-6666-4666-8666-666666666666", "direction": 0 }
         ]
       }
     ]
   },
-  "DetailTables": [],
-  "Commands": [],
-  "RecordsSources": [],
-  "RecordsSettings": []
+  "detailTables": [],
+  "commands": [],
+  "recordsSources": [],
+  "recordsSettings": []
 }

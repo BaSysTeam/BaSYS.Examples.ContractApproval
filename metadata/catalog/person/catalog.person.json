@@ -1,0 +1,284 @@
+{
+  "$schema": "../../system/schemas/metaObjectStorableSettings.schema.json",
+  "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a01",
+  "metaObjectKindUid": "032d8377-500f-4631-b435-1f7f69046674",
+  "title": "Физическое лицо",
+  "name": "person",
+  "memo": "Справочник физических лиц (ФИО)",
+  "editMethod": 0,
+  "orderByExpression": "",
+  "displayExpression": "",
+  "listFormUid": null,
+  "itemFormUid": null,
+  "showMainImage": false,
+  "saveHistory": 0,
+  "version": 0,
+  "isActive": true,
+  "header": {
+    "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a02",
+    "title": "header",
+    "name": "header",
+    "memo": "",
+    "autoClearMethod": 0,
+    "columns": [
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a03",
+        "kind": 0,
+        "standardColumnUid": "4a7c739c-6012-4e45-bfc0-b78a06db8aec",
+        "title": "Id",
+        "name": "id",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": true,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a04",
+        "kind": 0,
+        "standardColumnUid": "b20fcd24-ba0f-b5b8-7e4d-39628145533e",
+        "title": "Uid",
+        "name": "uid",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "6fa9c45b-f514-4fea-a480-8e940636a1df",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": true,
+          "defaultValue": "new"
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": false,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a05",
+        "kind": 0,
+        "standardColumnUid": "dc3def1b-bffd-4dc8-b0d5-5d34a57fdcb2",
+        "title": "Удалено",
+        "name": "is_deleted",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": false,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a07",
+        "kind": 0,
+        "standardColumnUid": "349f72d7-ac0f-40cd-b02d-a5b5f7dcd467",
+        "title": "Файлы",
+        "name": "is_files",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a06",
+        "kind": 0,
+        "standardColumnUid": "e163c0c4-de77-4e58-a468-f3527b573e4a",
+        "title": "Заголовок",
+        "name": "title",
+        "formula": "return [$h.last_name, $h.first_name, $h.middle_name].filter(Boolean).join(' ');",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 150,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a08",
+        "kind": 0,
+        "standardColumnUid": null,
+        "title": "Фамилия",
+        "name": "last_name",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": false,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 50,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": [
+          {
+            "kind": 0,
+            "fieldUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a06",
+            "tableUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a02"
+          }
+        ]
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a09",
+        "kind": 0,
+        "standardColumnUid": null,
+        "title": "Имя",
+        "name": "first_name",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": false,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 50,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": [
+          {
+            "kind": 0,
+            "fieldUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a06",
+            "tableUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a02"
+          }
+        ]
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a0a",
+        "kind": 0,
+        "standardColumnUid": null,
+        "title": "Отчество",
+        "name": "middle_name",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": false,
+        "dataSettings": {
+          "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+          "stringLength": 50,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": [
+          {
+            "kind": 0,
+            "fieldUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a06",
+            "tableUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a02"
+          }
+        ]
+      }
+    ],
+    "indexes": [
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a0b",
+        "columns": [
+          {
+            "columnUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a05",
+            "direction": 0
+          }
+        ]
+      },
+      {
+        "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a0c",
+        "columns": [
+          {
+            "columnUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a07",
+            "direction": 0
+          }
+        ]
+      }
+    ]
+  },
+  "detailTables": [],
+  "commands": [],
+  "recordsSources": [],
+  "recordsSettings": []
+}

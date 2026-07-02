@@ -1,0 +1,698 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MetaObjectStorableSettings",
+  "type": "object",
+  "properties": {
+    "uid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "metaObjectKindUid": {
+      "type": "string",
+      "format": "guid"
+    },
+    "title": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "memo": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "editMethod": {
+      "$ref": "#/definitions/EditMethods"
+    },
+    "orderByExpression": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "displayExpression": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "listFormUid": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "guid"
+    },
+    "itemFormUid": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "guid"
+    },
+    "showMainImage": {
+      "type": "boolean"
+    },
+    "saveHistory": {
+      "$ref": "#/definitions/SaveHistoryMode"
+    },
+    "version": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "header": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/MetaObjectTable"
+        }
+      ]
+    },
+    "detailTables": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/MetaObjectTable"
+      }
+    },
+    "commands": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/MetaObjectCommand"
+      }
+    },
+    "recordsSources": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/RecordsSourceItem"
+      }
+    },
+    "recordsSettings": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/MetaObjectRecordsSettingsItem"
+      }
+    }
+  },
+  "definitions": {
+    "EditMethods": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Page",
+        "Modal"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "SaveHistoryMode": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Inherit",
+        "Disabled",
+        "Enabled"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "MetaObjectTable": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "memo": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "autoClearMethod": {
+          "$ref": "#/definitions/AutoClearMethods"
+        },
+        "columns": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MetaObjectTableColumn"
+          }
+        },
+        "indexes": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MetaObjectTableIndex"
+          }
+        },
+        "columnsWithFormulas": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MetaObjectTableColumn"
+          }
+        },
+        "primaryKey": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/MetaObjectTableColumn"
+            }
+          ]
+        }
+      }
+    },
+    "AutoClearMethods": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "WhenCopy",
+        "WhenCreateFrom",
+        "WhenCopyOrCreateFrom"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "MetaObjectTableColumn": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "kind": {
+          "$ref": "#/definitions/DataObjectColumnKinds"
+        },
+        "standardColumnUid": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "guid"
+        },
+        "title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "formula": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "itemsSource": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "autoClearMethod": {
+          "$ref": "#/definitions/AutoClearMethods"
+        },
+        "isStandard": {
+          "type": "boolean"
+        },
+        "dataSettings": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/MetaObjectTableColumnDataSettings"
+            }
+          ]
+        },
+        "renderSettings": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/MetaObjectTableColumnRenderSettings"
+            }
+          ]
+        },
+        "dependencies": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DependencyInfo"
+          }
+        }
+      }
+    },
+    "DataObjectColumnKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Stored",
+        "Virtual"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "MetaObjectTableColumnDataSettings": {
+      "type": "object",
+      "properties": {
+        "dataTypeUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "stringLength": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberDigits": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "primaryKey": {
+          "type": "boolean"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "unique": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "MetaObjectTableColumnRenderSettings": {
+      "type": "object",
+      "properties": {
+        "controlKindUid": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "showInItem": {
+          "type": "boolean"
+        },
+        "showInList": {
+          "type": "boolean"
+        },
+        "listColumnWidth": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "DependencyInfo": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/DependencyKinds"
+        },
+        "fieldUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "tableUid": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "DependencyKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "HeaderField",
+        "RowField",
+        "Table"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "MetaObjectTableIndex": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "columns": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MetaObjectTableIndexColumn"
+          }
+        }
+      }
+    },
+    "MetaObjectTableIndexColumn": {
+      "type": "object",
+      "properties": {
+        "columnUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "direction": {
+          "$ref": "#/definitions/IndexDirections"
+        }
+      }
+    },
+    "IndexDirections": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Descending",
+        "Ascending"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "MetaObjectCommand": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "tableUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "kind": {
+          "$ref": "#/definitions/MetaObjectCommandKinds"
+        },
+        "title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "expression": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "JavaScript expression for this command. In export packages the value is a relative file reference (e.g. 'Catalog.Customer.command.fill_defaults.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
+          "x-example": "Catalog.Customer.command.fill_defaults.bjs"
+        },
+        "memo": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "parameters": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MetaObjectCommandParameter"
+          }
+        }
+      }
+    },
+    "MetaObjectCommandKinds": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Custom",
+        "Fill",
+        "PickUp"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "MetaObjectCommandParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "value": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "dbType": {
+          "$ref": "#/definitions/DbType"
+        }
+      }
+    },
+    "DbType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "AnsiString",
+        "Binary",
+        "Byte",
+        "Boolean",
+        "Currency",
+        "Date",
+        "DateTime",
+        "Decimal",
+        "Double",
+        "Guid",
+        "Int16",
+        "Int32",
+        "Int64",
+        "Object",
+        "SByte",
+        "Single",
+        "String",
+        "Time",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "VarNumeric",
+        "AnsiStringFixedLength",
+        "StringFixedLength",
+        "Xml",
+        "DateTime2",
+        "DateTimeOffset"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        25,
+        26,
+        27
+      ]
+    },
+    "RecordsSourceItem": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "expression": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "JavaScript expression for this records source. In export packages the value is a relative file reference (e.g. 'Catalog.Customer.records_source.main.bjs') pointing to a companion .bjs file; the import pipeline resolves it back to inline code automatically.",
+          "x-example": "Catalog.Customer.records_source.main.bjs"
+        }
+      }
+    },
+    "MetaObjectRecordsSettingsItem": {
+      "type": "object",
+      "properties": {
+        "destinationMetaObjectUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "rows": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MetaObjectRecordsSettingsRow"
+          }
+        }
+      }
+    },
+    "MetaObjectRecordsSettingsRow": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "sourceUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "direction": {
+          "$ref": "#/definitions/RegisterRecordDirections"
+        },
+        "condition": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "columns": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MetaObjectRecordsSettingsColumn"
+          }
+        }
+      }
+    },
+    "RegisterRecordDirections": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Plus",
+        "Minus"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "MetaObjectRecordsSettingsColumn": {
+      "type": "object",
+      "properties": {
+        "destinationColumnUid": {
+          "type": "string",
+          "format": "guid"
+        },
+        "expression": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

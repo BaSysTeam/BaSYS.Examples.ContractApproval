@@ -1,0 +1,122 @@
+{
+  "uid": "032d8377-500f-4631-b435-1f7f69046674",
+  "title": "Справочник",
+  "name": "catalog",
+  "prefix": "cat",
+  "storeData": true,
+  "isReference": true,
+  "allowAttachedFiles": true,
+  "isFilesColumnUid": "349f72d7-ac0f-40cd-b02d-a5b5f7dcd467",
+  "isDeletedColumnUid": "dc3def1b-bffd-4dc8-b0d5-5d34a57fdcb2",
+  "canCreateRecords": false,
+  "useDetailsTables": false,
+  "useForms": true,
+  "usePrintForms": false,
+  "saveHistory": true,
+  "isStandard": false,
+  "version": 2,
+  "memo": "",
+  "iconClass": "pi pi-book",
+  "orderByExpression": "title",
+  "displayExpression": "title",
+  "recordsSettings": null,
+  "standardColumns": [
+    {
+      "uid": "4a7c739c-6012-4e45-bfc0-b78a06db8aec",
+      "title": "Id",
+      "name": "id",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
+        "stringLength": 0,
+        "numberDigits": 2,
+        "primaryKey": true,
+        "required": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    },
+    {
+      "uid": "dc3def1b-bffd-4dc8-b0d5-5d34a57fdcb2",
+      "title": "Удалено",
+      "name": "is_deleted",
+      "hasIndex": true,
+      "dataSettings": {
+        "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+        "stringLength": 0,
+        "numberDigits": 2,
+        "primaryKey": false,
+        "required": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": false,
+        "showInList": false,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    },
+    {
+      "uid": "e163c0c4-de77-4e58-a468-f3527b573e4a",
+      "title": "Заголовок",
+      "name": "title",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+        "stringLength": 100,
+        "numberDigits": 2,
+        "primaryKey": false,
+        "required": true,
+        "unique": false,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    },
+    {
+      "uid": "349f72d7-ac0f-40cd-b02d-a5b5f7dcd467",
+      "title": "Файлы",
+      "name": "is_files",
+      "hasIndex": true,
+      "dataSettings": {
+        "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+        "stringLength": 0,
+        "numberDigits": 2,
+        "primaryKey": false,
+        "required": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": false,
+        "showInList": true,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    }
+  ],
+  "availableRights": [
+    "216606b4-bcac-4445-ae33-b0888a94e3e5",
+    "7a0224d9-eb5e-44d7-bc5e-1f20c6412844",
+    "07c610bc-6f65-4905-be5f-8389f5b6e1ae",
+    "15cbc076-119c-4a26-86e9-f79368c41222",
+    "0e3ad6c4-ba26-485f-aede-6b8405a55b69",
+    "3c002342-6c49-47c5-957e-802f71a66939",
+    "84932a14-191a-4ebc-b34c-5e5f6eb1ec81"
+  ]
+}

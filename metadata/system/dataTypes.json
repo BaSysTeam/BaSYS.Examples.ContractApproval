@@ -1,0 +1,152 @@
+[
+  {
+    "uid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+    "kind": "",
+    "name": "",
+    "title": "String",
+    "isPrimitive": true,
+    "dbType": 16,
+    "objectKindUid": null,
+    "typeName": "System.String"
+  },
+  {
+    "uid": "b327f82a-ea96-416f-9836-785db28eccac",
+    "kind": "",
+    "name": "",
+    "title": "Int",
+    "isPrimitive": true,
+    "dbType": 11,
+    "objectKindUid": null,
+    "typeName": "System.Int32"
+  },
+  {
+    "uid": "daa57cb0-32eb-4709-b61f-4ea023ae31c3",
+    "kind": "",
+    "name": "",
+    "title": "Long",
+    "isPrimitive": true,
+    "dbType": 12,
+    "objectKindUid": null,
+    "typeName": "System.Int64"
+  },
+  {
+    "uid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+    "kind": "",
+    "name": "",
+    "title": "Boolean",
+    "isPrimitive": true,
+    "dbType": 3,
+    "objectKindUid": null,
+    "typeName": "System.Boolean"
+  },
+  {
+    "uid": "a05516ac-baae-4f66-9b67-6703998a6a1b",
+    "kind": "",
+    "name": "",
+    "title": "Decimal",
+    "isPrimitive": true,
+    "dbType": 7,
+    "objectKindUid": null,
+    "typeName": "System.Decimal"
+  },
+  {
+    "uid": "9001eafb-efb1-442f-b288-723bb8002b12",
+    "kind": "",
+    "name": "",
+    "title": "Date&Time",
+    "isPrimitive": true,
+    "dbType": 6,
+    "objectKindUid": null,
+    "typeName": "System.DateTime"
+  },
+  {
+    "uid": "6fa9c45b-f514-4fea-a480-8e940636a1df",
+    "kind": "",
+    "name": "",
+    "title": "Guid",
+    "isPrimitive": true,
+    "dbType": 9,
+    "objectKindUid": null,
+    "typeName": "System.Guid"
+  },
+  {
+    "uid": "689d1aac-66d8-478f-852e-0e3881b427bf",
+    "kind": "",
+    "name": "",
+    "title": "Meta object kind",
+    "isPrimitive": false,
+    "dbType": 9,
+    "objectKindUid": null,
+    "typeName": "System.Guid"
+  },
+  {
+    "uid": "a4d064c6-465f-42a5-bbc0-48f743148c36",
+    "kind": "",
+    "name": "",
+    "title": "Meta object",
+    "isPrimitive": false,
+    "dbType": 9,
+    "objectKindUid": null,
+    "typeName": "System.Guid"
+  },
+  {
+    "uid": "a1b2c3d4-0001-4a1b-8c2d-100000000001",
+    "kind": "operation",
+    "name": "test_operation",
+    "title": "Операция.Тестовая операция",
+    "isPrimitive": false,
+    "dbType": 11,
+    "objectKindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
+    "typeName": null
+  },
+  {
+    "uid": "f1a2b3c4-d5e6-4789-9abc-def012345678",
+    "kind": "enum",
+    "name": "contract_kind",
+    "title": "Перечисление.Вид договора",
+    "isPrimitive": false,
+    "dbType": 16,
+    "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
+  },
+  {
+    "uid": "8aeea012-aba9-426a-a6a2-b02f9d76eab6",
+    "kind": "enum",
+    "name": "contract_priority",
+    "title": "Перечисление.Приоритет договора",
+    "isPrimitive": false,
+    "dbType": 16,
+    "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
+  },
+  {
+    "uid": "a3f1b8e2-7c4d-4a5b-9e6f-1d2c3b4a5e6f",
+    "kind": "enum",
+    "name": "contract_status",
+    "title": "Перечисление.Статус договора",
+    "isPrimitive": false,
+    "dbType": 16,
+    "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
+  },
+  {
+    "uid": "b8c9d0e1-f2a3-4b5c-8d6e-7f8a9b0c1d2e",
+    "kind": "enum",
+    "name": "contract_type",
+    "title": "Перечисление.Тип договора",
+    "isPrimitive": false,
+    "dbType": 16,
+    "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
+  },
+  {
+    "uid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a01",
+    "kind": "catalog",
+    "name": "person",
+    "title": "Справочник.Физическое лицо",
+    "isPrimitive": false,
+    "dbType": 11,
+    "objectKindUid": "032d8377-500f-4631-b435-1f7f69046674",
+    "typeName": null
+  }
+]

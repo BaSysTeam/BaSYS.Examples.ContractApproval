@@ -1,0 +1,120 @@
+{
+  "uid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+  "title": "Перечисление",
+  "name": "enum",
+  "prefix": "enm",
+  "storeData": true,
+  "isReference": true,
+  "allowAttachedFiles": false,
+  "isFilesColumnUid": null,
+  "isDeletedColumnUid": "1e0063d0-288d-494a-8761-1185300d571d",
+  "canCreateRecords": false,
+  "useDetailsTables": false,
+  "useForms": false,
+  "usePrintForms": false,
+  "saveHistory": true,
+  "isStandard": false,
+  "version": 2,
+  "memo": "",
+  "iconClass": "pi pi-list",
+  "orderByExpression": "code",
+  "displayExpression": "title",
+  "recordsSettings": null,
+  "standardColumns": [
+    {
+      "uid": "3cceebad-7d5a-4943-a102-6267e22227a8",
+      "title": "Имя",
+      "name": "name",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+        "stringLength": 20,
+        "numberDigits": 2,
+        "primaryKey": true,
+        "required": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    },
+    {
+      "uid": "1e0063d0-288d-494a-8761-1185300d571d",
+      "title": "Удалено",
+      "name": "is_deleted",
+      "hasIndex": true,
+      "dataSettings": {
+        "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+        "stringLength": 0,
+        "numberDigits": 2,
+        "primaryKey": false,
+        "required": false,
+        "unique": false,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": false,
+        "showInList": false,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    },
+    {
+      "uid": "e647fb57-470e-4547-9a94-2be0f3d0985e",
+      "title": "Код",
+      "name": "code",
+      "hasIndex": true,
+      "dataSettings": {
+        "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+        "stringLength": 3,
+        "numberDigits": 2,
+        "primaryKey": false,
+        "required": true,
+        "unique": true,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    },
+    {
+      "uid": "91a26ae4-5723-4109-8322-7e4e59129239",
+      "title": "Заголовок",
+      "name": "title",
+      "hasIndex": false,
+      "dataSettings": {
+        "dataTypeUid": "0234c067-7868-46b2-ba8e-e22fae5255cb",
+        "stringLength": 100,
+        "numberDigits": 2,
+        "primaryKey": false,
+        "required": true,
+        "unique": false,
+        "defaultValue": null
+      },
+      "renderSettings": {
+        "controlKindUid": "",
+        "showInItem": true,
+        "showInList": true,
+        "listColumnWidth": ""
+      },
+      "memo": ""
+    }
+  ],
+  "availableRights": [
+    "216606b4-bcac-4445-ae33-b0888a94e3e5",
+    "7a0224d9-eb5e-44d7-bc5e-1f20c6412844",
+    "07c610bc-6f65-4905-be5f-8389f5b6e1ae",
+    "15cbc076-119c-4a26-86e9-f79368c41222",
+    "84932a14-191a-4ebc-b34c-5e5f6eb1ec81"
+  ]
+}

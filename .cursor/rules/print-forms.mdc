@@ -37,12 +37,12 @@ If the same `.xlsx` layout must be available both as a printable doc on a record
 
 ## Where Print Forms Are Allowed
 
-Print forms can be created **only** for metaobjects whose kind has `UsePrintForms = true` (field on `MetaObjectKindSettings` in `system/kinds/kind.*.json`):
+Print forms can be created **only** for metaobjects whose kind has `usePrintForms = true` (field on `MetaObjectKindSettings` in `system/kinds/kind.*.json`):
 
 - by default this flag is **on** for `operation` (documents);
 - for `catalog`, `register`, `enum` and other kinds it is **off**, but can be enabled in the kind's settings on the platform side.
 
-Before creating a print form, check `system/kinds/kind.{kindName}.json` and confirm `UsePrintForms = true`. If it is `false`, tell the user the kind does not support print forms in the current model — do not silently create the file.
+Before creating a print form, check `system/kinds/kind.{kindName}.json` and confirm `usePrintForms = true`. If it is `false`, tell the user the kind does not support print forms in the current model — do not silently create the file.
 
 ## File Layout
 
@@ -50,9 +50,9 @@ Print forms live **inside the owner metaobject's folder**, side by side with the
 
 | Artefact         | Filename                                                                            |
 | :--------------- | :---------------------------------------------------------------------------------- |
-| Settings JSON    | `{kind.Name}.{object.Name}.print_form.{formName}.json`                              |
-| Template `.xlsx` | `{kind.Name}.{object.Name}.print_form.{formName}.template.xlsx`                     |
-| Data source `.bjs` | `{kind.Name}.{object.Name}.print_form.{formName}.data_source.{dsName}.bjs` (one per source) |
+| Settings JSON    | `{kind.name}.{object.name}.print_form.{formName}.json`                              |
+| Template `.xlsx` | `{kind.name}.{object.name}.print_form.{formName}.template.xlsx`                     |
+| Data source `.bjs` | `{kind.name}.{object.name}.print_form.{formName}.data_source.{dsName}.bjs` (one per source) |
 
 Example for the `тарифы_дорожные` operation with a print form named `тарифы`:
 
@@ -70,11 +70,11 @@ operation/тарифы_дорожные/
 Other rules:
 
 - The print form settings JSON must validate against `system/schemas/printFormSettings.schema.json` (set `$schema` to the correct relative path, e.g. `"../../system/schemas/printFormSettings.schema.json"` for files two folders deep).
-- `MetaObjectUid` in the print form **must** equal `Uid` of the owning metaobject — the system uses this to attach the print form to the correct object.
-- Kind has nothing to do with `IsReference` here: the print form is **not** a metaobject of its own — do **not** add anything to `system/dataTypes.json`.
-- The metaobject's main JSON does **not** reference its print forms — the binding is implicit, by `MetaObjectUid` inside each print form file.
-- A single metaobject may have any number of print forms; their `Name` must be unique within the metaobject.
-- Print forms are also **not** referenced from `Commands`, `Forms` or any other section of the metaobject JSON.
+- `metaObjectUid` in the print form **must** equal `uid` of the owning metaobject — the system uses this to attach the print form to the correct object.
+- Kind has nothing to do with `isReference` here: the print form is **not** a metaobject of its own — do **not** add anything to `system/dataTypes.json`.
+- The metaobject's main JSON does **not** reference its print forms — the binding is implicit, by `metaObjectUid` inside each print form file.
+- A single metaobject may have any number of print forms; their `name` must be unique within the metaobject.
+- Print forms are also **not** referenced from `commands`, `Forms` or any other section of the metaobject JSON.
 
 ### Working With the Template `.xlsx` File
 
@@ -82,7 +82,7 @@ Other rules:
 
 Rules for the agent:
 
-- **Creating a new print form:** create only the `.json` settings file and (if needed) the `.bjs` data source scripts. Tell the user that they need to prepare `{kind.Name}.{object.Name}.print_form.{formName}.template.xlsx` themselves in Microsoft Excel (or a compatible editor) and place it in the metaobject's folder, and remind them of the marker / named-range conventions below. Do not create a placeholder `.xlsx`.
+- **Creating a new print form:** create only the `.json` settings file and (if needed) the `.bjs` data source scripts. Tell the user that they need to prepare `{kind.name}.{object.name}.print_form.{formName}.template.xlsx` themselves in Microsoft Excel (or a compatible editor) and place it in the metaobject's folder, and remind them of the marker / named-range conventions below. Do not create a placeholder `.xlsx`.
 - **Editing an existing print form:** treat the existing `*.template.xlsx` as opaque. You may rename data sources, fields or markers in the JSON / `.bjs` files only if you also instruct the user to update the matching markers / named ranges inside the template — keep the JSON-side names and the template-side markers in sync. Never edit the `.xlsx` file directly.
 - The same rule applies to `.xlsb`, `.xls` and other binary Excel formats — they are out of scope, the template **must** be `.xlsx`.
 
@@ -92,34 +92,34 @@ The print form settings JSON has the following fields:
 
 | Field              | Purpose                                                                                                                                                                                |
 | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Uid`              | UUID v4 for the print form itself (freshly generated for new ones).                                                                                                                    |
-| `MetaObjectUid`    | UID of the owner metaobject. Must match the `Uid` of the metaobject in `{kind.Name}/{object.Name}/{kind.Name}.{object.Name}.json`.                                                     |
-| `TemplateKind`     | Template kind. Currently the only supported value is `0` (Excel).                                                                                                                      |
-| `Name`             | System name (snake_case English; for new forms — meaningful and ≤30 chars). Must be unique within the metaobject.                                                                      |
-| `Title`            | UI label shown in the **Print** menu on the object's form.                                                                                                                             |
-| `Memo`             | Short Russian description of what the print form is for.                                                                                                                               |
+| `uid`              | UUID v4 for the print form itself (freshly generated for new ones).                                                                                                                    |
+| `metaObjectUid`    | UID of the owner metaobject. Must match the `uid` of the metaobject in `{kind.name}/{object.name}/{kind.name}.{object.name}.json`.                                                     |
+| `templateKind`     | Template kind. Currently the only supported value is `0` (Excel).                                                                                                                      |
+| `name`             | System name (snake_case English; for new forms — meaningful and ≤30 chars). Must be unique within the metaobject.                                                                      |
+| `title`            | UI label shown in the **Print** menu on the object's form.                                                                                                                             |
+| `memo`             | Short Russian description of what the print form is for.                                                                                                                               |
 | `TextTemplate`     | Reserved for future text-based template kinds. For Excel-based print forms keep it empty (`""`).                                                                                       |
-| `IsActive`         | If `false`, the print form is hidden from the Print menu (settings and template stay in DB). Default `true`.                                                                           |
-| `AutoRetrieveData` | If `true`, the server automatically reads the object's header and all detail tables and exposes them in the template — see "Auto-Retrieved Data" below.                                |
-| `Version`          | System-managed numeric version. Set to `1` for new print forms; the server increments it on save.                                                                                      |
-| `DataSources`      | Ordered array of named data sources (see below). May be empty when `AutoRetrieveData = true` is enough.                                                                                |
+| `isActive`         | If `false`, the print form is hidden from the Print menu (settings and template stay in DB). Default `true`.                                                                           |
+| `autoRetrieveData` | If `true`, the server automatically reads the object's header and all detail tables and exposes them in the template — see "Auto-Retrieved Data" below.                                |
+| `version`          | System-managed numeric version. Set to `1` for new print forms; the server increments it on save.                                                                                      |
+| `dataSources`      | Ordered array of named data sources (see below). May be empty when `autoRetrieveData = true` is enough.                                                                                |
 
-`HasTemplateFile` is a server-computed flag and must **not** be authored manually.
+`hasTemplateFile` is a server-computed flag and must **not** be authored manually.
 
-### Choosing `AutoRetrieveData`
+### Choosing `autoRetrieveData`
 
-- **Default: `AutoRetrieveData = true`.** For a typical document print form (single record, header + a couple of detail tables) it is the simplest setup — no data sources are needed at all.
-- Use `AutoRetrieveData = false` only if the form needs none of the standard object data (e.g. a notification / reminder built entirely from related queries). Even then it is usually easier to leave it on and ignore the auto-loaded names in the template.
+- **Default: `autoRetrieveData = true`.** For a typical document print form (single record, header + a couple of detail tables) it is the simplest setup — no data sources are needed at all.
+- Use `autoRetrieveData = false` only if the form needs none of the standard object data (e.g. a notification / reminder built entirely from related queries). Even then it is usually easier to leave it on and ignore the auto-loaded names in the template.
 - The flag does **not** prevent you from adding custom data sources alongside auto-loaded data; it only controls whether `header` / detail tables are placed into the context for free.
 
-## Auto-Retrieved Data (`AutoRetrieveData = true`)
+## Auto-Retrieved Data (`autoRetrieveData = true`)
 
 When the flag is on, the server reads the current object by primary key and places the data into the template context under fixed names:
 
 | Name in template            | Content                                                                                                                                       |
 | :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
-| `header`                    | Object header (`Header`) with display values resolved for reference fields. Accessed in the template as `{{header.<columnName>}}`.            |
-| `<detailTableName>`         | Each detail table from the metaobject is passed as a `DataTable` under its own `Name`. Accessed via `{{item["<columnName>"]}}` in a same-named named range. |
+| `header`                    | Object header (`header`) with display values resolved for reference fields. Accessed in the template as `{{header.<columnName>}}`.            |
+| `<detailTableName>`         | Each detail table from the metaobject is passed as a `DataTable` under its own `name`. Accessed via `{{item["<columnName>"]}}` in a same-named named range. |
 
 Display values for reference columns are resolved automatically; you do **not** need to query referenced catalogs separately to print the human-readable representation.
 
@@ -137,7 +137,7 @@ For reference fields (e.g. `contractor`) the engine substitutes the resolved dis
 
 ### Markers — Detail Tables
 
-Each detail table is exposed as a `DataTable` under its `Name` (the table's own `Name`, not its `Title`). The template must contain an Excel **named range** with that exact name; inside the range cells use `{{item["<columnName>"]}}`:
+Each detail table is exposed as a `DataTable` under its `name` (the table's own `name`, not its `title`). The template must contain an Excel **named range** with that exact name; inside the range cells use `{{item["<columnName>"]}}`:
 
 ```
 {{item["nomenclature"]}}
@@ -149,21 +149,21 @@ The engine repeats the named-range area once per row of the detail table.
 
 ## Data Sources
 
-When auto-retrieved data is not enough — pulling extra fields from related catalogs, computing totals, querying arbitrary tables — declare custom data sources in `DataSources`.
+When auto-retrieved data is not enough — pulling extra fields from related catalogs, computing totals, querying arbitrary tables — declare custom data sources in `dataSources`.
 
 | Field        | Purpose                                                                                                |
 | :----------- | :----------------------------------------------------------------------------------------------------- |
-| `Uid`        | Freshly generated UUID v4 for the data source.                                                         |
-| `Name`       | Identifier (snake_case English). Becomes the key on `_data` and the marker name in the template.       |
-| `Expression` | Filename of the companion `.bjs` script (e.g. `operation.invoice.print_form.invoice.data_source.contractor_details.bjs`). |
-| `Memo`       | Short Russian description of what the source returns.                                                  |
+| `uid`        | Freshly generated UUID v4 for the data source.                                                         |
+| `name`       | Identifier (snake_case English). Becomes the key on `_data` and the marker name in the template.       |
+| `expression` | Filename of the companion `.bjs` script (e.g. `operation.invoice.print_form.invoice.data_source.contractor_details.bjs`). |
+| `memo`       | Short Russian description of what the source returns.                                                  |
 
 Key rules:
 
 - Sources are evaluated **strictly in declaration order**. Later sources may use earlier results via `_data.<earlierName>`. Order matters — put base queries first, derived aggregations afterwards.
-- The `Expression` field must contain the **filename** of the `.bjs` script (not the script body). Create both the `DataSources` entry **and** the corresponding `.bjs` file. File naming: `{kind.Name}.{object.Name}.print_form.{formName}.data_source.{dsName}.bjs`.
+- The `expression` field must contain the **filename** of the `.bjs` script (not the script body). Create both the `dataSources` entry **and** the corresponding `.bjs` file. File naming: `{kind.name}.{object.name}.print_form.{formName}.data_source.{dsName}.bjs`.
 - The script **must `return`** its result.
-- Choose data source `Name`s that do not collide with auto-retrieved names (`header`, names of detail tables) unless you intentionally want to **override** them — declaring a data source with the same name as an auto-retrieved value replaces it in the context.
+- Choose data source `name`s that do not collide with auto-retrieved names (`header`, names of detail tables) unless you intentionally want to **override** them — declaring a data source with the same name as an auto-retrieved value replaces it in the context.
 - Prefer the BaSYS query builder (`from('kind.name').…query()`) over plain JS for DB access. See https://basysteam.github.io/BaSys.Docs/ru/calculations/queryBuilder.html.
 - Use `.getDisplays()` when querying reference fields so that human-readable display values are available as `<column>_display` for use in template markers.
 - Print forms render **one record** — keep queries narrow. Filter by the current object's primary key (`_parameters.object_uid` or `_parameters.<pkName>`) instead of pulling whole tables.
@@ -173,20 +173,20 @@ Key rules:
 | Name           | Meaning                                                                                                                                                                                                                          |
 | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `_parameters`  | Dictionary of call parameters automatically populated by the server: `kind_name`, `object_name`, `object_uid` (the PK value in the PK column's type), and the same value under the PK system name (e.g. `id`, `number`, `code`). |
-| `_data`        | Dictionary of values already in the context: results of earlier data sources, plus `header` and detail tables when `AutoRetrieveData = true`.                                                                                    |
+| `_data`        | Dictionary of values already in the context: results of earlier data sources, plus `header` and detail tables when `autoRetrieveData = true`.                                                                                    |
 | `_filters`     | Always an empty collection for print forms (provided only for compatibility with the expression library — print forms have no configurable filters).                                                                             |
 
 ### Example: pull related data for a single record
 
-For the operation `реализация_товаров`, a print form `накладная` with `AutoRetrieveData = true` already exposes `header` and the detail table `товары`. To add the contractor's INN / address (not present in the document header), declare a data source:
+For the operation `реализация_товаров`, a print form `накладная` with `autoRetrieveData = true` already exposes `header` and the detail table `товары`. To add the contractor's INN / address (not present in the document header), declare a data source:
 
 ```json
-"DataSources": [
+"dataSources": [
   {
-    "Uid": "3f5eb097-ca63-2414-4a5f-5ee0dc4e342e",
-    "Name": "contractor_details",
-    "Expression": "operation.реализация_товаров.print_form.накладная.data_source.contractor_details.bjs",
-    "Memo": "Реквизиты контрагента документа: ИНН, КПП, адрес, телефон."
+    "uid": "3f5eb097-ca63-2414-4a5f-5ee0dc4e342e",
+    "name": "contractor_details",
+    "expression": "operation.реализация_товаров.print_form.накладная.data_source.contractor_details.bjs",
+    "memo": "Реквизиты контрагента документа: ИНН, КПП, адрес, телефон."
   }
 ]
 ```
@@ -209,7 +209,7 @@ In the template the contractor reads as `{{contractor_details.inn}}`, `{{contrac
 
 ### Example: pull header by primary key without auto-retrieve
 
-When `AutoRetrieveData = false`, fetch the header explicitly using the parameters provided by the server:
+When `autoRetrieveData = false`, fetch the header explicitly using the parameters provided by the server:
 
 ```javascript
 var headerTable = await from('operation.тарифы_дорожные')
@@ -230,63 +230,63 @@ Same as Excel reports — see the [excel-reports rule](mdc:excel-reports.mdc) fo
 | Return type                       | Access in template                                | Notes                                                                                                  |
 | :-------------------------------- | :------------------------------------------------ | :----------------------------------------------------------------------------------------------------- |
 | Scalar (string, number, date)     | `{{sourceName}}`                                  |                                                                                                        |
-| Object / dictionary / `Expando`   | `{{sourceName.property}}`                         | Server converts the dictionary to a typed CLR object on the fly (cached by signature).                 |
-| Collection of typed objects       | `{{item.Property}}` inside a same-named named range | Template must contain a named range whose name matches the data source `Name`.                         |
-| `DataTable`                       | `{{item["ColumnName"]}}` or `{{item[index]}}` inside a same-named named range | Same as above; column access is by string key or numeric index.                       |
+| object / dictionary / `Expando`   | `{{sourceName.property}}`                         | Server converts the dictionary to a typed CLR object on the fly (cached by signature).                 |
+| Collection of typed objects       | `{{item.Property}}` inside a same-named named range | Template must contain a named range whose name matches the data source `name`.                         |
+| `DataTable`                       | `{{item["columnName"]}}` or `{{item[index]}}` inside a same-named named range | Same as above; column access is by string key or numeric index.                       |
 
 ## Template Markers — Quick Reference
 
 The agent does not write `.xlsx` files but must instruct the user on the marker syntax when designing or updating the template:
 
-- **Header field (auto-retrieved):** `{{header.<columnName>}}` — display values are already resolved for reference columns.
-- **Detail table (auto-retrieved):** named range with the table's `Name`; cells like `{{item["<columnName>"]}}`.
+- **header field (auto-retrieved):** `{{header.<columnName>}}` — display values are already resolved for reference columns.
+- **Detail table (auto-retrieved):** named range with the table's `name`; cells like `{{item["<columnName>"]}}`.
 - **Custom scalar source:** `{{sourceName}}`.
 - **Custom object source:** `{{sourceName.property}}`.
-- **Custom collection / DataTable source:** named range with the source `Name`; `{{item.Property}}` (typed collections) or `{{item["ColumnName"]}}` / `{{item[index]}}` (`DataTable`).
+- **Custom collection / DataTable source:** named range with the source `name`; `{{item.Property}}` (typed collections) or `{{item["columnName"]}}` / `{{item[index]}}` (`DataTable`).
 - **Keep named ranges tight.** Include only the cells that actually contain markers or styling — `ClosedXML.Report` processes every cell of the range when expanding the collection. Selecting whole rows "for spare" dramatically slows building.
 - **Totals.** `<<sum>>`, `<<count>>` and similar `ClosedXML.Report` aggregate markup are converted to ordinary Excel formulas. Print forms have no in-app preview, so the formulas recompute when the user opens the file in Excel and the limitation that totals are not shown in preview is irrelevant. **However**, if the file may be opened in viewers that do not recompute formulas (mail-client previews, mobile viewers), compute totals in a dedicated data source and place them in the template as plain markers.
 - See https://closedxml.io/ClosedXML.Report/docs/en/Markup.html for the full ClosedXML.Report markup language (nested ranges, grouping, sorting, conditional blocks, …).
 
 ## How the Print Command Appears
 
-When the metaobject's kind has `UsePrintForms = true` and the object has at least one active print form with an uploaded template, the **Print** button appears on the object's form. Its drop-down lists the `Title`s of every active print form. Selecting a print form posts to:
+When the metaobject's kind has `usePrintForms = true` and the object has at least one active print form with an uploaded template, the **Print** button appears on the object's form. Its drop-down lists the `title`s of every active print form. Selecting a print form posts to:
 
 ```
 POST /api/dataObjects/print/{kind}/{name}/{uid}
-{ "formName": "<print form Name>", ... }
+{ "formName": "<print form name>", ... }
 ```
 
 The server builds the `.xlsx`, places it in a temporary file cache and returns a file id; the client downloads the file under the server-supplied filename. There is **no preview** — the file is saved straight to disk.
 
-To hide a print form temporarily without deleting its settings or template, set `IsActive = false`.
+To hide a print form temporarily without deleting its settings or template, set `isActive = false`.
 
 ## Building a Print Form — Quick Checklist
 
 When the user asks to add a new print form:
 
 1. **Identify the owner metaobject** and its folder.
-2. **Verify** that `system/kinds/kind.{kindName}.json` has `UsePrintForms = true`. If not, tell the user the kind does not support print forms and stop.
+2. **Verify** that `system/kinds/kind.{kindName}.json` has `usePrintForms = true`. If not, tell the user the kind does not support print forms and stop.
 3. **Pick a `formName`** in English `snake_case` (e.g. `invoice`, `act`, `contractor_card`). Must be unique among print forms of this metaobject.
-4. **Create the settings file** `{kind.Name}/{object.Name}/{kind.Name}.{object.Name}.print_form.{formName}.json` with:
+4. **Create the settings file** `{kind.name}/{object.name}/{kind.name}.{object.name}.print_form.{formName}.json` with:
    - `$schema` pointing to `system/schemas/printFormSettings.schema.json`;
-   - a fresh `Uid`;
-   - `MetaObjectUid` equal to the metaobject's `Uid`;
-   - `TemplateKind = 0`, `TextTemplate = ""`;
-   - `Name`, `Title`, `Memo`, `IsActive = true`, `Version = 1`;
-   - `AutoRetrieveData = true` (default) or `false` if the user explicitly asks;
-   - `DataSources = []` for the simple case, or filled with custom sources.
-5. **For each data source**, create the `.bjs` file `{kind.Name}.{object.Name}.print_form.{formName}.data_source.{dsName}.bjs` next to the JSON, with a `return` and using `_parameters` / `_data` as needed.
-6. **Tell the user to prepare** `{kind.Name}.{object.Name}.print_form.{formName}.template.xlsx` themselves in Excel and place it in the same folder. Describe which markers and named ranges the template must contain (derived from `header` + detail-table names when `AutoRetrieveData = true`, plus the names of any custom data sources).
+   - a fresh `uid`;
+   - `metaObjectUid` equal to the metaobject's `uid`;
+   - `templateKind = 0`, `TextTemplate = ""`;
+   - `name`, `title`, `memo`, `isActive = true`, `version = 1`;
+   - `autoRetrieveData = true` (default) or `false` if the user explicitly asks;
+   - `dataSources = []` for the simple case, or filled with custom sources.
+5. **For each data source**, create the `.bjs` file `{kind.name}.{object.name}.print_form.{formName}.data_source.{dsName}.bjs` next to the JSON, with a `return` and using `_parameters` / `_data` as needed.
+6. **Tell the user to prepare** `{kind.name}.{object.name}.print_form.{formName}.template.xlsx` themselves in Excel and place it in the same folder. Describe which markers and named ranges the template must contain (derived from `header` + detail-table names when `autoRetrieveData = true`, plus the names of any custom data sources).
 7. **Do not** edit `system/dataTypes.json` — print forms are not a reference type.
 
 ## General Hygiene
 
-- Generate a fresh `Uid` (UUID v4, lowercase, hyphenated) for the print form and for every data source.
-- `Name` values must be in English, lowercase, `snake_case` and meaningful for new print forms and data sources (existing Cyrillic names already in the project must not be renamed).
-- Fill `Memo` on the print form and on each data source with a short Russian description of its purpose.
-- Set `IsActive = true` unless the user explicitly asks to hide the print form.
-- The filename of every `.bjs` file must match the value of `Expression` in the JSON exactly.
-- The `.xlsx` template's filename is mandatory: `{kind.Name}.{object.Name}.print_form.{formName}.template.xlsx`.
+- Generate a fresh `uid` (UUID v4, lowercase, hyphenated) for the print form and for every data source.
+- `name` values must be in English, lowercase, `snake_case` and meaningful for new print forms and data sources (existing Cyrillic names already in the project must not be renamed).
+- Fill `memo` on the print form and on each data source with a short Russian description of its purpose.
+- Set `isActive = true` unless the user explicitly asks to hide the print form.
+- The filename of every `.bjs` file must match the value of `expression` in the JSON exactly.
+- The `.xlsx` template's filename is mandatory: `{kind.name}.{object.name}.print_form.{formName}.template.xlsx`.
 - Do not introduce third-party npm dependencies — the runtime is provided by the platform.
 
 ## Communication and Comments

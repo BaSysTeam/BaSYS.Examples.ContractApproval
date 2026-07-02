@@ -16,10 +16,10 @@ There may be **several active `menu` metaobjects** in one application. When the 
 
 ## File Layout
 
-- Kind `menu` has `StoreData = false` and `IsReference = false` — the settings file must validate against `system/schemas/menuSettings.schema.json` (set `$schema` to the correct relative path, typically `../../system/schemas/menuSettings.schema.json`). Do **not** add an entry to `system/dataTypes.json`.
-- Kind `menu` has no `StandardColumns`, no `Header`, no `DetailTables`, no `Commands`, no `RecordsSettings`, no `Forms`.
+- Kind `menu` has `storeData = false` and `isReference = false` — the settings file must validate against `system/schemas/menuSettings.schema.json` (set `$schema` to the correct relative path, typically `../../system/schemas/menuSettings.schema.json`). Do **not** add an entry to `system/dataTypes.json`.
+- Kind `menu` has no `standardColumns`, no `header`, no `detailTables`, no `commands`, no `recordsSettings`, no forms.
 - Settings file location: `menu/{name}/menu.{name}.json`.
-- The folder name and the `{name}` part of the file name must match the metaobject's `Name`. Cyrillic `Name` values that already exist in the model must **not** be renamed.
+- The folder name and the `{name}` part of the file name must match the metaobject's `name`. Cyrillic `name` values that already exist in the model must **not** be renamed.
 - A `menu` metaobject does **not** have companion `.bjs` or `.vue` files — it is a pure declarative JSON.
 
 ## Top-Level Structure (`MenuSettings`)
@@ -27,31 +27,31 @@ There may be **several active `menu` metaobjects** in one application. When the 
 | Field | Description |
 | :---- | :---------- |
 | `$schema` | Relative path to `menuSettings.schema.json`. |
-| `Uid` | Freshly generated UUID v4. |
-| `Name` | Technical identifier (`snake_case` English, ≤30 chars) for **new** menus. Used in URL routes of the constructor. |
-| `Title` | Human-readable label (any language). |
-| `Memo` | Short description (Russian). |
-| `IsActive` | Only active menus contribute to the side panel. Default `true`. |
-| `Version` | Version counter; start at `1`. |
-| `Items` | Array of `MenuSettingsGroupItem` — root-level entries (groups, top-level links, separators). |
+| `uid` | Freshly generated UUID v4. |
+| `name` | Technical identifier (`snake_case` English, ≤30 chars) for **new** menus. Used in URL routes of the constructor. |
+| `title` | Human-readable label (any language). |
+| `memo` | Short description (Russian). |
+| `isActive` | Only active menus contribute to the side panel. Default `true`. |
+| `version` | Version counter; start at `1`. |
+| `items` | Array of `MenuSettingsGroupItem` — root-level entries (groups, top-level links, separators). |
 
 ## Four-Level Hierarchy
 
 ```
 MenuSettings
-└── Items: MenuSettingsGroupItem[]      // Root entries: groups / top-level links / separators
-    └── Items: MenuSettingsColumn[]     // Columns inside a group (rendered side-by-side)
-        └── Items: MenuSettingsSubItem[] // Column headings with link lists
-            └── Items: MenuSettingsLinkItem[] // Final links and separators
+└── items: MenuSettingsGroupItem[]      // root entries: groups / top-level links / separators
+    └── items: MenuSettingsColumn[]     // columns inside a group (rendered side-by-side)
+        └── items: MenuSettingsSubItem[] // Column headings with link lists
+            └── items: MenuSettingsLinkItem[] // Final links and separators
 ```
 
 Columns inside one group are rendered **next to each other horizontally** inside the MegaMenu popup. Each column contains one or more headed sub-sections.
 
 ## Root Entries — `MenuSettingsGroupItem`
 
-A root entry is one of three kinds, controlled by the integer `Kind` field:
+A root entry is one of three kinds, controlled by the integer `kind` field:
 
-| `Kind` | Name | Meaning |
+| `kind` | Name | Meaning |
 | :----- | :--- | :------ |
 | `1` | `Link` | Standalone top-level link (no nested columns). |
 | `2` | `Separator` | Visual separator between root entries. |
@@ -59,17 +59,17 @@ A root entry is one of three kinds, controlled by the integer `Kind` field:
 
 | Field | Description |
 | :---- | :---------- |
-| `Uid` | Freshly generated UUID v4. |
-| `Kind` | `1` / `2` / `3` (see table above). |
-| `Title` | Label shown in the menu. Ignored for `Kind = 2` (Separator). |
-| `IconClass` | CSS class of the leading icon. Use [PrimeIcons](https://primevue.org/icons/) (e.g. `"pi pi-folder"`). May be `""`. |
-| `Url` | Target URL. **Used only for `Kind = 1` (Link).** Hash-routes are supported (see "URL Conventions" below). |
-| `IsVisible` | Invisible entries are skipped when the menu is built. Default `true`. |
-| `AutoFill` | `true` to enable auto-fill of the group from a metadata kind. **Used only for `Kind = 3` (Group).** Default `false`. |
-| `MetaObjectKindUid` | `Uid` of the metadata kind whose objects fill the group. **Required when `AutoFill = true`.** Empty string `""` otherwise. |
-| `ItemsPerColumn` | Number of items per column in auto-fill mode. Default `10`. |
-| `Items` | Array of `MenuSettingsColumn`. Manually edited in manual mode; **ignored** in auto-fill mode (use `[]`). |
-| `MetaObjectKindUidParsed` | Computed GUID form of `MetaObjectKindUid`. **Server-managed** — always present in exports. For new entries set it to the same value as `MetaObjectKindUid`, or to `"00000000-0000-0000-0000-000000000000"` when `MetaObjectKindUid` is empty. |
+| `uid` | Freshly generated UUID v4. |
+| `kind` | `1` / `2` / `3` (see table above). |
+| `title` | Label shown in the menu. Ignored for `kind = 2` (Separator). |
+| `iconClass` | CSS class of the leading icon. Use [PrimeIcons](https://primevue.org/icons/) (e.g. `"pi pi-folder"`). May be `""`. |
+| `url` | Target URL. **Used only for `kind = 1` (Link).** Hash-routes are supported (see "URL Conventions" below). |
+| `isVisible` | Invisible entries are skipped when the menu is built. Default `true`. |
+| `autoFill` | `true` to enable auto-fill of the group from a metadata kind. **Used only for `kind = 3` (Group).** Default `false`. |
+| `metaObjectKindUid` | `uid` of the metadata kind whose objects fill the group. **Required when `autoFill = true`.** Empty string `""` otherwise. |
+| `itemsPerColumn` | Number of items per column in auto-fill mode. Default `10`. |
+| `items` | Array of `MenuSettingsColumn`. Manually edited in manual mode; **ignored** in auto-fill mode (use `[]`). |
+| `metaObjectKindUidParsed` | Computed GUID form of `metaObjectKindUid`. **Server-managed** — always present in exports. For new entries set it to the same value as `metaObjectKindUid`, or to `"00000000-0000-0000-0000-000000000000"` when `metaObjectKindUid` is empty. |
 
 ## Columns — `MenuSettingsColumn`
 
@@ -77,8 +77,8 @@ A simple wrapper for a vertical column inside a group.
 
 | Field | Description |
 | :---- | :---------- |
-| `Uid` | Freshly generated UUID v4. |
-| `Items` | Array of `MenuSettingsSubItem` — sub-sections rendered inside the column. |
+| `uid` | Freshly generated UUID v4. |
+| `items` | Array of `MenuSettingsSubItem` — sub-sections rendered inside the column. |
 
 A group may contain several columns; they are placed **side-by-side** in the popup.
 
@@ -88,60 +88,60 @@ A sub-section inside a column: a heading followed by a list of links.
 
 | Field | Description |
 | :---- | :---------- |
-| `Uid` | Freshly generated UUID v4. |
-| `Title` | Heading shown above the link list. |
-| `IsVisible` | Invisible sub-items are skipped. Default `true`. |
-| `Items` | Array of `MenuSettingsLinkItem` — the actual links. |
+| `uid` | Freshly generated UUID v4. |
+| `title` | Heading shown above the link list. |
+| `isVisible` | Invisible sub-items are skipped. Default `true`. |
+| `items` | Array of `MenuSettingsLinkItem` — the actual links. |
 
 ## Link Items — `MenuSettingsLinkItem`
 
-A final leaf — a clickable link or a horizontal separator. Controlled by the integer `Kind` field:
+A final leaf — a clickable link or a horizontal separator. Controlled by the integer `kind` field:
 
-| `Kind` | Name | Meaning |
+| `kind` | Name | Meaning |
 | :----- | :--- | :------ |
 | `1` | `Link` | Clickable link. |
 | `2` | `Separator` | Horizontal separator between links. |
 
 | Field | Description |
 | :---- | :---------- |
-| `Uid` | Freshly generated UUID v4. |
-| `Kind` | `1` (Link) or `2` (Separator). |
-| `Title` | Link text. Ignored for `Kind = 2`. |
-| `IconClass` | PrimeIcons class for the link icon (e.g. `"pi pi-check"`). May be `""`. |
-| `Url` | Target URL. Used only for `Kind = 1`. |
-| `IsVisible` | Invisible links are skipped. Default `true`. |
+| `uid` | Freshly generated UUID v4. |
+| `kind` | `1` (Link) or `2` (Separator). |
+| `title` | Link text. Ignored for `kind = 2`. |
+| `iconClass` | PrimeIcons class for the link icon (e.g. `"pi pi-check"`). May be `""`. |
+| `url` | Target URL. Used only for `kind = 1`. |
+| `isVisible` | Invisible links are skipped. Default `true`. |
 
 ## Fill Modes for a Group
 
-A root group (`Kind = 3`) is filled in one of two modes:
+A root group (`kind = 3`) is filled in one of two modes:
 
-### Manual mode (`AutoFill = false`)
+### Manual mode (`autoFill = false`)
 
-Author the whole subtree by hand: build `Items` (columns) → each column's `Items` (sub-items) → each sub-item's `Items` (links / separators). Use this when the order, grouping and titles must be curated, or when links point to custom views / reports / external URLs that have no 1:1 correspondence with a metadata kind.
+Author the whole subtree by hand: build `items` (columns) → each column's `items` (sub-items) → each sub-item's `items` (links / separators). Use this when the order, grouping and titles must be curated, or when links point to custom views / reports / external URLs that have no 1:1 correspondence with a metadata kind.
 
 In manual mode set:
-- `AutoFill = false`,
-- `MetaObjectKindUid = ""`,
-- `MetaObjectKindUidParsed = "00000000-0000-0000-0000-000000000000"`,
-- `ItemsPerColumn = 10` (default — irrelevant in manual mode, but keep the field).
+- `autoFill = false`,
+- `metaObjectKindUid = ""`,
+- `metaObjectKindUidParsed = "00000000-0000-0000-0000-000000000000"`,
+- `itemsPerColumn = 10` (default — irrelevant in manual mode, but keep the field).
 
-### Auto-fill mode (`AutoFill = true`)
+### Auto-fill mode (`autoFill = true`)
 
-The server builds the group's content at runtime from **all active objects of the selected metadata kind**, filters them by the current user's access rights, and lays them out into columns of `ItemsPerColumn` items each. Each generated link points to `/app#/data-objects/{kindName}/{objectName}`.
+The server builds the group's content at runtime from **all active objects of the selected metadata kind**, filters them by the current user's access rights, and lays them out into columns of `itemsPerColumn` items each. Each generated link points to `/app#/data-objects/{kindName}/{objectName}`.
 
 In auto-fill mode set:
-- `Kind = 3`,
-- `AutoFill = true`,
-- `MetaObjectKindUid` = the `Uid` of the desired kind taken from `system/kinds/kind.<kindName>.json` (e.g. `"032d8377-500f-4631-b435-1f7f69046674"` for `catalog`),
-- `MetaObjectKindUidParsed` = the same value,
-- `Items = []` (the server fills columns on the fly — any local content is ignored),
-- `ItemsPerColumn` — tune to the expected number of objects (`10` … `30` are common in this repo).
+- `kind = 3`,
+- `autoFill = true`,
+- `metaObjectKindUid` = the `uid` of the desired kind taken from `system/kinds/kind.<kindName>.json` (e.g. `"032d8377-500f-4631-b435-1f7f69046674"` for `catalog`),
+- `metaObjectKindUidParsed` = the same value,
+- `items = []` (the server fills columns on the fly — any local content is ignored),
+- `itemsPerColumn` — tune to the expected number of objects (`10` … `30` are common in this repo).
 
 Auto-fill is the preferred way to expose long catalog / register / operation lists that should track changes in the model without manual menu edits.
 
 ## URL Conventions
 
-The `Url` field accepts absolute URLs, relative URLs and hash-routes of the BaSYS SPA. Common patterns used in this repo:
+The `url` field accepts absolute URLs, relative URLs and hash-routes of the BaSYS SPA. Common patterns used in this repo:
 
 | Pattern | Purpose |
 | :------ | :------ |
@@ -153,68 +153,68 @@ When in doubt about the exact URL for an existing metaobject, inspect another me
 
 ## Icons
 
-`IconClass` accepts a [PrimeIcons](https://primevue.org/icons/) CSS class (e.g. `"pi pi-list"`, `"pi pi-folder"`, `"pi pi-check"`). Leave empty (`""`) to render the entry without an icon. Choose icons that visually match the entry's purpose; reuse the same icon across menus when entries are related.
+`iconClass` accepts a [PrimeIcons](https://primevue.org/icons/) CSS class (e.g. `"pi pi-list"`, `"pi pi-folder"`, `"pi pi-check"`). Leave empty (`""`) to render the entry without an icon. Choose icons that visually match the entry's purpose; reuse the same icon across menus when entries are related.
 
 ## Creating a New Menu
 
-1. **Create the folder** `menu/{name}/` (snake_case English, ≤30 chars, ≤30 chars for `Name`).
+1. **Create the folder** `menu/{name}/` (snake_case English, ≤30 chars, ≤30 chars for `name`).
 2. **Create the settings file** `menu/{name}/menu.{name}.json` with:
    - `$schema` pointing to `../../system/schemas/menuSettings.schema.json`,
-   - a freshly generated `Uid` (UUID v4, lowercase, hyphenated),
-   - `Name`, `Title`, `Memo`, `IsActive = true`, `Version = 1`,
-   - `Items` — the array of root entries.
-3. **Generate fresh `Uid`s** for every nested entity (group / column / sub-item / link). Each `Uid` in the file must be unique across the project.
-4. **Fill `Memo`** at the top level with a short description (Russian) of the menu's purpose. Nested menu items have no `Memo` field — keep their `Title` self-explanatory instead.
+   - a freshly generated `uid` (UUID v4, lowercase, hyphenated),
+   - `name`, `title`, `memo`, `isActive = true`, `version = 1`,
+   - `items` — the array of root entries.
+3. **Generate fresh `uid`s** for every nested entity (group / column / sub-item / link). Each `uid` in the file must be unique across the project.
+4. **Fill `memo`** at the top level with a short description (Russian) of the menu's purpose. Nested menu items have no `memo` field — keep their `title` self-explanatory instead.
 5. **Decide manual vs auto-fill** for each top-level group (see "Fill Modes" above).
-6. **Set `IsVisible = true`** on every entry that should appear; set it to `false` to keep an entry in metadata but hide it from the rendered menu.
-7. Kind `menu` has `IsReference = false` — do **not** add an entry to `system/dataTypes.json`.
+6. **Set `isVisible = true`** on every entry that should appear; set it to `false` to keep an entry in metadata but hide it from the rendered menu.
+7. Kind `menu` has `isReference = false` — do **not** add an entry to `system/dataTypes.json`.
 
 ## Editing an Existing Menu
 
-- To add a new link to an existing group, locate the relevant `MenuSettingsSubItem` (column heading) and append a `MenuSettingsLinkItem` to its `Items`.
-- To add a new column heading, append a `MenuSettingsSubItem` to the column's `Items`.
-- To add a new column, append a `MenuSettingsColumn` to the group's `Items`.
-- To temporarily hide an entry, set `IsVisible = false` instead of deleting it.
+- To add a new link to an existing group, locate the relevant `MenuSettingsSubItem` (column heading) and append a `MenuSettingsLinkItem` to its `items`.
+- To add a new column heading, append a `MenuSettingsSubItem` to the column's `items`.
+- To add a new column, append a `MenuSettingsColumn` to the group's `items`.
+- To temporarily hide an entry, set `isVisible = false` instead of deleting it.
 - Existing menu / item / file / folder names (including Cyrillic) must **not** be renamed — they may be referenced by external links, bookmarks or access rights.
-- When switching a group from manual to auto-fill, clear its `Items` array (`[]`) — local content is ignored in auto-fill mode but keeping stale entries is misleading.
-- When switching a group from auto-fill to manual, clear `MetaObjectKindUid` (`""`) and reset `MetaObjectKindUidParsed` to `"00000000-0000-0000-0000-000000000000"`.
+- When switching a group from manual to auto-fill, clear its `items` array (`[]`) — local content is ignored in auto-fill mode but keeping stale entries is misleading.
+- When switching a group from auto-fill to manual, clear `metaObjectKindUid` (`""`) and reset `metaObjectKindUidParsed` to `"00000000-0000-0000-0000-000000000000"`.
 
 ## Example: manual three-level subtree
 
 ```json
 {
-  "Uid": "f8f8031b-c7b4-f7c2-3fab-6c65867fd1bf",
-  "Kind": 3,
-  "Title": "Договоры",
-  "IconClass": "",
-  "Url": "",
-  "IsVisible": true,
-  "AutoFill": false,
-  "ItemsPerColumn": 10,
-  "MetaObjectKindUid": "",
-  "Items": [
+  "uid": "f8f8031b-c7b4-f7c2-3fab-6c65867fd1bf",
+  "kind": 3,
+  "title": "Договоры",
+  "iconClass": "",
+  "url": "",
+  "isVisible": true,
+  "autoFill": false,
+  "itemsPerColumn": 10,
+  "metaObjectKindUid": "",
+  "items": [
     {
-      "Uid": "a6cced6b-21df-f570-8243-e811d5bab16d",
-      "Items": [
+      "uid": "a6cced6b-21df-f570-8243-e811d5bab16d",
+      "items": [
         {
-          "Uid": "c91c366a-efa5-0c80-f8eb-74ee59a9b249",
-          "Title": "Операции",
-          "IsVisible": true,
-          "Items": [
+          "uid": "c91c366a-efa5-0c80-f8eb-74ee59a9b249",
+          "title": "Операции",
+          "isVisible": true,
+          "items": [
             {
-              "Uid": "bae50cbf-0739-d88a-8353-edd8e142b0a8",
-              "Kind": 1,
-              "Title": "Проект договора",
-              "IconClass": "",
-              "Url": "/app#/data-objects/operation/проект_договора",
-              "IsVisible": true
+              "uid": "bae50cbf-0739-d88a-8353-edd8e142b0a8",
+              "kind": 1,
+              "title": "Проект договора",
+              "iconClass": "",
+              "url": "/app#/data-objects/operation/проект_договора",
+              "isVisible": true
             }
           ]
         }
       ]
     }
   ],
-  "MetaObjectKindUidParsed": "00000000-0000-0000-0000-000000000000"
+  "metaObjectKindUidParsed": "00000000-0000-0000-0000-000000000000"
 }
 ```
 
@@ -222,17 +222,17 @@ When in doubt about the exact URL for an existing metaobject, inspect another me
 
 ```json
 {
-  "Uid": "2f62766b-8630-454a-918b-e8af02b0c569",
-  "Kind": 3,
-  "Title": "Справочник",
-  "IconClass": "",
-  "Url": "",
-  "IsVisible": true,
-  "AutoFill": true,
-  "ItemsPerColumn": 30,
-  "MetaObjectKindUid": "032d8377-500f-4631-b435-1f7f69046674",
-  "Items": [],
-  "MetaObjectKindUidParsed": "032d8377-500f-4631-b435-1f7f69046674"
+  "uid": "2f62766b-8630-454a-918b-e8af02b0c569",
+  "kind": 3,
+  "title": "Справочник",
+  "iconClass": "",
+  "url": "",
+  "isVisible": true,
+  "autoFill": true,
+  "itemsPerColumn": 30,
+  "metaObjectKindUid": "032d8377-500f-4631-b435-1f7f69046674",
+  "items": [],
+  "metaObjectKindUidParsed": "032d8377-500f-4631-b435-1f7f69046674"
 }
 ```
 
@@ -240,24 +240,24 @@ When in doubt about the exact URL for an existing metaobject, inspect another me
 
 ```json
 {
-  "Uid": "79f0e06c-d91e-508a-6580-f458b99624e9",
-  "Kind": 1,
-  "Title": "Все задачи",
-  "IconClass": "pi pi-list",
-  "Url": "/app#/view-objects/customview/all_tasks",
-  "IsVisible": true,
-  "AutoFill": false,
-  "ItemsPerColumn": 10,
-  "MetaObjectKindUid": "",
-  "Items": [],
-  "MetaObjectKindUidParsed": "00000000-0000-0000-0000-000000000000"
+  "uid": "79f0e06c-d91e-508a-6580-f458b99624e9",
+  "kind": 1,
+  "title": "Все задачи",
+  "iconClass": "pi pi-list",
+  "url": "/app#/view-objects/customview/all_tasks",
+  "isVisible": true,
+  "autoFill": false,
+  "itemsPerColumn": 10,
+  "metaObjectKindUid": "",
+  "items": [],
+  "metaObjectKindUidParsed": "00000000-0000-0000-0000-000000000000"
 }
 ```
 
 ## General Hygiene
 
 - The settings file must validate against `system/schemas/menuSettings.schema.json`.
-- Every nested entity (group, column, sub-item, link) needs a fresh, unique `Uid` (UUID v4).
-- Keep `Title` values concise — they appear inside narrow vertical menu columns.
+- Every nested entity (group, column, sub-item, link) needs a fresh, unique `uid` (UUID v4).
+- Keep `title` values concise — they appear inside narrow vertical menu columns.
 - Reuse icons consistently across menus for entries that point to the same kind of resource.
 - Many real examples live under `menu/` — review them before creating a new menu.

@@ -20,13 +20,13 @@ Enums in BaSYS are **degenerate catalogs with a text primary key**. The kind def
 
 | Flag                 | Value | Consequence for the new file                         |
 | -------------------- | ----- | ---------------------------------------------------- |
-| `StoreData`          | true  | Settings validate against `metaObjectStorableSettings.schema.json`. |
-| `IsReference`        | true  | **Must** be registered in `system/dataTypes.json`.   |
-| `UseDetailsTables`   | false | `DetailTables` is always `[]`.                       |
-| `UseForms`           | false | No custom forms — `ListFormUid`/`ItemFormUid` are `null`. Do **not** create `*.form.*.json` / `*.form.*.vue` files. |
-| `UsePrintForms`      | false | No `*.print_form.*` files.                           |
-| `CanCreateRecords`   | false | `RecordsSources`/`RecordsSettings` are always `[]`.  |
-| `AllowAttachedFiles` | false | No file attachments.                                 |
+| `storeData`          | true  | Settings validate against `metaObjectStorableSettings.schema.json`. |
+| `isReference`        | true  | **Must** be registered in `system/dataTypes.json`.   |
+| `useDetailsTables`   | false | `detailTables` is always `[]`.                       |
+| `useForms`           | false | No custom forms — `listFormUid`/`itemFormUid` are `null`. Do **not** create `*.form.*.json` / `*.form.*.vue` files. |
+| `usePrintForms`      | false | No `*.print_form.*` files.                           |
+| `canCreateRecords`   | false | `recordsSources`/`recordsSettings` are always `[]`.  |
+| `allowAttachedFiles` | false | No file attachments.                                 |
 
 Kind UID is `5449a8ad-9359-41b2-8ff2-3f415eb4da76` and `dbType` for the `dataTypes.json` entry is `16` (every enum in this repo uses these two values — see existing entries in `system/dataTypes.json`).
 
@@ -36,10 +36,10 @@ Kind UID is `5449a8ad-9359-41b2-8ff2-3f415eb4da76` and `dbType` for the `dataTyp
 
 Before generating anything:
 
-1. **`Name`** (technical identifier) — required. English `snake_case`, ≤ 30 chars (e.g. `severity`, `task_status`, `day_kind`). Do **not** guess; ask explicitly if not provided. If the repository already contains enum folders with Cyrillic names, treat them as legacy and leave them as-is — **new** enums must follow the English `snake_case` rule from `general-conventions`.
-2. **`Title`** (human-readable) — required. Any language, typically Russian (e.g. `Тип дня`, `Статус задачи`).
-3. **Extra header columns** — optional. Enums often have **none** beyond the four standard columns. Ask once: «Нужны ли дополнительные поля помимо стандартных (name / is_deleted / code / title)?». If yes, collect for each: `Name` (English snake_case), `Title`, data type (look up in `system/dataTypes.json`), `Required`, `Unique`, `StringLength` / `NumberDigits` (when relevant).
-4. **`Memo`** (description) — optional, default empty string. Set on the metaobject and on each new custom column.
+1. **`name`** (technical identifier) — required. English `snake_case`, ≤ 30 chars (e.g. `severity`, `task_status`, `day_kind`). Do **not** guess; ask explicitly if not provided. If the repository already contains enum folders with Cyrillic names, treat them as legacy and leave them as-is — **new** enums must follow the English `snake_case` rule from `general-conventions`.
+2. **`title`** (human-readable) — required. Any language, typically Russian (e.g. `Тип дня`, `Статус задачи`).
+3. **Extra header columns** — optional. Enums often have **none** beyond the four standard columns. Ask once: «Нужны ли дополнительные поля помимо стандартных (name / is_deleted / code / title)?». If yes, collect for each: `name` (English snake_case), `title`, data type (look up in `system/dataTypes.json`), `required`, `unique`, `stringLength` / `numberDigits` (when relevant).
+4. **`memo`** (description) — optional, default empty string. Set on the metaobject and on each new custom column.
 
 Do **not** ask about list/edit forms, detail tables, commands, records or print forms — the `enum` kind disables all of them.
 
@@ -66,121 +66,121 @@ No `.bjs`, no `.vue`, no `*.form.*`, no `*.print_form.*` files.
 
 ## Skeleton
 
-Generate a fresh UUID v4 (lowercase, hyphenated) for **every** `Uid`: the metaobject, the `Header`, each column, each index. All UIDs must be unique across the file.
+Generate a fresh UUID v4 (lowercase, hyphenated) for **every** `uid`: the metaobject, the `header`, each column, each index. All UIDs must be unique across the file.
 
-Standard-column properties (`Name`, `Title`, `DataSettings`, `RenderSettings`) are copied verbatim from `system/kinds/kind.enum.json`. Only the column's own `Uid` is freshly generated; `StandardColumnUid` is the original `Uid` from the kind.
+Standard-column properties (`name`, `title`, `dataSettings`, `renderSettings`) are copied verbatim from `system/kinds/kind.enum.json`. Only the column's own `uid` is freshly generated; `standardColumnUid` is the original `uid` from the kind.
 
 ```json
 {
   "$schema": "../../system/schemas/metaObjectStorableSettings.schema.json",
-  "Uid": "<new-uuid-v4>",
-  "MetaObjectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
-  "Title": "<Title>",
-  "Name": "<name>",
-  "Memo": "<short Russian description, may be empty>",
-  "EditMethod": 0,
-  "OrderByExpression": "",
-  "DisplayExpression": "",
-  "ListFormUid": null,
-  "ItemFormUid": null,
-  "ShowMainImage": false,
-  "IsActive": true,
-  "Header": {
-    "Uid": "<new-uuid-v4>",
-    "Title": "header",
-    "Name": "header",
-    "Memo": "",
-    "AutoClearMethod": 0,
-    "Columns": [ /* 4 standard columns + optional custom columns, see below */ ],
-    "Indexes": [ /* 2 standard indexes + optional indexes for custom columns */ ]
+  "uid": "<new-uuid-v4>",
+  "metaObjectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+  "title": "<title>",
+  "name": "<name>",
+  "memo": "<short Russian description, may be empty>",
+  "editMethod": 0,
+  "orderByExpression": "",
+  "displayExpression": "",
+  "listFormUid": null,
+  "itemFormUid": null,
+  "showMainImage": false,
+  "isActive": true,
+  "header": {
+    "uid": "<new-uuid-v4>",
+    "title": "header",
+    "name": "header",
+    "memo": "",
+    "autoClearMethod": 0,
+    "columns": [ /* 4 standard columns + optional custom columns, see below */ ],
+    "indexes": [ /* 2 standard indexes + optional indexes for custom columns */ ]
   },
-  "DetailTables": [],
-  "Commands": [],
-  "RecordsSources": [],
-  "RecordsSettings": []
+  "detailTables": [],
+  "commands": [],
+  "recordsSources": [],
+  "recordsSettings": []
 }
 ```
 
-### Standard Columns (always 4, in this order)
+### Standard columns (always 4, in this order)
 
-Every column has these top-level fields: `Uid` (fresh), `Kind: 0`, `StandardColumnUid` (from kind), `Title`, `Name`, `Formula: ""`, `ItemsSource: ""`, `AutoClearMethod: 0`, `IsStandard: true`, `DataSettings`, `RenderSettings`, `Dependencies: []`.
+Every column has these top-level fields: `uid` (fresh), `kind: 0`, `standardColumnUid` (from kind), `title`, `name`, `formula: ""`, `itemsSource: ""`, `autoClearMethod: 0`, `isStandard: true`, `dataSettings`, `renderSettings`, `dependencies: []`.
 
-| `Name`       | `StandardColumnUid`                    | `DataSettings`                                                                                         | `RenderSettings`                                                            |
+| `name`       | `standardColumnUid`                    | `dataSettings`                                                                                         | `renderSettings`                                                            |
 | ------------ | -------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
-| `name`       | `3cceebad-7d5a-4943-a102-6267e22227a8` | String (`0234c067-…`), `StringLength: 20`, `NumberDigits: 2`, **`PrimaryKey: true`**                   | `ShowInItem: true`, `ShowInList: true`                                      |
-| `is_deleted` | `1e0063d0-288d-494a-8761-1185300d571d` | Bool (`4bff64cf-…`), `StringLength: 100`, `NumberDigits: 2`                                            | `ShowInItem: false`, `ShowInList: false` (copy from kind — do not change)   |
-| `code`       | `e647fb57-470e-4547-9a94-2be0f3d0985e` | String (`0234c067-…`), `StringLength: 3`, `NumberDigits: 2`, **`Required: true`**, **`Unique: true`**  | `ShowInItem: true`, `ShowInList: true`                                      |
-| `title`      | `91a26ae4-5723-4109-8322-7e4e59129239` | String (`0234c067-…`), `StringLength: 100`, `NumberDigits: 2`, **`Required: true`**                    | `ShowInItem: true`, `ShowInList: true`                                      |
+| `name`       | `3cceebad-7d5a-4943-a102-6267e22227a8` | String (`0234c067-…`), `stringLength: 20`, `numberDigits: 2`, **`primaryKey: true`**                   | `showInItem: true`, `showInList: true`                                      |
+| `is_deleted` | `1e0063d0-288d-494a-8761-1185300d571d` | Bool (`4bff64cf-…`), `stringLength: 100`, `numberDigits: 2`                                            | `showInItem: false`, `showInList: false` (copy from kind — do not change)   |
+| `code`       | `e647fb57-470e-4547-9a94-2be0f3d0985e` | String (`0234c067-…`), `stringLength: 3`, `numberDigits: 2`, **`required: true`**, **`unique: true`**  | `showInItem: true`, `showInList: true`                                      |
+| `title`      | `91a26ae4-5723-4109-8322-7e4e59129239` | String (`0234c067-…`), `stringLength: 100`, `numberDigits: 2`, **`required: true`**                    | `showInItem: true`, `showInList: true`                                      |
 
-All other `DataSettings` fields default: `PrimaryKey: false`, `Required: false`, `Unique: false`, `DefaultValue: null`. All other `RenderSettings` fields default: `ControlKindUid: ""`, `ListColumnWidth: ""`.
+All other `dataSettings` fields default: `primaryKey: false`, `required: false`, `unique: false`, `defaultValue: null`. All other `renderSettings` fields default: `controlKindUid: ""`, `listColumnWidth: ""`.
 
-### Standard Indexes (always 2)
+### Standard indexes (always 2)
 
-One index per `HasIndex = true` standard column (in this order):
+One index per `hasIndex = true` standard column (in this order):
 
 ```json
 {
-  "Uid": "<new-uuid-v4>",
-  "Columns": [ { "ColumnUid": "<Uid of is_deleted column>", "Direction": 0 } ]
+  "uid": "<new-uuid-v4>",
+  "columns": [ { "columnUid": "<uid of is_deleted column>", "direction": 0 } ]
 },
 {
-  "Uid": "<new-uuid-v4>",
-  "Columns": [ { "ColumnUid": "<Uid of code column>",       "Direction": 0 } ]
+  "uid": "<new-uuid-v4>",
+  "columns": [ { "columnUid": "<uid of code column>",       "direction": 0 } ]
 }
 ```
 
-### Optional Custom Columns
+### Optional Custom columns
 
 Append after the four standard columns. Each entry:
 
 ```json
 {
-  "Uid": "<new-uuid-v4>",
-  "Kind": 0,
-  "StandardColumnUid": null,
-  "Title": "<Title>",
-  "Name": "<name>",
-  "Formula": "",
-  "ItemsSource": "",
-  "AutoClearMethod": 0,
-  "IsStandard": false,
-  "DataSettings": {
-    "DataTypeUid": "<from system/dataTypes.json>",
-    "StringLength": <int>,
-    "NumberDigits": 2,
-    "PrimaryKey": false,
-    "Required": <bool>,
-    "Unique": <bool>,
-    "DefaultValue": null
+  "uid": "<new-uuid-v4>",
+  "kind": 0,
+  "standardColumnUid": null,
+  "title": "<title>",
+  "name": "<name>",
+  "formula": "",
+  "itemsSource": "",
+  "autoClearMethod": 0,
+  "isStandard": false,
+  "dataSettings": {
+    "dataTypeUid": "<from system/dataTypes.json>",
+    "stringLength": <int>,
+    "numberDigits": 2,
+    "primaryKey": false,
+    "required": <bool>,
+    "unique": <bool>,
+    "defaultValue": null
   },
-  "RenderSettings": {
-    "ControlKindUid": "",
-    "ShowInItem": true,
-    "ShowInList": true,
-    "ListColumnWidth": ""
+  "renderSettings": {
+    "controlKindUid": "",
+    "showInItem": true,
+    "showInList": true,
+    "listColumnWidth": ""
   },
-  "Dependencies": []
+  "dependencies": []
 }
 ```
 
-Pick `DataTypeUid` from `system/dataTypes.json` by `Title` / `TypeName`. Never invent one. Fill `Memo` on every custom column. Defaults to `Kind = 0` (stored); set `Kind = 1` only if the user explicitly says «виртуальная».
+Pick `dataTypeUid` from `system/dataTypes.json` by `title` / `typeName`. Never invent one. Fill `memo` on every custom column. Defaults to `kind = 0` (stored); set `kind = 1` only if the user explicitly says «виртуальная».
 
-If a custom column needs a DB index (the user asked for it, or it is a frequent search/filter field), append a matching entry to `Indexes` with the same shape as the standard indexes.
+If a custom column needs a DB index (the user asked for it, or it is a frequent search/filter field), append a matching entry to `indexes` with the same shape as the standard indexes.
 
 ---
 
 ## Register the Type
 
-Because `enum` has `IsReference = true`, the new type **must** be appended to `system/dataTypes.json` so it can be referenced as a `DataTypeUid` from other settings files in the same editing session. The server overwrites this entry on the next sync — do **not** modify or delete existing entries, only append.
+Because `enum` has `isReference = true`, the new type **must** be appended to `system/dataTypes.json` so it can be referenced as a `dataTypeUid` from other settings files in the same editing session. The server overwrites this entry on the next sync — do **not** modify or delete existing entries, only append.
 
 Append exactly one object to the top-level array:
 
 ```json
 {
-  "uid": "<enum.Uid>",
+  "uid": "<enum.uid>",
   "kind": "enum",
-  "name": "<enum.Name>",
-  "title": "Перечисление.<enum.Title>",
+  "name": "<enum.name>",
+  "title": "Перечисление.<enum.title>",
   "isPrimitive": false,
   "dbType": 16,
   "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
@@ -188,7 +188,7 @@ Append exactly one object to the top-level array:
 }
 ```
 
-`uid` is the **same** UID as the metaobject's `Uid` — do **not** generate a separate one.
+`uid` is the **same** UID as the metaobject's `uid` — do **not** generate a separate one.
 
 ---
 
@@ -197,16 +197,16 @@ Append exactly one object to the top-level array:
 Two ready-to-copy templates live next to this skill. Read them only when actually building the file — they are not preloaded with `SKILL.md`.
 
 - [examples/minimal.json](examples/minimal.json) — minimal enum: four standard columns + two standard indexes, no overrides. **Start here** for the typical case.
-- [examples/with_extras.json](examples/with_extras.json) — same skeleton plus two custom columns (`color` as plain string, `sort_order` as integer with its own index) and `OrderByExpression` / `DisplayExpression` overrides on the metaobject. Use as a template when the user explicitly asks for extra fields, ordering or display formatting.
+- [examples/with_extras.json](examples/with_extras.json) — same skeleton plus two custom columns (`color` as plain string, `sort_order` as integer with its own index) and `orderByExpression` / `displayExpression` overrides on the metaobject. Use as a template when the user explicitly asks for extra fields, ordering or display formatting.
 
 How to use:
 
 1. Read the relevant example file.
 2. Copy its structure into `enum/{name}/enum.{name}.json`.
-3. Replace every `Uid` with a fresh UUID v4 (every UID in the examples is illustrative).
-4. Replace `Title` / `Name` / `Memo` with the values gathered from the user.
+3. Replace every `uid` with a fresh UUID v4 (every UID in the examples is illustrative).
+4. Replace `title` / `name` / `memo` with the values gathered from the user.
 5. Replace `$schema` with `"../../system/schemas/metaObjectStorableSettings.schema.json"` (the example files use a deeper relative path because they live under `.cursor/skills/create-enum/examples/`).
-6. For custom columns: pick `DataTypeUid` from `system/dataTypes.json` by `Title` / `TypeName`; never reuse the illustrative UIDs.
+6. For custom columns: pick `dataTypeUid` from `system/dataTypes.json` by `title` / `typeName`; never reuse the illustrative UIDs.
 
 ---
 
@@ -215,20 +215,20 @@ How to use:
 Copy and track:
 
 ```
-- [ ] Name (English snake_case, ≤ 30 chars) и Title подтверждены
+- [ ] name (English snake_case, ≤ 30 chars) и title подтверждены
 - [ ] Папка enum/{name}/ ещё не существует
 - [ ] В system/dataTypes.json нет записи kind="enum" + name=<name>
 - [ ] Принято решение по дополнительным колонкам (по умолчанию — нет)
-- [ ] Сгенерирован Uid метаобъекта (UUID v4)
-- [ ] Сгенерирован Uid Header (UUID v4)
+- [ ] Сгенерирован uid метаобъекта (UUID v4)
+- [ ] Сгенерирован uid header (UUID v4)
 - [ ] 4 стандартные колонки добавлены в порядке: name, is_deleted, code, title
-- [ ] Каждая стандартная колонка: свежий Uid + StandardColumnUid из kind + IsStandard=true + копия DataSettings/RenderSettings
+- [ ] Каждая стандартная колонка: свежий uid + standardColumnUid из kind + isStandard=true + копия dataSettings/renderSettings
 - [ ] 2 стандартных индекса добавлены: на is_deleted и на code
-- [ ] Кастомные колонки (если есть) — IsStandard=false, StandardColumnUid=null, DataTypeUid из system/dataTypes.json, Memo заполнен
-- [ ] DetailTables: [], Commands: [], RecordsSources: [], RecordsSettings: []
-- [ ] ListFormUid: null, ItemFormUid: null
+- [ ] Кастомные колонки (если есть) — isStandard=false, standardColumnUid=null, dataTypeUid из system/dataTypes.json, memo заполнен
+- [ ] detailTables: [], commands: [], recordsSources: [], recordsSettings: []
+- [ ] listFormUid: null, itemFormUid: null
 - [ ] $schema указывает на ../../system/schemas/metaObjectStorableSettings.schema.json
-- [ ] В system/dataTypes.json добавлена ровно одна запись: uid = enum.Uid, kind = "enum", dbType = 16, objectKindUid = 5449a8ad-…, title = "Перечисление.<Title>"
+- [ ] В system/dataTypes.json добавлена ровно одна запись: uid = enum.uid, kind = "enum", dbType = 16, objectKindUid = 5449a8ad-…, title = "Перечисление.<title>"
 - [ ] Существующие записи в system/dataTypes.json не изменены и не удалены
 - [ ] Никаких *.form.*, *.print_form.*, *.bjs, *.vue файлов не создано
 ```
@@ -237,7 +237,7 @@ Copy and track:
 
 ## Out of Scope
 
-- **Custom list / edit forms** — `kind.enum.UseForms = false`. Enums use the auto-generated form.
+- **Custom list / edit forms** — `kind.enum.useForms = false`. Enums use the auto-generated form.
 - **Detail tables, commands, records sources, print forms, attached files** — all disabled by the kind.
 - **Renaming an existing enum** — Cyrillic folder/file names already present in `enum/` are referenced by the system and must not be renamed.
 - **Modifying existing entries in `system/dataTypes.json`** — append only.

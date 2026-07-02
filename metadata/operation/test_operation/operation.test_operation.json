@@ -1,0 +1,233 @@
+{
+  "$schema": "../../system/schemas/metaObjectStorableSettings.schema.json",
+  "uid": "a1b2c3d4-0001-4a1b-8c2d-100000000001",
+  "metaObjectKindUid": "14a60875-e241-4e99-b32d-d45b2726d18b",
+  "title": "Тестовая операция",
+  "name": "test_operation",
+  "memo": "Тестовая операция для проверки (с полем Физлицо и тестовой командой).",
+  "editMethod": 0,
+  "orderByExpression": "",
+  "displayExpression": "",
+  "listFormUid": null,
+  "itemFormUid": null,
+  "showMainImage": false,
+  "saveHistory": 0,
+  "version": 0,
+  "isActive": true,
+  "header": {
+    "uid": "a1b2c3d4-0002-4a1b-8c2d-100000000002",
+    "title": "header",
+    "name": "header",
+    "memo": "",
+    "autoClearMethod": 0,
+    "columns": [
+      {
+        "uid": "a1b2c3d4-0003-4a1b-8c2d-100000000003",
+        "kind": 0,
+        "standardColumnUid": "a39e7b83-e94d-4646-b620-04434fef2f4c",
+        "title": "Номер",
+        "name": "number",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "b327f82a-ea96-416f-9836-785db28eccac",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": true,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "a1b2c3d4-0004-4a1b-8c2d-100000000004",
+        "kind": 0,
+        "standardColumnUid": "95d36e42-5d4d-4c26-adc1-1319e860b45e",
+        "title": "Удалено",
+        "name": "is_deleted",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": false,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "a1b2c3d4-0005-4a1b-8c2d-100000000005",
+        "kind": 0,
+        "standardColumnUid": "f244de36-53c9-4e93-a5a2-94abbed91e02",
+        "title": "Дата",
+        "name": "date",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "9001eafb-efb1-442f-b288-723bb8002b12",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": true,
+          "unique": false,
+          "defaultValue": "now"
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "a1b2c3d4-0006-4a1b-8c2d-100000000006",
+        "kind": 0,
+        "standardColumnUid": "9cac33f4-6758-4aab-be4a-b00790bdf452",
+        "title": "Файлы",
+        "name": "is_files",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "a1b2c3d4-0007-4a1b-8c2d-100000000007",
+        "kind": 0,
+        "standardColumnUid": "fee422db-18dc-442a-a8dd-01df76c20a98",
+        "title": "Создать записи",
+        "name": "create_records",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": true,
+        "dataSettings": {
+          "dataTypeUid": "4bff64cf-eb01-4933-9f3d-b902336751f4",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": "true"
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      },
+      {
+        "uid": "a1b2c3d4-0008-4a1b-8c2d-100000000008",
+        "kind": 0,
+        "standardColumnUid": null,
+        "title": "Физлицо",
+        "name": "person",
+        "formula": "",
+        "itemsSource": "",
+        "autoClearMethod": 0,
+        "isStandard": false,
+        "dataSettings": {
+          "dataTypeUid": "7c3e1f92-4d8a-4b2e-9a1c-6f5e2d3b4a01",
+          "stringLength": 100,
+          "numberDigits": 2,
+          "primaryKey": false,
+          "required": false,
+          "unique": false,
+          "defaultValue": null
+        },
+        "renderSettings": {
+          "controlKindUid": "",
+          "showInItem": true,
+          "showInList": true,
+          "listColumnWidth": ""
+        },
+        "dependencies": []
+      }
+    ],
+    "indexes": [
+      {
+        "uid": "a1b2c3d4-0009-4a1b-8c2d-100000000009",
+        "columns": [
+          {
+            "columnUid": "a1b2c3d4-0004-4a1b-8c2d-100000000004",
+            "direction": 0
+          }
+        ]
+      },
+      {
+        "uid": "a1b2c3d4-000a-4a1b-8c2d-10000000000a",
+        "columns": [
+          {
+            "columnUid": "a1b2c3d4-0005-4a1b-8c2d-100000000005",
+            "direction": 0
+          }
+        ]
+      },
+      {
+        "uid": "a1b2c3d4-000b-4a1b-8c2d-10000000000b",
+        "columns": [
+          {
+            "columnUid": "a1b2c3d4-0006-4a1b-8c2d-100000000006",
+            "direction": 0
+          }
+        ]
+      }
+    ]
+  },
+  "detailTables": [],
+  "commands": [
+    {
+      "uid": "a1b2c3d4-000c-4a1b-8c2d-10000000000c",
+      "tableUid": "a1b2c3d4-0002-4a1b-8c2d-100000000002",
+      "kind": 0,
+      "title": "Тест alert",
+      "name": "test_alert",
+      "expression": "operation.test_operation.command.test_alert.bjs",
+      "memo": "Тестовая команда — показывает alert.",
+      "isActive": true,
+      "parameters": []
+    }
+  ],
+  "recordsSources": [],
+  "recordsSettings": []
+}

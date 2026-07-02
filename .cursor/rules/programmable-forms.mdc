@@ -12,8 +12,8 @@ The component is **not** built by Vite / Webpack. The server stores `script` / `
 
 1. `script` is compiled via `new Function('Vue', ...contextKeys, 'return ' + script)` — the entry **must be an expression returning an Options API object** (the body of `export default { … }`).
 2. `template` is compiled to a `render` function via `@vue/compiler-dom` (`compile(template, { mode: 'function' })`).
-3. A fixed registry of PrimeVue 3 + internal BaSYS components is merged into `components`, then user-declared `ChildComponents` are loaded recursively under their alias.
-4. `styles` are injected into `<head>` — either globally (`IsStylesGlobal = true`) or "scoped" by prefixing every selector with `.bs-dynamic-component-{Name}` (this class is added to the component's root element automatically).
+3. A fixed registry of PrimeVue 3 + internal BaSYS components is merged into `components`, then user-declared `childComponents` are loaded recursively under their alias.
+4. `styles` are injected into `<head>` — either globally (`isStylesGlobal = true`) or "scoped" by prefixing every selector with `.bs-dynamic-component-{name}` (this class is added to the component's root element automatically).
 5. The component is mounted inside the `ProgrammableFormRenderer` wrapper, which always passes `title`, `uid`, `metaObjectUid`, `formKind` as props.
 
 Because of this runtime compilation, **`<script setup>`, `defineComponent`, `import` statements, decorators and TS are NOT supported** — only a plain Options API object.
@@ -34,12 +34,12 @@ When the constructor is enough (simple "header + table" forms, plain edit cards)
 
 ## Where Programmable Forms Are Allowed
 
-A programmable form can be added **only** to metaobjects of a kind with `UseForms = true` (field on `MetaObjectKindSettings` in `system/kinds/kind.*.json`). In the standard model this is on for:
+A programmable form can be added **only** to metaobjects of a kind with `useForms = true` (field on `MetaObjectKindSettings` in `system/kinds/kind.*.json`). In the standard model this is on for:
 
-- `catalog`, `register`, `operation` (storable kinds with `EditMethod = OpenForm`);
+- `catalog`, `register`, `operation` (storable kinds with `editMethod = OpenForm`);
 - `customreport`, `customview`, `data_view` (non-storable presentation kinds).
 
-It is off for `enum`, `records`, `workflow`, `excel_report`, `menu`. Before creating a form, check `system/kinds/kind.{kindName}.json` and confirm `UseForms = true`. If it is `false`, tell the user the kind does not support forms in the current model — do not silently create the file.
+It is off for `enum`, `records`, `workflow`, `excel_report`, `menu`. Before creating a form, check `system/kinds/kind.{kindName}.json` and confirm `useForms = true`. If it is `false`, tell the user the kind does not support forms in the current model — do not silently create the file.
 
 ## File Layout
 
@@ -47,7 +47,7 @@ A programmable form is **one `.vue` file** that lives inside the owner metaobjec
 
 | Artefact | Filename |
 | :--- | :--- |
-| Form `.vue` | `{kind.Name}.{object.Name}.form.{form.Name}.vue` |
+| Form `.vue` | `{kind.name}.{object.name}.form.{form.name}.vue` |
 
 Examples:
 
@@ -61,10 +61,10 @@ customview/query_test/customview.query_test.form.main.vue
 
 Other rules:
 
-- The agent **must not** create constructor-form-style `.json` files for programmable forms. Constructor and programmable forms are different kinds of artefacts: constructor forms live in `*.form.*.json`, programmable forms in `*.form.*.vue`. They are distinguished by the `FormKind` field in the meta block (programmable forms also can be identified by file extension).
-- A single metaobject may have any number of programmable forms; their `Name` must be unique within the metaobject (because `Name` doubles as the alias used by `openDialog`'s `formName` and as the child-component key).
-- The metaobject's main JSON does **not** list its forms — the binding is implicit, by `MetaObjectUid` inside each form file. The only references back from the metaobject JSON are the optional `ListFormUid` / `ItemFormUid` that point to the default list / item form (any of constructor or programmable).
-- Kind has nothing to do with `IsReference` here: the form is **not** a metaobject of its own — do **not** add anything to `system/dataTypes.json`.
+- The agent **must not** create constructor-form-style `.json` files for programmable forms. Constructor and programmable forms are different kinds of artefacts: constructor forms live in `*.form.*.json`, programmable forms in `*.form.*.vue`. They are distinguished by the `formKind` field in the meta block (programmable forms also can be identified by file extension).
+- A single metaobject may have any number of programmable forms; their `name` must be unique within the metaobject (because `name` doubles as the alias used by `openDialog`'s `formName` and as the child-component key).
+- The metaobject's main JSON does **not** list its forms — the binding is implicit, by `metaObjectUid` inside each form file. The only references back from the metaobject JSON are the optional `listFormUid` / `itemFormUid` that point to the default list / item form (any of constructor or programmable).
+- Kind has nothing to do with `isReference` here: the form is **not** a metaobject of its own — do **not** add anything to `system/dataTypes.json`.
 
 ## SFC Layout Inside the `.vue` File
 
@@ -87,15 +87,15 @@ export default {
 
 <basys-form-meta>
 {
-  "FormKind": "programmable",
-  "Uid": "...",
-  "MetaObjectUid": "...",
-  "Name": "...",
-  "Title": "...",
-  "Memo": "...",
-  "Version": 1,
-  "IsStylesGlobal": false,
-  "ChildComponents": []
+  "formKind": "programmable",
+  "uid": "...",
+  "metaObjectUid": "...",
+  "name": "...",
+  "title": "...",
+  "memo": "...",
+  "version": 1,
+  "isStylesGlobal": false,
+  "childComponents": []
 }
 </basys-form-meta>
 ```
@@ -105,7 +105,7 @@ Hard rules for the file structure:
 - **The `<basys-form-meta>` block is mandatory.** Without it the import pipeline rejects the file with the error `Form .vue file does not contain a '<basys-form-meta>' block.` Keep the block exactly named — `<basys-form-meta>` — and put it at the very end of the file.
 - **The `<script>` block must contain a single top-level `export default { … }` statement.** The body is what the runtime evaluates as the component's Options API object. Anything else at the script top level (`import`, helper `function` declarations outside the object, `const`, `let`, `<script setup>`) breaks the runtime compilation.
 - **The `<template>` block is required**; an empty template is replaced with `<div>Empty template</div>` by the server-side serializer but should still be authored explicitly.
-- **The `<style>` block is optional**: omit it entirely when the form has no styles. When present, the `scoped` attribute must match the meta-block flag — `scoped` ⇔ `IsStylesGlobal = false`. Use `<style scoped>` for scoped (default) and `<style>` for global. The meta block is authoritative; if the two disagree the meta block wins after the next round-trip.
+- **The `<style>` block is optional**: omit it entirely when the form has no styles. When present, the `scoped` attribute must match the meta-block flag — `scoped` ⇔ `isStylesGlobal = false`. Use `<style scoped>` for scoped (default) and `<style>` for global. The meta block is authoritative; if the two disagree the meta block wins after the next round-trip.
 - Use LF line endings inside the file. The import pipeline accepts CRLF but the export pipeline always emits LF, so authoring LF avoids spurious diffs.
 - Do **not** put any markup, scripts or text outside the four supported blocks.
 
@@ -115,24 +115,24 @@ The meta block is a single JSON object with the following fields, **in this exac
 
 | Field | Type | Purpose |
 | :--- | :--- | :--- |
-| `FormKind` | string | Always `"programmable"`. Other values are rejected by the programmable-form parser. |
-| `Uid` | UUID v4 | Identifier of the form. Generate a fresh value for new forms. |
-| `MetaObjectUid` | UUID v4 | UID of the owner metaobject. Must equal `Uid` of `{kind.Name}/{object.Name}/{kind.Name}.{object.Name}.json`. |
-| `Name` | string | System name. snake_case English, ≤30 chars, unique within the metaobject. This is also the **alias** used by `openDialog({ formName: … })` and the key under which the form is exposed as a child component. Use `main` for the default form of `customreport` / `customview` / single-form objects, meaningful names like `create_task`, `tasks_tree`, `my_tasks_script` otherwise. |
-| `Title` | string | UI label shown in form lists, dialog titles, etc. Russian / target-locale text is fine. |
-| `Memo` | string | Short Russian description. Fill it on every new form; update it if outdated. |
-| `Version` | number | System-managed numeric version. Set to `1` for new forms; the server increments it on save (`Version++`). Do not hand-edit this on every change — keep the value as exported. |
-| `IsStylesGlobal` | boolean | `false` (default) — styles are scoped via the `.bs-dynamic-component-{Name}` class prefix. `true` — styles are injected verbatim into `<head>`. Default to `false`; use `true` only when the form explicitly needs to influence things outside its own subtree. |
-| `ChildComponents` | array | Other programmable forms used inside this one (see below). May be `[]`. |
+| `formKind` | string | Always `"programmable"`. Other values are rejected by the programmable-form parser. |
+| `uid` | UUID v4 | Identifier of the form. Generate a fresh value for new forms. |
+| `metaObjectUid` | UUID v4 | UID of the owner metaobject. Must equal `uid` of `{kind.name}/{object.name}/{kind.name}.{object.name}.json`. |
+| `name` | string | System name. snake_case English, ≤30 chars, unique within the metaobject. This is also the **alias** used by `openDialog({ formName: … })` and the key under which the form is exposed as a child component. Use `main` for the default form of `customreport` / `customview` / single-form objects, meaningful names like `create_task`, `tasks_tree`, `my_tasks_script` otherwise. |
+| `title` | string | UI label shown in form lists, dialog titles, etc. Russian / target-locale text is fine. |
+| `memo` | string | Short Russian description. Fill it on every new form; update it if outdated. |
+| `version` | number | System-managed numeric version. Set to `1` for new forms; the server increments it on save (`version++`). Do not hand-edit this on every change — keep the value as exported. |
+| `isStylesGlobal` | boolean | `false` (default) — styles are scoped via the `.bs-dynamic-component-{name}` class prefix. `true` — styles are injected verbatim into `<head>`. Default to `false`; use `true` only when the form explicitly needs to influence things outside its own subtree. |
+| `childComponents` | array | Other programmable forms used inside this one (see below). May be `[]`. |
 
-A `ChildComponents` entry has four fields:
+A `childComponents` entry has four fields:
 
 | Field | Purpose |
 | :--- | :--- |
-| `MetaObjectKindUid` | UID of the kind to which the child form belongs. |
-| `MetaObjectUid` | UID of the metaobject that owns the child form. |
-| `ComponentUid` | UID of the child form's settings (its `Uid` in the meta block). |
-| `Alias` | Tag name under which the child is mounted inside this form's template (typically equal to the child's `Name`). |
+| `metaObjectKindUid` | UID of the kind to which the child form belongs. |
+| `metaObjectUid` | UID of the metaobject that owns the child form. |
+| `componentUid` | UID of the child form's settings (its `uid` in the meta block). |
+| `alias` | Tag name under which the child is mounted inside this form's template (typically equal to the child's `name`). |
 
 In the template the child is used as `<child-alias :prop="value" />`. Nesting is unrestricted but cyclic references are forbidden.
 
@@ -140,15 +140,15 @@ Example of a real meta block from `operation/task/operation.task.form.create_tas
 
 ```json
 {
-  "FormKind": "programmable",
-  "Uid": "9a5ef60e-264d-0739-a39a-f276ea902ab3",
-  "MetaObjectUid": "a30177b3-bf29-4e3d-9215-9a1a5e2fcfdb",
-  "Name": "create_task",
-  "Title": "Создание задачи",
-  "Memo": "",
-  "Version": 2,
-  "IsStylesGlobal": false,
-  "ChildComponents": []
+  "formKind": "programmable",
+  "uid": "9a5ef60e-264d-0739-a39a-f276ea902ab3",
+  "metaObjectUid": "a30177b3-bf29-4e3d-9215-9a1a5e2fcfdb",
+  "name": "create_task",
+  "title": "Создание задачи",
+  "memo": "",
+  "version": 2,
+  "isStylesGlobal": false,
+  "childComponents": []
 }
 ```
 
@@ -186,8 +186,8 @@ export default {
 
 | Prop | Type | Meaning |
 | :--- | :--- | :--- |
-| `title` | string | Form `Title` from the meta block. |
-| `uid` | string | Form `Uid`. |
+| `title` | string | Form `title` from the meta block. |
+| `uid` | string | Form `uid`. |
 | `metaObjectUid` | string | UID of the owning metaobject. |
 | `formKind` | number | Always `0` for programmable forms. |
 
@@ -199,7 +199,7 @@ When the form is opened as a dialog via `openDialog({ parameters: { … } })`, *
 
 The runtime injects a fixed set of helpers into the script scope; they are usable directly by name inside `methods`, `computed`, lifecycle hooks, etc.:
 
-| Name | Purpose |
+| name | Purpose |
 | :--- | :--- |
 | `from(source)` | Creates a `SelectQueryBuilder` for the BaSYS metadata source — `from('operation.task').select([...]).where(...).query()`. Prefer this over plain JS for any DB access. See https://basysteam.github.io/BaSys.Docs/ru/calculations/queryBuilder.html. |
 | `runWorkflow(name, entryPoint, parameters)` | Runs a server-side workflow. `parameters` is an array of `{ name, dataType, value }` objects. Returns the workflow's result. |
@@ -218,7 +218,7 @@ These helpers are **not** placed on `this` — call them as bare identifiers (`f
 
 The parent form provides infrastructure objects through Vue's `inject`. Declare the ones you need:
 
-| Key | Description |
+| Key | description |
 | :--- | :--- |
 | `axios` | Pre-configured [axios](https://axios-http.com/) instance for direct HTTP calls to the BaSYS API. |
 | `DataTable` | The `DataTable` class from `@basysteam/basys-fx`. Use to construct tables manually (`new this.DataTable(...)`). |
@@ -250,15 +250,15 @@ openDialog({
 
 | Field | Purpose |
 | :--- | :--- |
-| `kind`, `name` | Kind and `Name` of the metaobject that owns the dialog form. |
-| `formName` | `Name` (alias) of the programmable form to open — must match a `.form.<formName>.vue` of that object. |
+| `kind`, `name` | Kind and `name` of the metaobject that owns the dialog form. |
+| `formName` | `name` (alias) of the programmable form to open — must match a `.form.<formName>.vue` of that object. |
 | `title`, `width` | Dialog window parameters. |
 | `parameters` | Object whose keys become props of the dialog component. |
 | `onClose(result)` | Optional callback. The dialog closes itself by emitting `this.$emit('close')`. |
 
 ## Template Authoring Rules
 
-- Use a single Vue 3 template inside `<template>`. Multiple root nodes are allowed (Vue 3 fragments). When `IsStylesGlobal = false` and the form has styles, the renderer wraps fragments into a `<div class="bs-dynamic-component-{Name}">` automatically to make scoping work.
+- Use a single Vue 3 template inside `<template>`. Multiple root nodes are allowed (Vue 3 fragments). When `isStylesGlobal = false` and the form has styles, the renderer wraps fragments into a `<div class="bs-dynamic-component-{name}">` automatically to make scoping work.
 - All the components listed under "Built-in Components" are usable without registration.
 - Use Vue directives normally (`v-if`, `v-for`, `v-model`, `v-bind`, `v-on`, named slots, scoped slots).
 - For PrimeIcons (`pi pi-…`), no import is needed — icons are loaded globally.
@@ -279,71 +279,71 @@ BaSYS internal:
 - `BsPeriodSelector` — date-period selector.
 - `BsFilterRow` — single filter row used in reports.
 
-Any other component must be supplied via `ChildComponents` (other programmable forms) or registered through the script's own `components: { … }` (rare). Do **not** introduce npm dependencies — the runtime is provided by the platform.
+Any other component must be supplied via `childComponents` (other programmable forms) or registered through the script's own `components: { … }` (rare). Do **not** introduce npm dependencies — the runtime is provided by the platform.
 
 ## Styles
 
-- Default to **scoped styles** (`IsStylesGlobal = false`, `<style scoped>`). The renderer prefixes every selector with `.bs-dynamic-component-{Name}` and adds that class to the root element automatically, so authors write plain selectors (`.report-table th { … }`) without worrying about leaks.
-- Scoping is a **simple textual prefix** — Vue SFC pseudo-classes `:deep()` and `:slotted()` are **not** supported. To style nested components (e.g. PrimeVue internals), use PrimeVue's `pt` (passthrough) attribute on the component instance, or fall back to `IsStylesGlobal = true` and accept the risk of conflicts with the BaSYS shell.
+- Default to **scoped styles** (`isStylesGlobal = false`, `<style scoped>`). The renderer prefixes every selector with `.bs-dynamic-component-{name}` and adds that class to the root element automatically, so authors write plain selectors (`.report-table th { … }`) without worrying about leaks.
+- Scoping is a **simple textual prefix** — Vue SFC pseudo-classes `:deep()` and `:slotted()` are **not** supported. To style nested components (e.g. PrimeVue internals), use PrimeVue's `pt` (passthrough) attribute on the component instance, or fall back to `isStylesGlobal = true` and accept the risk of conflicts with the BaSYS shell.
 - CSS comments (`/* … */`) are stripped during scoping. Avoid CSS at-rules that the simple parser may handle awkwardly (`@media`, `@keyframes`) — they work in practice but the prefix is added to selectors only.
 
 ## Binding the Form to the Metaobject
 
-A programmable form becomes available to its owner metaobject automatically once it is imported (by `MetaObjectUid`). Two optional fields on the metaobject JSON wire it as the default list / item form:
+A programmable form becomes available to its owner metaobject automatically once it is imported (by `metaObjectUid`). Two optional fields on the metaobject JSON wire it as the default list / item form:
 
 | Field on metaobject JSON | Purpose |
 | :--- | :--- |
-| `ListFormUid` | Default list form (used when the user opens the object from a menu). Set to the programmable form's `Uid` to replace the default list view with a custom dashboard. |
-| `ItemFormUid` | Default item form (used when opening a single record). |
+| `listFormUid` | Default list form (used when the user opens the object from a menu). Set to the programmable form's `uid` to replace the default list view with a custom dashboard. |
+| `itemFormUid` | Default item form (used when opening a single record). |
 
-If neither is set, the form is still accessible from the **Forms** menu of the object and from `openDialog`, but the platform falls back to its auto-generated default for list / item views. When the user asks to "make my form the default list form", remember to update `ListFormUid` (or `ItemFormUid`) in `{kind.Name}/{object.Name}/{kind.Name}.{object.Name}.json` to the new form's `Uid`.
+If neither is set, the form is still accessible from the **Forms** menu of the object and from `openDialog`, but the platform falls back to its auto-generated default for list / item views. When the user asks to "make my form the default list form", remember to update `listFormUid` (or `itemFormUid`) in `{kind.name}/{object.name}/{kind.name}.{object.name}.json` to the new form's `uid`.
 
-For `customreport` / `customview` (single-screen presentation kinds), the standard pattern is one form per object with `Name = "main"`, no `ListFormUid` / `ItemFormUid` set — the platform finds it by convention.
+For `customreport` / `customview` (single-screen presentation kinds), the standard pattern is one form per object with `name = "main"`, no `listFormUid` / `itemFormUid` set — the platform finds it by convention.
 
 ## Comparing With Constructor Forms
 
-Both form kinds are exported into the metaobject folder under `*.form.*` filenames but differ in extension and `FormKind`:
+Both form kinds are exported into the metaobject folder under `*.form.*` filenames but differ in extension and `formKind`:
 
 | Aspect | Programmable | Constructor |
 | :--- | :--- | :--- |
 | File extension | `.vue` | `.json` |
-| `FormKind` (numeric / string) | `0` / `"programmable"` | `1` / `"constructor"` |
+| `formKind` (numeric / string) | `0` / `"programmable"` | `1` / `"constructor"` |
 | Schema | `<basys-form-meta>` JSON block at the end of the SFC | `system/schemas/constructorFormSettings.schema.json` |
 | Authoring | Hand-written Vue Options API + template + CSS | JSON tree of `bs-row` / `bs-col` / `bs-view-title` / `bs-table-view-component` / PrimeVue wrappers, edited through the visual form designer |
 | Best for | Anything beyond a plain header+table card | Standard CRUD forms, simple lists |
 
-The agent must never convert one kind into the other automatically. If the user asks to "turn this constructor form into a programmable one" (or vice versa), confirm the conversion explicitly — it requires a new file, a new `Uid`, and re-pointing `ListFormUid` / `ItemFormUid`.
+The agent must never convert one kind into the other automatically. If the user asks to "turn this constructor form into a programmable one" (or vice versa), confirm the conversion explicitly — it requires a new file, a new `uid`, and re-pointing `listFormUid` / `itemFormUid`.
 
 ## Building a Programmable Form — Quick Checklist
 
 When the user asks to add a new programmable form:
 
 1. **Identify the owner metaobject** and its folder.
-2. **Verify** that `system/kinds/kind.{kindName}.json` has `UseForms = true`. If not, tell the user the kind does not support forms and stop.
-3. **Pick a `Name`** in English `snake_case`, ≤30 chars, unique among the metaobject's forms (`main` for single-form objects, meaningful names like `create_task`, `tasks_tree` otherwise).
-4. **Create the file** `{kind.Name}/{object.Name}/{kind.Name}.{object.Name}.form.{Name}.vue` with the four canonical blocks **in order**:
+2. **Verify** that `system/kinds/kind.{kindName}.json` has `useForms = true`. If not, tell the user the kind does not support forms and stop.
+3. **Pick a `name`** in English `snake_case`, ≤30 chars, unique among the metaobject's forms (`main` for single-form objects, meaningful names like `create_task`, `tasks_tree` otherwise).
+4. **Create the file** `{kind.name}/{object.name}/{kind.name}.{object.name}.form.{name}.vue` with the four canonical blocks **in order**:
     - `<script>` — `export default { … }` returning an Options API object.
     - `<template>` — Vue template.
-    - `<style scoped>` — optional, omit the whole block if empty; use `<style>` (no `scoped`) only when `IsStylesGlobal = true`.
+    - `<style scoped>` — optional, omit the whole block if empty; use `<style>` (no `scoped`) only when `isStylesGlobal = true`.
     - `<basys-form-meta>` — JSON block with the fields listed above, in the documented order.
-5. **Generate a fresh `Uid`** (UUID v4, lowercase, hyphenated) for the form. Set `MetaObjectUid` to the owner metaobject's `Uid`, `FormKind = "programmable"`, `Version = 1`, `IsStylesGlobal = false`, `ChildComponents = []`, fill `Title` and `Memo`.
+5. **Generate a fresh `uid`** (UUID v4, lowercase, hyphenated) for the form. Set `metaObjectUid` to the owner metaobject's `uid`, `formKind = "programmable"`, `version = 1`, `isStylesGlobal = false`, `childComponents = []`, fill `title` and `memo`.
 6. **Declare needed props** in the script (`title`, `uid`, `metaObjectUid`, `formKind` from the renderer; plus dialog parameter names when the form will be opened via `openDialog`).
 7. **Use `inject`** only for the services actually used (`axios`, `DataTable`, `TableViewColumnViewModel`, `FilterItem`, `FilterSettingsItem`, `userSettings`).
-8. **Optionally wire defaults** by updating `ListFormUid` / `ItemFormUid` in the owner metaobject JSON when the new form should become the default list / item view.
+8. **Optionally wire defaults** by updating `listFormUid` / `itemFormUid` in the owner metaobject JSON when the new form should become the default list / item view.
 9. **Do not** edit `system/dataTypes.json` — programmable forms are not a reference type.
 
 ## General Hygiene
 
-- Generate a fresh `Uid` for every new form (UUID v4, lowercase, hyphenated).
-- `Name` values must be in English, lowercase, `snake_case` and meaningful for new forms (existing Cyrillic names already in the project must not be renamed).
-- Fill `Memo` on every new form with a short Russian description of its purpose; update if outdated.
+- Generate a fresh `uid` for every new form (UUID v4, lowercase, hyphenated).
+- `name` values must be in English, lowercase, `snake_case` and meaningful for new forms (existing Cyrillic names already in the project must not be renamed).
+- Fill `memo` on every new form with a short Russian description of its purpose; update if outdated.
 - Keep the four SFC blocks in the canonical order — `<script>` → `<template>` → `<style>` (optional) → `<basys-form-meta>`. Do not add other top-level tags or text.
 - Keep the `<basys-form-meta>` field order as documented above; the server uses it to produce byte-stable export.
-- Do not change `Version` by hand — leave it at the exported value (or `1` for new forms). The server increments it on save.
-- Keep `IsStylesGlobal = false` unless the user explicitly asks for global styles; align the `scoped` attribute on `<style>` accordingly.
+- Do not change `version` by hand — leave it at the exported value (or `1` for new forms). The server increments it on save.
+- Keep `isStylesGlobal = false` unless the user explicitly asks for global styles; align the `scoped` attribute on `<style>` accordingly.
 - Do not introduce third-party npm dependencies — the runtime is provided by the platform.
 - Prefer `BaSYS.FX` (`from(...)`, `DataTable`, date helpers) over plain JS for tabular data, queries and date manipulation when an equivalent exists.
-- For child components, prefer extracting reusable pieces into their own programmable forms and referencing them via `ChildComponents` rather than duplicating template / script across forms.
+- For child components, prefer extracting reusable pieces into their own programmable forms and referencing them via `childComponents` rather than duplicating template / script across forms.
 
 ## Communication and Comments
 
