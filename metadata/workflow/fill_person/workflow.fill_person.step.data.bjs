@@ -31,7 +31,7 @@ const people = [
     { last_name: 'Орлова',      first_name: 'Виктория',  middle_name: 'Андреевна' },
     { last_name: 'Киселёв',     first_name: 'Григорий',  middle_name: 'Степанович' },
     { last_name: 'Макаров',     first_name: 'Станислав', middle_name: 'Леонидович' },
-    { last_name: 'Андреев',     first_name: 'Тимофей',   middle_name: 'Аркадьевич' }
+    { last_name: 'Андреевский',     first_name: 'Тимофей',   middle_name: 'Аркадьевич' }
 ];
 
 const data = createTable([

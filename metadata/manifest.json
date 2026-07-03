@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-07-02T12:09:08.0936246Z",
+  "exportedAtUtc": "2026-07-03T08:56:34.1763396Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -214,8 +214,8 @@
       "kindName": null,
       "name": null,
       "version": null,
-      "sizeBytes": 3941,
-      "sha256": "6e9cbf45c44f9cb3e31bdbac3c49d93f9075650e46ad09d0dd74d3c7e6131685"
+      "sizeBytes": 4067,
+      "sha256": "8f16f222610e1a7a85547513d79e379c5d91651af5a23d8144c0dc9b8f5f9356"
     },
     {
       "path": "operation/test_operation/operation.test_operation.command.test_alert.bjs",
@@ -246,9 +246,9 @@
       "kindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
       "kindName": "enum",
       "name": "contract_kind",
-      "version": 1,
-      "sizeBytes": 4616,
-      "sha256": "b054c3e31280e80083e7b99025f71dda66052542d1b21e07f6de60d632a2c881"
+      "version": 2,
+      "sizeBytes": 4620,
+      "sha256": "00f0810e7ea0fd2d7172fc4f9c815c1eb82253e11a5ad8d51666bbb3f650feb9"
     },
     {
       "path": "enum/contract_priority/enum.contract_priority.json",
@@ -290,7 +290,7 @@
       "kindUid": "032d8377-500f-4631-b435-1f7f69046674",
       "kindName": "catalog",
       "name": "person",
-      "version": 3,
+      "version": 5,
       "sizeBytes": 8434,
       "sha256": "986284fa711813ce634b75631a8b212b0378439ffbd50af545449c13615a5398"
     },
@@ -367,9 +367,9 @@
       "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
       "kindName": "workflow",
       "name": "data",
-      "version": 4,
-      "sizeBytes": 4245,
-      "sha256": "24cade52a1ea7e8bb7126d260c0d391b14ff7d2e48544b07eb3a9a2b48bf85c0"
+      "version": 5,
+      "sizeBytes": 4253,
+      "sha256": "b33b58e3d65d63884384593cd1dd3133fd93fd50df609e75c7c6951d68a5746f"
     },
     {
       "path": "workflow/fill_person/workflow.fill_person.json",
@@ -378,9 +378,9 @@
       "kindUid": "8734f14e-13d0-4f74-a960-f21f74853cda",
       "kindName": "workflow",
       "name": "fill_person",
-      "version": 4,
+      "version": 5,
       "sizeBytes": 3092,
-      "sha256": "51e1a11839b2055a60b976a949bd5294361f6d0e3b507f8b07266c95317cca75"
+      "sha256": "d7ccdac36d42085b4d16f99fd1a67dc31e3094d7565305b8f7d677e017eea301"
     },
     {
       "path": "workflow/fill_contract_priority/workflow.fill_contract_priority.step.data.bjs",
