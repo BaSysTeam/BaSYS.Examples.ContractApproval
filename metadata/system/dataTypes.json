@@ -120,6 +120,16 @@
     "typeName": null
   },
   {
+    "uid": "c1d2e3f4-a5b6-47c8-9d0e-1f2a3b4c5d6e",
+    "kind": "enum",
+    "name": "approval_role",
+    "title": "Перечисление.Роль согласования",
+    "isPrimitive": false,
+    "dbType": 16,
+    "objectKindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+    "typeName": null
+  },
+  {
     "uid": "a3f1b8e2-7c4d-4a5b-9e6f-1d2c3b4a5e6f",
     "kind": "enum",
     "name": "contract_status",

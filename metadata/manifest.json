@@ -1,6 +1,6 @@
 {
   "formatVersion": "2.0",
-  "exportedAtUtc": "2026-07-03T08:56:34.1763396Z",
+  "exportedAtUtc": "2026-07-07T10:26:05.7317058Z",
   "hashAlgorithm": "SHA-256",
   "producer": {
     "application": "BaSys.Constructor",
@@ -11,8 +11,8 @@
   },
   "counts": {
     "kinds": 9,
-    "dataTypes": 15,
-    "metaObjects": 6,
+    "dataTypes": 16,
+    "metaObjects": 7,
     "dataViews": 0,
     "workflows": 5,
     "menus": 1,
@@ -27,7 +27,7 @@
     "commandScripts": 1,
     "workflowStepScripts": 5,
     "constructorFormScripts": 0,
-    "files": 35
+    "files": 36
   },
   "files": [
     {
@@ -214,8 +214,8 @@
       "kindName": null,
       "name": null,
       "version": null,
-      "sizeBytes": 4067,
-      "sha256": "8f16f222610e1a7a85547513d79e379c5d91651af5a23d8144c0dc9b8f5f9356"
+      "sizeBytes": 4387,
+      "sha256": "51c08fad969e36d6271933d253fbf2c6a6ec6171c4bb19976a97d7f02eb558d9"
     },
     {
       "path": "operation/test_operation/operation.test_operation.command.test_alert.bjs",
@@ -260,6 +260,17 @@
       "version": 1,
       "sizeBytes": 4584,
       "sha256": "80626b76a32932e197f3ee0902f5c12c7e96dd0bf381c10a6ca2b895ae00d659"
+    },
+    {
+      "path": "enum/approval_role/enum.approval_role.json",
+      "category": "metaObject",
+      "uid": "c1d2e3f4-a5b6-47c8-9d0e-1f2a3b4c5d6e",
+      "kindUid": "5449a8ad-9359-41b2-8ff2-3f415eb4da76",
+      "kindName": "enum",
+      "name": "approval_role",
+      "version": 1,
+      "sizeBytes": 4632,
+      "sha256": "f3f929056f81e016076872068920f713c7b843760467efbd3b4eaf37db9d0e80"
     },
     {
       "path": "enum/contract_status/enum.contract_status.json",
